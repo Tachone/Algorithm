@@ -1,0 +1,39 @@
+/* Author: Tach
+Time : 
+Type: 
+freopen("in.txt","r",stdin);
+*/ 
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	//freopen("in.txt","r",stdin);
+	int T;
+	string s;
+	cin>>T;
+	while(T--)
+	{
+		cin>>s;
+		int total=1;
+		for(int i=1;i<=s.length();i++)
+		{
+			if(s[i]==s[i-1])
+			{
+				total++;
+			}
+			else if(s[i]!=s[i-1])
+			{
+				if(total==1)
+				cout<<s[i-1];
+				else 
+				{
+					cout<<total<<s[i-1];
+				}
+				total=1;
+			}
+		}
+		cout<<endl;
+	}
+	return 0;
+} 

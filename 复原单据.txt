@@ -1,0 +1,17 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int n=0;
+	for(int i=10000;i<=19947;i++)
+	{
+		if((i%57==0||i%67==0)&&(i%100==47))
+		{
+			n=n+1;
+			cout<<i<<endl;
+		}
+
+	}
+		cout<<n<<endl;
+	return 0;
+}

@@ -1,0 +1,72 @@
+//最小生成树，终于做对了。。。。。
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int s[6000];
+int n,m,i,j;
+struct fare
+{
+	int a;
+	int b;
+	int c;
+}bd[105];
+bool comp(fare s1,fare s2)
+{
+	return s1.c<s2.c;
+}
+int main()
+{
+	void init();
+	int find(int x);
+	void merge(int a,int b);
+	for(;cin>>n>>m;)
+	{
+		init();
+		int sum=0;
+		if(n==0)
+		break;
+		for(i=1;i<=n;i++)
+		cin>>bd[i].a>>bd[i].b>>bd[i].c;
+		sort(bd,bd+n,comp);
+		for(i=1;i<=n;i++)
+		{
+			int x=find(bd[i].a);
+			int y=find(bd[i].b);
+			if(x!=y)
+			{
+				sum+=bd[i].c;
+				merge(x,y);
+			}
+		}
+		int temp=0;
+		for(j=1;j<=m;j++)
+		{
+			if(s[j]==j)
+			temp++;
+		}
+		if(temp==1)
+		cout<<sum<<endl;
+		else
+		cout<<"?"<<endl;		
+	}
+	return 0;
+}
+void init()
+{
+	for(i=1;i<=m;i++)
+	s[i]=i;
+}
+int find(int x)
+{
+	if(x==s[x])
+	return s[x];
+	else
+	return s[x]=find(s[x]);
+}
+void merge(int a,int b)
+{
+	int x=find(a);
+	int y=find(b);
+	if(x!=y)
+	s[x]=y;
+}

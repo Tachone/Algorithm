@@ -1,0 +1,57 @@
+#include <iostream>
+#include <cstring>
+#include <cstdio>
+#include <cmath>
+using namespace std;
+
+const int Max = 99999999;
+
+int extgcd(int a, int b, int &x, int &y)
+{
+    int d = a;
+    if(b != 0)
+    {
+        d = extgcd(b, a%b, y, x);
+        y -= (a/b)*x;
+    }
+    else
+    {
+        x = 1;
+        y = 0;
+    }
+    return d;
+}
+
+int main()
+{
+    int a, b, d, x, y, temp, flag, i;
+    while (scanf("%d%d%d", &a, &b, &d))
+    {
+        if (a == 0 && b == 0 && d == 0)
+            break;
+        flag = 0;
+        if (a < b)
+            temp = b, b = a, a = temp, flag = 1;
+        int turnx, turny;
+        temp = extgcd(a, b, x, y);
+        x *= d/temp;
+        y *= d/temp;
+        int t = y/(a/temp), min = Max,u,v;  
+        for (i = t-1; i <= t+1; i++)  
+        {  
+            int tempx = x+b/temp*i;  
+            int tempy = y-a/temp*i;  
+            if (abs(tempx) + abs(tempy) < min)  
+            {  
+                min = abs(tempx)+abs(tempy);  
+                u = abs(tempx);  
+                v = abs(tempy);
+            }  
+        }
+        if (flag)
+            printf("%d %d\n", v, u);
+        else
+            printf("%d %d\n", u, v);
+    }
+    return 0;
+}

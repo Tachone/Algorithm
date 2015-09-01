@@ -1,0 +1,48 @@
+#include<iostream>
+using namespace std;
+char map[30][30];
+int x,y;
+int dir[5][2]={{0,1},{0,-1},{1,0},{-1,0}}; 
+void dfs(int i,int j)
+{
+	for(int k=0;k<4;k++)
+	{
+		int xx=i+dir[k][0];
+		int yy=j+dir[k][1];
+		if(xx>=1&&xx<=y&&yy>=1&&yy<=x&&map[xx][yy]=='.')
+		{
+			map[xx][yy]='*';
+			dfs(xx,yy);
+		}
+	}
+}
+int main()
+{
+   int T,i,j;
+   int c=1;
+   cin>>T;
+   while(T--)
+   {
+   	 cin>>x>>y;
+   	 int dx,dy,sum=0;
+   	 for(i=1;i<=y;i++)
+   	 for(j=1;j<=x;j++)
+   	 {
+		cin>>map[i][j];
+		if(map[i][j]=='@')
+		{
+			dx=i;
+			dy=j;
+		}
+   	 }
+   	 dfs(dx,dy);
+   	 for(i=1;i<=y;i++)
+   	 for(j=1;j<=x;j++)
+   	 {
+ 	   	if(map[i][j]=='*')
+ 	   	sum++;
+ 	 }
+ 	 cout<<"Case "<<c++<<": "<<sum+1<<endl;	 
+   }
+   return 0;	
+}

@@ -1,0 +1,101 @@
+每次消去一行或者一列的这样考虑
+最小点覆盖
+//二分图匹配（匈牙利算法的DFS 实现）(邻接矩阵形式)
+//初始化：g[][]两边顶点的划分情况
+//建立g[i][j]表示i->j 的有向边就可以了，是左边向右边的匹配
+//g 没有边相连则初始化为0
+//uN 是匹配左边的顶点数，vN 是匹配右边的顶点数
+//调用：res=hungary();输出最大匹配数
+//优点：适用于稠密图，DFS 找增广路，实现简洁易于理解
+//时间复杂度:O(VE)
+//*************************************************************/
+//顶点编号从0 开始的
+#include<iostream>
+#include<cstring>
+#include<string>
+using namespace std;
+const int MAXN = 510;
+int uN,vN;//u,v 的数目，使用前面必须赋值(un 左边，vn 右边)
+int g[MAXN][MAXN];//邻接矩阵
+int linker[MAXN];//记录左边与右边谁相连
+bool used[MAXN];//dfs 防止重复搜
+int ans[100];
+int map[MAXN][MAXN]; 
+int n,k,vis[51];
+bool dfs(int u)
+{
+   for(int v = 0; v < n;v++)
+   if(g[u][v] && !used[v])
+   {
+      used[v] = true;
+      if(linker[v] == -1 || dfs(linker[v]))
+      {
+         linker[v] = u;
+         return true;
+      }
+}
+    return false;
+}
+int hungary()
+{
+    int res = 0;
+    memset(linker,-1,sizeof(linker));
+    for(int u = 0;u < n;u++)
+    {
+       memset(used,false,sizeof(used));
+       if(dfs(u))res++;
+    }
+    return res;
+}
+int main()
+{
+	while(cin>>n>>k)
+	{
+		if(n==0&&k==0)
+		break;
+		memset(vis,0,sizeof(vis));
+		for(int i=0;i<n;i++)
+		for(int j=0;j<n;j++)
+		{
+		  cin>>map[i][j];
+		  vis[map[i][j]]=1;
+		}
+		int curr=0;
+		for(int i=1;i<=50;i++)
+		{
+		 //   curr=0;
+			if(vis[i])
+			{
+				memset(g,0,sizeof(g));
+				for(int a=0;a<n;a++)
+				{ 
+			
+				for(int b=0;b<n;b++)
+				{
+					if(map[a][b]==i)
+					{
+						g[a][b]=1;
+					}
+				}
+				} 
+				int temp=hungary();
+			//	cout<<"temp"<<temp<<endl;
+				if(temp>k)
+				ans[curr++]=i;
+			}
+		}
+		if(curr==0)
+		cout<<-1<<endl;
+		else
+		{
+			cout<<ans[0];
+			for(int p=1;p<curr;p++)
+			cout<<" "<<ans[p];
+			cout<<endl;
+		}
+	}
+	return 0;
+}
+
+
+

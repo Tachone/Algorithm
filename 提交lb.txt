@@ -1,0 +1,42 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <string.h>
+using namespace std;
+int zhuangtai[105][13];
+int main()
+{
+    int n,t,m;
+    cin>>n>>t>>m;
+    int lb[12],team,lbtime[12];
+    memset(lb,0,sizeof(lb));
+    memset(zhuangtai,0,sizeof(zhuangtai));
+    string status;
+	int timex;
+    char problemID;
+    while(m--)
+    {
+       cin>>timex>>team>>problemID>>status;
+	   if(status=="Yes")
+	   {if(zhuangtai[team][problemID-'A']==0)//ÅÐ±ðÖØ¸´
+	   	  {
+	       lb[problemID-'A']=team;  
+	       lbtime[problemID-'A']=timex;
+	       zhuangtai[team][problemID-'A']=1;
+
+	   	
+	   	  }
+   	   } 	
+    }
+    for(int i=0;i<n;i++)
+    {
+    	cout<<(char)('A'+i)<<" ";
+    	if(lb[i])
+    	{
+	    	cout<<lbtime[i]<<" "<<lb[i]<<endl;
+	    }
+	    else cout<<"- -\n";
+    }
+	return 0;
+}

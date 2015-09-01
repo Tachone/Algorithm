@@ -1,0 +1,49 @@
+/***********************
+| By: Tach 
+| Time:2014/5/29 21.50
+|*********************/
+//freopen("in.txt","r",stdin); 
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+int map[40][40];
+int dp[300][40][40];
+int max1(int a,int b,int c,int d)
+{
+	return max(a,max(b,max(c,d)));	
+} 
+int main()
+{
+//	freopen("in.txt","r",stdin);
+	int n,i,j,k,ans;
+	while(cin>>n)
+	{
+	   	memset(dp,0,sizeof(dp));
+	 	for(i=0;i<n;i++)
+        for(j=0;j<n;j++)
+		 cin>>map[i][j];
+	     int walk=(n-1)*2;//walk是步数
+         for(k=1;k<walk;k++)
+		 for(i=0;i<n;i++)//i,j分别代表[i][k-i],[j][k-j]处的最大值 
+		 for(j=0;j<n;j++)
+		 {
+ 			if(i==j)//不走重复的路径 （这样i-1就有意义了）
+ 			continue;
+ 			dp[k][i][j]=max1(dp[k-1][i-1][j],dp[k-1][i-1][j-1],dp[k-1][i][j],dp[k-1][i][j-1]);
+ 			dp[k][i][j]=dp[k][i][j]+map[i][k-i]+map[j][k-j];   
+ 		 }
+ 		 ans=max(dp[walk-1][n-1][n-2],dp[walk-2][n-2][n-1])+map[0][0]+map[n-1][n-1];//开始和最末端的两个没有进行处理 
+		 cout<<ans<<endl;
+	}
+	
+	return 0;
+}
+/*经典的双线程dp，dp[i][x1][y1][x2][y2]表示走i步在(x1,y1)，(x2,y2)
+两点处取得的和的最大值，假设矩阵从0-n-1，有i=x+y，五维转化成三维 
+题目大意是找两条从(1, 1) 到(n, n)的路径，使权值和最大且节点不重叠。
+让两个进程同时进行，枚举步数K，当x1==x2||y1==y2时跳过，得状态转移方程：
+dp(k, x1, y1, x2, y2) = max(dp(k-1, x1-1, y1, x2-1, y2), dp(k-1, x1-1, y1, x2, y2-1), dp(k-1, x1, y1-1, x2-1, y2), dp(k-1, x1, y1-1,x2, y2-1)) 
++ data(x1, y1) + data(x2, y2) ; 
+由于只能走右或下，所以坐标满足x+y=k。这样就能降低维数为3维，方程：
+dp(k, x1, x2) = max(dp(k-1, x1, x2), dp(k-1, x1-1, x2), dp(k-1, x1, x2-1), dp(k-1, x1-1, x2-1)) + data(x1, k-x1) + data(x2, k-x2) ;

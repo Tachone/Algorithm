@@ -1,0 +1,21 @@
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	int a,b,c,d;
+	cin>>a>>b>>c>>d;
+	double max=0.0;
+    double juli;
+	for(int m,n;cin>>m>>n;)
+	{
+		juli=abs((b-d)*m+(c-a)*n-b*c+a*d)/sqrt(1.0*(b-d)*(b-d)+1.0*(c-a)*(c-a));
+		if(juli>max)
+			max=juli;
+
+
+	}
+	cout<<setiosflags(ios::fixed)<<setprecision(3)<<max<<endl;
+	return 0;
+}

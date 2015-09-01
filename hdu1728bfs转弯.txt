@@ -1,0 +1,79 @@
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<queue>
+#include<algorithm>
+using namespace std;
+int T,tot,x1,y1,x2,y2,m,n;
+int flag;
+char map[200][200];
+int num[200][200];
+int dir[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
+struct node
+{
+	int x;
+	int y;
+	int step;
+	int curDir;
+};
+
+void bfs()
+{
+	queue<node> q;
+	node t;
+	t.x=y1,t.y=x1,t.step=0,t.curDir=-1;
+	q.push(t);
+	for(int i=1;i<=m;i++)
+	for(int j=1;j<=n;j++)
+	num[i][j]=1000000;
+	while(!q.empty())
+	{
+	   node temp=q.front();
+	   q.pop();
+	   if(temp.x==y2&&temp.y==x2)
+	   {
+   		  flag=true;
+   		  return ;
+   	    }
+	   for(int i=0;i<4;i++)
+	   {
+   		 int xx=temp.x+dir[i][0];
+   		 int yy=temp.y+dir[i][1];
+   		 if(temp.curDir!=-1&&temp.curDir!=i)
+   		 t.step=temp.step+1;
+   		 else
+   		 t.step=temp.step;
+   		 if(xx>=1&&xx<=m&&yy>=1&&yy<=n&&map[xx][yy]=='.'&&num[xx][yy]>=t.step&&t.step<=tot)
+   		 {
+ 		   	num[xx][yy]=t.step;
+ 		   	t.x=xx;
+ 		   	t.y=yy;
+ 		   	t.curDir=i;
+ 		   	q.push(t);
+	     }
+   	   }
+	   
+	}
+}
+
+int main()
+{
+	cin>>T;
+	while(T--)
+	{
+		cin>>m>>n;
+		for(int i=1;i<=m;i++)
+		for(int j=1;j<=n;j++)
+		cin>>map[i][j];
+		cin>>tot>>x1>>y1>>x2>>y2;
+		flag=false;
+		bfs();
+		if(flag)
+		cout<<"yes"<<endl;
+		else
+		cout<<"no"<<endl;
+		
+	} 
+	return 0;
+}
+

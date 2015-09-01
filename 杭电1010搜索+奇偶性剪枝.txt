@@ -1,0 +1,129 @@
+/*本题用到了两个剪枝，一个是当可走的步数小于t时
+是不行的，另一个叫做奇偶性剪枝*/ 
+#include<iostream>
+#include<cmath>
+#include<string.h>
+using namespace std;
+char map[9][9];
+int dir[4][2]={{-1,0},{1,0},{0,1},{0,-1}}; 
+bool reach;
+int i,j,k,m,n,t;
+int begini,beginj,endi,endj;
+int main()
+{	
+    void dfs(int curi,int curj,int sumt);
+	for(;cin>>m>>n>>t&&(m||n||t);)
+	{
+		for(i=1;i<=m;i++)
+		for(j=1;j<=n;j++)
+		cin>>map[i][j];
+	     int path=1;
+		for(i=1;i<=m;i++)
+		for(j=1;j<=n;j++)
+		{
+			if(map[i][j]=='S')
+			{
+				begini=i;
+				beginj=j;
+			}
+			else if(map[i][j]=='D')
+			{
+				endi=i;
+				endj=j;
+			}
+			else if(map[i][j]=='.')
+			path++;
+		}
+		map[begini][beginj]='X';
+		if(path<t)
+		{
+			cout<<"NO"<<endl;
+			continue;
+		}
+		else
+		{
+			reach=false;
+			dfs(begini,beginj,0);
+		}
+		if(reach==true)
+		cout<<"YES"<<endl;
+		else
+		cout<<"NO"<<endl;
+	}
+	return 0;
+}  
+
+void dfs(int curi,int curj,int sumt)
+{
+	if(sumt==t&&curi==endi&&curj==endj)//终止条件 
+	{
+		reach=true;
+		return ;
+	}
+	if(reach)
+	return ;//下一句奇偶性剪枝 
+	int temp=t-sumt-abs(curi-endi)-abs(curj-endj);
+	if(temp%2)//差必定为偶数 
+	return ;
+	else
+	{
+		for(int k=0;k<4;k++)
+		{
+			int x=curi+dir[k][0];
+			int y=curj+dir[k][1];
+			if(x>=1&&x<=m&&y>=1&&y<=n&&map[x][y]!='X')
+			{
+				map[x][y]='X';
+				dfs(x,y,sumt+1);//记录步数放在这里即可 
+				map[x][y]='.';
+			}
+		}
+	}	
+}
+  
+
+ 
+迷宫中回溯法的剪枝——奇偶剪枝
+分类： 回溯法2013-04-23 13:46 488人阅读 评论(0) 收藏 举报
+奇偶剪枝
+问题描述
+在一个n行m列的迷宫中,每一步只能向上、下、左、右中任意方向走一格，迷宫中有围墙的地方是无法到达的。从起点s开始，能否刚好走t步，到达e。
+例如在下面5行5列的迷宫中，能否恰好经过9步，从s走到e。初始位置在s上，#是围墙。
+
+
+奇偶剪枝
+设起点s的坐标为(sx,sy)，终点e的坐标为(ex,ey)；
+对s的一次操作为对sx或sy进行+1或-1；
+若经过t次操作后，s的坐标刚好等于e，则说从s经过t步可以到达e。
+在理想情况下，s到e需要的最小步数为m
+m=|ex-sx|+|ey-sy|
+若t<m，肯定是无法到达的。
+当t>=m时，从s到e的行走路径由两部分组成，
+一部分为需要走的最少步数m；
+另一部分是为了使得刚好行走t步到达e，所需要走的附加步数a，a=t-m；
+这a步即为：从需要走m步的最短路径上走出去，再回到最短路径上所走的步数。
+假设走出去这段路径长度为b，那回来时的路径长度一定也是b，因此，附加步数的路径长度a等于2b步。
+因为走出去时，对坐标进行了b次+1或-1的操作，为使坐标再恢复到最短路径上，就需要进行b次-1或+1的操作，并且与走出去时是相反的。注意：走出去和拐回来的过程中可能参杂着最短路径上的操作，所以b是除去这些参杂操作后的步数。
+如下图所示:
+
+从s到e的黑色路径为一条最短路径，红色和蓝色路线组成的路径，为走出最短路径的路径。其中蓝色箭头是参杂着的最短路径中的操作，只有红色箭头才是走出去和拐回来的路径，如果将红色路径去掉，从s向右走，经过绿色箭头到达e，这也是一条最短路径。
+因为a=2b，是个偶数，又因为a=t-m，所以当t和m的奇偶性相同时，a才能是偶数。也就是说，当t和m的奇偶性相同时，才有可能从s经过t步，到达e。
+所以，当最小步数m与t同为奇数，或同为偶数时，才有可能从s经过t步，到达e。
+
+
+这个题目用一般的搜索无法完成，因为题目要求在指定的时间内完成，所以只好一步一步来啦，用DFS解决
+但是如果这样结果会超时，网上说是用一种奇偶剪枝的方法来间断搜索时间，下面是剪枝的简单理论，一看就懂：
+                          把map看作
+                             0 1 0 1 0 1
+                             1 0 1 0 1 0
+                             0 1 0 1 0 1
+                             1 0 1 0 1 0
+                             0 1 0 1 0 1
+                       从 0->1 需要奇数步
+                       从 0->0 需要偶数步
+                       那么设所在位置 (x,y) 与 目标位置 (dx,dy)
+                       如果abs(x-y)+abs(dx-dy)为偶数，则说明 abs(x-y) 和 abs(dx-dy)的奇偶性相同，需要走偶数步
+                       如果abs(x-y)+abs(dx-dy)为奇数，那么说明 abs(x-y) 和 abs(dx-dy)的奇偶性不同，需要走奇数步
+                       理解为 abs(si-sj)+abs(di-dj) 的奇偶性就确定了所需要的步数的奇偶性！！
+                       而 (ti-setp)表示剩下还需要走的步数，由于题目要求要在 ti时 恰好到达，那么  (ti-step) 与 abs(x-y)+abs(dx-dy) 的奇偶性必须相同
+                       因此 temp=ti-step-abs(dx-x)-abs(dy-y) 必然为偶数！

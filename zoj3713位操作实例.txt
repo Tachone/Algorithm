@@ -1,0 +1,49 @@
+题目大意（说实话题意挺难理解的）：有这么一种字符串存储方式叫做7位编码，把字符串长度缀在前面存下，后面存字符串信息。长度是一个整数，每次取其最低7位，若7为之上还有数，则在第八位上添1，将此数右移7位循环上述操作，到零为止。字符串信息按每个字符的ASCII码值来存即可（所有数均为二位十六进制）。
+
+主要有这么几个要点
+127的二进制是1111111
+所以127&len就是取最低7位，最高位加1就是127+128即11111111
+末尾加0就直接加0就可以了。
+还有就是printf的输出8进制和16进制的功能
+?/*输出4位8进制的num*/
+????printf("%04o/n",num);
+??? /*输出2位16进制的num*/
+????printf("%02X",num);需要输出小写的就是%02x即可
+标准C语言库函数fprintf/printf格式字符串的转换说明形式是这样的：
+%[标志][最小输出宽度][.精度][长度修正符]类型
+方括号括起来是可选项。
+标志是0或多个标志字符，可以是任意顺序，常用有以下几个：
+? - ?左对齐，缺省是右对齐。
+?+ ?带符号的值前面总是有个符号，也就是正数前面有+号，负数前面有-号。
+?0 ?输出值的宽度小于最小宽度的话，用0填充，缺省是用空格填充
+0是一个标志字符，意思就是用0填充
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>  
+#include <cstdio>  
+#include <cstring>  
+#include <queue>  
+#define MAXN 3000010  
+#define INF 1000000000  
+using namespace std;
+char str[MAXN];
+int main()
+{
+	int ncase, len, tlen;
+	scanf("%d", &ncase);
+	gets(str);
+	while (ncase--)
+	{
+		gets(str);
+		tlen = len = strlen(str);
+		while (1)
+		{
+			printf("%02X", (len & 127) + (len>127 ? 128 : 0));
+			len >>= 7;
+			if (len == 0)  break;
+		}
+		for (int i = 0; i<tlen; ++i)
+			printf("%02X", (int)str[i]);
+		printf("\n");
+	}
+	return 0;
+}

@@ -1,0 +1,77 @@
+/* Author: Tach
+Time : 
+Type: 
+freopen("in.txt","r",stdin);
+*/ 
+#include<iostream> 
+#include<stdio.h>
+using namespace std;
+int aa,n,c,x,y;
+int father[50005];
+int delta[50005];
+
+void init()
+{
+	for(int i=1;i<=aa;i++)
+	{
+		father[i]=i;
+		delta[i]=0;//¹ØÏµ 
+	}	
+}
+
+/*int find(int m)
+{
+	if(m==father[m])
+	return m;
+	if(m!=father[m])
+	father[m]=find(father[m]);
+	delta[m]=(delta[m]+delta[father[m]])%3;
+	return father[m];	
+}*/
+int find(int x)
+	{
+     if(x==father[x]) return x;
+     int tx=find(father[x]);
+     delta[x]=(delta[x]+delta[father[x]])%3;//¹Ø¼ü
+     return father[x]=tx;
+}
+
+int combine(int a,int b,int type)
+{
+	int tx=find(a);
+	int ty=find(b);
+	if(a>aa||b>aa)
+	return 1;
+     else  if(type==1&&a==b) 
+	return 1;
+     else if(tx==ty)
+	{
+		if((delta[b]-delta[a]+3)%3!=type)
+		return 1;
+		else
+		return 0;
+	} 
+	else
+	{
+		father[ty]=tx;
+		delta[ty]=(delta[a]-delta[b]+type+3)%3;
+		return 0;
+	}
+}
+int main()
+{
+	//freopen("in.txt","r",stdin);
+	cin>>aa>>n;
+	init();
+	int sum=0;
+	while(n--)
+	{
+		//cin>>c>>x>>y;
+		scanf("%d%d%d",&c,&x,&y);
+		if(combine(x,y,c-1))
+		sum++;	
+	}
+	cout<<sum<<endl;
+	return 0;
+}
+http://www.cnblogs.com/wuyiqi/archive/2011/08/24/come__in.html

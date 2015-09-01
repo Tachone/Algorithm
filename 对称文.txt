@@ -1,0 +1,38 @@
+1039
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+int main()
+{
+	int i;
+    for(string s;getline(cin,s)&&s!="000000";)
+	{
+		for(i=0;i<s.length();i++)
+		{
+			if(s[i]>='A'&&s[i]<='Z')
+				s[i]=s[i]+32;
+		}
+		for( i=0;i<s.length()/2;i++)
+		{
+			if(s[i]=='(')
+				s[i]=')';
+			if(s[i]=='{')
+				s[i]='}';
+			if(s[i]=='<')
+				s[i]='>';
+			if(s[i]=='[')
+				s[i]=']';
+		}
+	
+		string t;
+		t=s;
+		reverse(t.begin(),t.end());
+		if(s==t)
+			cout<<"Symmetry"<<endl;
+
+		else 
+			cout<<"Not symmetry"<<endl;
+	}
+	return 0;
+}

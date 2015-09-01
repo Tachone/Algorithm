@@ -1,0 +1,112 @@
+题意：矩阵给出的是n个船之间的连通性，-1不连通，0表示自身，正数表示距离。另外最后一行是从兵营派人到n的位置的时间。
+因为要用最少的人，所以每个连通块派一个人，用并查集判断联通，vector[i]记录根为i的联通的船只。因为一个连通块不超过100个点
+所以用floyd即可。最后取每个连通块的最大值，即所需时间。wa了好久，找不到错误，附上不是自己的代码，囧。。
+
+#include<iostream>
+#include<string.h>
+#include<string>
+#include<algorithm>
+#include<stdio.h>
+#include<vector>
+using namespace std;
+#define MAXN 1100
+#define INF 999999999
+vector<int> sets[MAXN];
+int g[200][200],map[MAXN][MAXN];
+int dist[MAXN];
+int n,set[MAXN],vis[MAXN];
+
+int floyd(int no,int n)
+{
+	for(int i=0;i<n;i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+		    int u=sets[no][i];
+		    int v=sets[no][j];
+            g[i][j]=map[u][v];
+		}
+	}
+	for(int k=0;k<n;k++)
+		for(int i=0;i<n;i++)
+			for(int j=0;j<n;j++)
+			{
+				if(g[i][k]+g[k][j]<g[i][j])
+                    g[i][j]=g[i][k]+g[k][j];
+			}
+    int dis=999999999;
+    for(int i=0;i<n;i++)
+    {
+        int tmp=0;
+        for(int j=0;j<n;j++)
+            tmp=max(tmp,g[i][j]);
+        dis=min(dis,tmp+dist[sets[no][i]]);
+    }
+    return dis;
+}
+
+int find(int a)
+{
+	/*int root=a,temp;
+	while(set[root]!=root) root=set[root];
+	while(set[a]!=root)
+	{
+		temp=a;
+		a=set[a];
+		set[temp]=root;
+	}
+	return root;*/
+	if(a!=set[a])
+	set[a]=find(set[a]);
+	return set[a];
+}
+
+void merge(int a,int b)
+{
+	int x=find(a);
+	int y=find(b);
+	if(x!=y)
+	set[x]=y;
+}
+int main()
+{
+    while(~scanf("%d",&n))
+    {
+        int dis;
+        for(int i=0;i<=n;i++) 
+		set[i]=i;
+        for(int u=1;u<=n;u++)
+        {
+            for(int v=1;v<=n;v++)
+            {
+                scanf("%d",&dis);
+                map[u][v]=dis==-1?INF:dis;
+                if(dis!=-1)
+				 merge(v,u);
+            }
+        }
+        for(int i=1;i<=n;i++) 
+		scanf("%d",&dist[i]);
+        for(int i=1;i<=n;i++)
+		 sets[i].clear();
+        for(int i=1;i<=n;i++)
+        {
+            int root=find(i);
+            sets[root].push_back(i);
+        }
+        int ans=0;
+        memset(vis,0,sizeof(vis));
+        for(int i=1;i<=n;i++)
+        {
+            int root=find(i);
+            if(vis[root]) 
+			continue;
+            vis[root]=1;
+            ans=max(ans,floyd(root,sets[root].size()));
+        }
+       /* for(int i=1;i<=n;i++)
+        cout<<vis[i]<<" ";*/
+        cout<<ans<<endl;
+    }
+    return 0;
+}

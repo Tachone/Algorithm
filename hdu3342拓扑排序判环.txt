@@ -1,0 +1,53 @@
+#include<iostream>
+#include<string.h>
+using namespace std;
+const int MAX_N=200;
+int map[MAX_N][MAX_N];//路径 
+int in[MAX_N];//入度 
+int ans[MAX_N];
+int n,m,a,b;
+bool topo() 
+{
+	for(int i=0;i<n;i++)
+	for(int j=0;j<n;j++)
+	{
+		if(map[i][j])
+		in[j]++;
+	}
+	for(int i=0;i<n;i++)
+	{
+	    int k=0;
+	    while(in[k]!=0)
+		{
+		  k++;
+		  if(k==n&&i!=n-1)//判断环，此时没有入度为0的点 
+		  return false;
+		}
+	   	in[k]=-1;//相当于删除结点 
+	   	for(int j=0;j<n;j++)
+	   	{
+	   		if(map[k][j])
+	   		in[j]--;//相连入度减一 
+	   	}
+	}
+	return true;
+}
+  
+int main()
+{
+	while(cin>>n>>m&&(n||m))
+	{
+	    memset(map,0,sizeof(map));
+	    memset(in,0,sizeof(in));
+		for(int i=1;i<=m;i++)
+		{
+			cin>>a>>b;
+			map[a][b]=1;
+		}
+		if(topo())
+		cout<<"YES"<<endl;
+		else
+		cout<<"NO"<<endl; 
+	}
+	return 0;
+}

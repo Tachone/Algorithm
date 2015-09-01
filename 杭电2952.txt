@@ -1,0 +1,53 @@
+#include<iostream>
+#include<string.h>
+using namespace std;
+char s[200][200]; 
+int a,b;
+int ss[4][2]={{1,0},{0,-1},{-1,0},{0,1}}; 
+int main()
+{
+	void dfs(int j,int k);
+	int n;
+	cin>>n;
+	int i,j,k;
+	for(i=1;i<=n;i++)
+	{
+		cin>>a>>b;
+		for(j=1;j<=a;j++)
+		for(k=1;k<=b;k++)
+		{
+			cin>>s[j][k];
+		} 
+		int sum=0;
+		for(j=1;j<=a;j++)
+		for(k=1;k<=b;k++)
+		{
+			if(s[j][k]=='#')
+		{
+		  	dfs(j,k);
+			sum++;	
+		}
+		} 
+	/*	for(j=1;j<=a;j++)//终于知道错在哪里了，###这样的话，不做标记的话，在第二个的时候第一个就没了
+		for(k=1;k<=b;k++)
+		{
+			if(s[j][k]=='#')
+			sum++;
+		}*/
+		cout<<sum<<endl;
+	}
+	return 0;
+}
+void dfs(int i,int j)
+{
+   for(int k=0;k<=3;k++)
+   {
+   	int x=i+ss[k][0];
+   	int y=j+ss[k][1];
+   	if(x>=1&&x<=a&&y>=1&&y<=b&&s[x][y]=='#')
+   	{
+   		s[x][y]='.';
+	   	dfs(x,y);
+   }
+   }
+}

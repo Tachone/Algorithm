@@ -1,0 +1,72 @@
+#include<iostream>
+#include<string>
+#include<queue>
+#include<string.h>
+using namespace std;
+int n,m,x,y,k,a,b,c;
+bool flag;
+int map[200][200];
+int vis[200];
+struct node
+{
+	int dis;
+	int pos;
+	friend bool operator<(node aa,node bb)
+	{
+		return aa.dis>bb.dis;
+	}
+};
+
+int bfs()
+{
+	priority_queue <node> q;
+	node w,temp,mp;
+	w.dis=0;
+	w.pos=x;
+	q.push(w);
+	while(!q.empty())
+	{
+		mp=q.top();
+		q.pop();
+		vis[mp.pos]++;
+		if(vis[mp.pos]>k)
+		continue;//没有找到，不能再 进行for循环 
+		if(vis[mp.pos]==k && mp.pos==y)
+		{
+			flag=1;//正好终点第k次 
+			return mp.dis;
+		}
+		for(int i=1;i<=n;i++)
+		{
+			if(map[mp.pos][i]!=-1)
+			{
+				temp.dis=mp.dis+map[mp.pos][i];
+				temp.pos=i;
+				q.push(temp);
+			}
+		}
+	}
+}
+
+
+int main()
+{
+	while(cin>>n>>m&&(n||m))
+	{
+		cin>>x>>y>>k;
+	    flag=0;
+		memset(map,-1,sizeof(map));
+		memset(vis,0,sizeof(vis));
+		for(int i=1;i<=m;i++)
+		{
+			cin>>a>>b>>c;
+			map[a][b]=c;
+		}
+		int it=bfs();
+		if(flag)
+		cout<<it<<endl;
+		else
+		cout<<-1<<endl;
+	}
+	return 0;
+}

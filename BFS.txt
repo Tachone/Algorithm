@@ -1,0 +1,103 @@
+#include<iostream>
+#include<cstdio>
+#include<string>
+#include<queue>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+struct node
+{
+	int value;
+	int cur;
+	int step;
+
+friend bool operator<(node s1,node s2)
+	{
+		if(s1.value!=s2.value)
+		return s1.value>s2.value;
+		return s1.step>s2.step;
+	}
+};
+int a[11],b[11],c[11]; 
+int x,y,v;
+int vis[100004];
+void bfs()
+{
+	priority_queue<node> q;
+	node t;
+	t.value=0,t.cur=x,t.step=0;
+	q.push(t);
+	while(!q.empty())
+	{
+		node temp=q.top();
+		q.pop();
+		if(vis[temp.cur])
+		continue;
+		vis[temp.cur]=1;
+		if(temp.cur==y)
+		{
+			cout<<temp.value<<" "<<temp.step;
+			cout<<endl;
+			return ;
+		}
+	
+		for(int i=1;i<=10;i++)
+		{
+			
+				if(temp.cur==0)
+				t.cur=i-1;
+				else
+				t.cur=temp.cur*10+(i-1);
+			if(t.cur>=0&&t.cur<=100000&&!vis[t.cur])
+			{ 
+				t.value=temp.value+a[i];
+				t.step=temp.step+1;
+				q.push(t);
+			} 
+			 	t.cur=temp.cur+(i-1);
+
+					if(t.cur>=0&&t.cur<=100000&&!vis[t.cur])
+					{
+		
+				t.value=temp.value+b[i];
+				t.step=temp.step+1;
+				q.push(t);
+					}
+				t.cur=temp.cur*(i-1);
+				if(t.cur>=0&&t.cur<=100000&&!vis[t.cur])
+				{ 
+				t.value=temp.value+c[i];
+				t.step=temp.step+1;
+				q.push(t);
+				} 
+			
+	
+		}
+	}
+}
+
+int main()
+{
+	int cas=1;
+	while(scanf("%d%d",&x,&y)!=EOF)
+	{
+		for(int i=1;i<=10;i++)
+		{
+
+			scanf("%d",&a[i]);
+		}
+		for(int i=1;i<=10;i++)
+		{
+
+				scanf("%d",&b[i]);
+		}
+		for(int i=1;i<=10;i++)
+		{
+			scanf("%d",&c[i]);
+		}
+		memset(vis,0,sizeof(vis));
+		cout<<"Case "<<cas++<<": ";
+		bfs();
+	}
+	return 0;
+}

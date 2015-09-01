@@ -1,0 +1,82 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<stack>
+#include<algorithm>
+using namespace std;
+const int maxn = 2005;//2倍 
+const int maxm = maxn*maxn;//focus on the range
+struct node{
+    int u,next;
+}edge[ maxm ];
+int head[ maxn ],cnt;
+int vis[ maxn ],dfn[ maxn ],low[ maxn ],belong[ maxn ],id,cnt2;
+stack<int>s;
+void init(){
+    memset( head,-1,sizeof( head ));
+    cnt=0;
+    id=0;
+    while( !s.empty() ) s.pop();
+    cnt2=0;
+    memset( vis,0,sizeof( vis ));
+    memset( dfn,-1,sizeof( dfn ));
+    memset( low,-1,sizeof( low ));
+    memset( belong,-1,sizeof( belong ));
+}
+void addedge( int a,int b ){
+    edge[ cnt ].u=b;
+    edge[ cnt ].next=head[ a ];
+    head[ a ]=cnt++;
+}
+
+void tarjan( int now ){
+    dfn[ now ]=low[ now ]=id++;
+    vis[ now ]=1;
+    s.push( now );
+    for( int i=head[ now ];i!=-1;i=edge[ i ].next ){
+        int next=edge[ i ].u;
+        if( dfn[ next ]==-1 ){
+            tarjan( next );
+            low[ now ]=min( low[ now ],low[ next ] );
+        }
+        else if( vis[ next ]==1 ){
+            low[ now ]=min( low[ now ],dfn[ next ] );
+        }
+    }
+    if( low[ now ]==dfn[ now ] ){
+        cnt2++;
+        while( 1 ){
+            int tmp;
+            tmp=s.top(),s.pop();
+            vis[ tmp ]=0;
+            belong[ tmp ]=cnt2;
+            if( tmp==now ) break;
+        }
+    }
+}
+int main(){
+    int n,m;
+    while( scanf("%d%d",&n,&m)==2 ){
+        init();
+        int a,b,c,d;
+        while( m-- ){
+            scanf("%d%d%d%d",&a,&b,&c,&d);
+            addedge( 2*a+c,2*b+1-d );
+            addedge( 2*b+d,2*a+1-c );
+        }
+        for( int i=0;i<2*n;i++ )
+            if( dfn[ i ]==-1 )
+                tarjan( i );//缩点 
+        bool flag=true;
+        for( int i=0;i<n;i++ ){
+            if( belong[ 2*i ]==belong[ 2*i+1 ] )//矛盾点，即加又不加 
+            {
+                flag=false;
+                break;
+            }
+        }
+        puts(flag?"YES":"NO");
+       
+    }
+    return 0;
+}

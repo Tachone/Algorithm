@@ -1,0 +1,101 @@
+#include<iostream>
+#include<stdio.h>
+#include<limits.h>
+using namespace std;
+#define M 10001
+#define N 1001
+//邻接表
+struct Node
+{
+    int to,w,next;
+}Nodes[M];//边
+int head[N];//顶点
+int dis[N][2],sum[N][2];
+int n,m,e,s,len;
+int addedge(int u,int v,int w)
+{
+    Nodes[len].to=v,Nodes[len].w=w,Nodes[len].next=head[u];
+            head[u]=len++;//为边和点联系起来
+    return 0;
+}
+void pre()
+{
+    int u,v,w;
+    len=0;//初始化边集合的长度
+    memset(head,-1,sizeof(head));//没有边
+    for(int i=0;i<m;i++){
+        scanf("%d%d%d",&u,&v,&w);
+        addedge(u,v,w);
+    }
+}
+void dijkstra()
+{
+    int flag[N][2];//标记每个点的两种情况   
+    int i,j,k;
+    memset(flag,0,sizeof(flag));
+    //注意不能用memset偷懒
+    for(i=0;i<n;i++)
+        for(j=0;j<2;j++)
+            dis[i][j]=INT_MAX/2;
+    dis[s][0]=0;//初始化起点和所有点的最短路和次短路
+    memset(sum,0,sizeof(sum));
+    sum[s][0]=1;//起点自己 1
+    int fg=-1,index=-1;
+    for(i=0;i<n*2-1;i++){
+        int min=INT_MAX/2;
+        
+        for(j=0;j<n;j++){
+            for( k=0;k<2;k++){
+                if(!flag[j][k]&&min>dis[j][k]){
+                
+                    min=dis[j][k];
+                    index=j;
+                    fg=k;
+                }
+            }
+        }
+        
+        if(index==-1) break;
+        
+        flag[index][fg]=1;
+
+        //更新当前找到点和与它相连的所有点的最短路和次短路
+        for(j=head[index];j!=-1;j=Nodes[j].next){
+            int v=Nodes[j].to;
+            
+            if(dis[v][0]>min+Nodes[j].w){//比最短路还短  那么当前值变为最短路 最短路变成次短路
+                dis[v][1]=dis[v][0];
+                sum[v][1]=sum[v][0];
+                dis[v][0]=min+Nodes[j].w;
+                sum[v][0]=sum[index][fg];               
+            }
+            else if(dis[v][0]==min+Nodes[j].w){//与最短路相等
+                sum[v][0]+=sum[index][fg];
+            }
+            else if(dis[v][1]>min+Nodes[j].w){//比次短路还短 更新次短路
+                dis[v][1]=min+Nodes[j].w;
+                sum[v][1]=sum[index][fg];
+            }
+            else if(dis[v][1]==min+Nodes[j].w){//与次短路相等
+                sum[v][1]+=sum[index][fg];
+            }
+        }
+        
+    }
+    
+    
+}
+void solve()
+{
+        dijkstra();       
+        //如果s-e的最短路和次短路都满足条件
+            printf("%d %d\n",dis[e][1],sum[e][1]);
+}
+int main(void)
+{
+     while(~scanf("%d%d%d%d",&n,&m,&s,&e)){
+        pre();
+        solve();
+    }
+    return 0;
+}

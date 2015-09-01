@@ -1,0 +1,80 @@
+因为是四位数，所以枚举1000-9999的数就可以了
+#include<iostream>
+#include<string>
+#include<cstring>
+using namespace std;
+struct node
+{
+	string s;
+	int a,b;
+}N[200];
+int n;
+int num[11];
+int main()
+{
+	while(cin>>n&&n)
+	{
+		for(int i=1;i<=n;i++)
+		cin>>N[i].s>>N[i].a>>N[i].b;
+		int ac=0,ans=0;
+		bool ok=true;
+		for(int i=1000;i<=9999;i++)
+		{
+			bool flag=true;
+			int k=i,op=3;
+			char cur[5];
+			while(k)
+			{
+				int temp=k%10;
+				cur[op]=temp+'0';
+				op--;
+				k/=10;
+			}
+			for(int j=1;j<=n;j++) 
+			{
+		    	 int tot=0,two=0;//int类型 
+		    	 int vis[4];
+		    	 memset(vis,0,sizeof(vis));
+			     for(int p=0;p<4;p++)
+			     for(int t=0;t<4;t++)
+			     {
+     				if((N[j].s[p]==cur[t])&&!vis[t])
+     				{
+				     	vis[t]=1;
+				     	tot++;
+				     	break;
+				     }
+     			 }
+				for(int p=0;p<4;p++)
+				{
+					if(N[j].s[p]==cur[p])
+					two++;
+				}
+			/*
+	cout<<"数字相同："<<tot<<"  位上相同： "<<two<<endl;
+				getchar(); */
+				if((tot!=N[j].a)||(two!=N[j].b))
+			    {
+			    	flag=false;
+    				break;
+    			}
+    		
+			}
+			if(flag)
+			{
+				ans=i;
+				ac++;
+				if(ac>1)
+				{
+					ok=false;
+					break;
+				}
+			}	
+		}
+		if(ok&&ac==1)
+		cout<<ans<<endl;
+		else
+		cout<<"Not sure"<<endl;
+	}
+	return 0;
+}

@@ -1,0 +1,75 @@
+//欧拉回路
+1.判断连通性
+2.每个点的度是偶数
+#include<iostream>
+#include<map>
+using namespace std;
+int s[1003];
+int m;
+int main()
+{
+	int a,b;
+	void init();
+	int find(int x);
+	void merge(int a,int b);
+	map<int,int> v;//用数组也挺好的a[1]++;a[n]++;
+	for(int n;cin>>m;)
+	{
+		init();
+		if(m==0)
+		break;
+		else
+		cin>>n;
+		v.clear();
+		for(int i=1;i<=n;i++)
+		{
+			cin>>a>>b;
+			v[a]++;
+			v[b]++;
+			merge(a,b);
+		}
+		int temp=0;
+		for(int k=1;k<=m;k++)
+		{
+			if(s[k]==k)
+			temp++;
+		}
+		bool io=false;
+		if(temp==1)
+		io=true;
+		map<int,int>::iterator it;
+		bool comp=true;
+		for(it=v.begin();it!=v.end();it++)
+		{
+			if(it->second%2!=0)
+			comp=false;
+		}
+		if(comp&&io)
+		cout<<"1"<<endl;
+	    else
+	    cout<<"0"<<endl;
+	}
+	return 0;
+} 
+
+void init()
+{
+	for(int i=1;i<=m;i++)
+	s[i]=i;
+}
+int find(int x)
+{
+	if(x==s[x])
+	return s[x];
+	else
+	return s[x]=find(s[x]);
+}
+void merge(int a,int b)
+{
+	int x=find(a);
+	int y=find(b);
+	if(x!=y)
+	s[x]=y;
+	else
+	return ;
+}

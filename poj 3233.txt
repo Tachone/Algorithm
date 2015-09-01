@@ -1,0 +1,108 @@
+
+题目大意：给你A矩阵，A矩阵是n*n的一个矩阵，现在要你求S = A + A^2 + A^3 + … + A^k.
+那么s一定也是一个N*N的矩阵，最后要你输出s，并且s的每一个元素对m取余数
+?
+解题思路：因为S可以看成S=A(I+A(I+A(I+...A(I+A)))) (I是单位矩阵)
+拿k=3举例S=A(I+A(I+A))
+那么我们想，可不可以构造一个矩阵T使得T*T（因为是k次幂）这样乘下去每次可以得到A*(A+I)
+那么肯定T有个两个元素就是A与I
+那么假设：T={A? I }
+????????????????????????I? I
+那么T=T*T={A*A+I*I?????? A*I+I*I}
+???????????????????? ?A*I+I*I?????????? I*I+I*I
+这样存在一个I*（A+I）的式子 ，当T再乘以T的时候会出现A（A+I）
+这个时候我们可以简化将T={A? I}??
+????????????????????????????????????????????0?? I
+这样可以简化很多计算T*T={A*A?? A*I+I*I}
+???????????????????????????????????????????0?????????? I
+那么容易得到T^(K+1)={A^(K+1)????????? ?I+A+A^2+A^3+...+A^K}
+???????????????????????????????????????? 0?????????????????????????????? ?I
+这样我们只需要算T的k+1次幂就可以了
+?注意最后矩阵的处理并不是矩阵中有矩阵，只是最后将其展开，最后去右上角的矩阵罢了。
+
+
+
+/* 
+Memory 312K 
+Time  313MS 
+*/  
+#include <iostream>  
+#include <cstdio>
+#include <string.h>  
+using namespace std;  
+#define MAXV 70  
+  
+typedef struct{  
+    int r,c;            //c行r列  
+    int mat[MAXV][MAXV];  
+}Matrix;  
+  
+Matrix ans,cnt;  
+int n,k,m;  
+  
+void Input(){  
+    int i,j;  
+    /*构造B矩阵*/  
+    memset(cnt.mat,0,sizeof(cnt.mat));  
+    memset(ans.mat,0,sizeof(ans.mat));  
+    for(i=0;i<n;i++){  
+        for(j=0;j<n;j++)  
+            scanf("%d",&cnt.mat[i][j]);  
+    }  
+    for(i=0;i<n;i++){  
+        cnt.mat[i+n][i+n]=cnt.mat[i][i+n]=1;  
+        ans.mat[i][i]=ans.mat[i+n][i+n]=1;  
+    }  
+  
+    /*对矩阵B和B^（k+1）初始化*/  
+    cnt.c=cnt.r=2*n;  
+    ans.c=ans.r=2*n;  
+}  
+  
+Matrix MatrixMul(Matrix x,Matrix y){    //矩阵乘法  
+    Matrix t;  
+    int i,j,v;  
+    memset(t.mat,0,sizeof(t.mat));  
+    t.c=x.c;  
+    t.r=y.r;  
+  
+    for(i=0;i<t.c;i++)  
+        for(j=0;j<t.r;j++){  
+            for(v=0;v<x.r;v++)  
+                t.mat[i][j]+=((x.mat[i][v]*y.mat[v][j])%m);  
+            t.mat[i][j]=t.mat[i][j]%m;  
+        }  
+    return t;  
+}  
+  
+void Binary(){  
+    //二分快速幂  
+    k++;  
+    while(k){  
+        if(k & 1) ans=MatrixMul(ans,cnt);  
+        cnt=MatrixMul(cnt,cnt);  
+        k=k>>1;  
+    }  
+}  
+  
+void Output(){  
+    /*输出的时候要减去一个单位矩阵*/  
+    int i,j;  
+    for(i=0;i<n;i++){  
+        for(j=0;j<n;j++)  
+            if(i!=j)  
+                printf("%d ",ans.mat[i][j+n]);  
+            else  
+                printf("%d ",ans.mat[i][j+n]-1);  
+        printf("\n");  
+    }  
+}  
+  
+int main(){  
+    while(~scanf("%d%d%d",&n,&k,&m)){  
+        Input();  
+        Binary();  
+        Output();  
+    }  
+    return 0;  
+}  

@@ -1,0 +1,65 @@
+
+#include<iostream>
+#include<stdio.h>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+const double INF=1000000000.0;
+const int MAX_N=8;
+const int MAX_M=30;
+double weight[MAX_M][MAX_M];
+double ticket[MAX_N];
+int n,m,p,a,b;
+double dp[1<<MAX_N][MAX_M];
+void solve()
+{
+	for(int i=0;i<(1<<n);i++)
+	fill(dp[i],dp[i]+m,INF);//长知识,first,end,va
+	
+	dp[0][a-1]=0;//使用车票的情况为i，到达城市j最小花费
+	for(int i=0;i<(1<<n);i++)
+	{
+		for(int j=0;j<n;j++)
+		{
+			if(i&(1<<j))continue;//第j张车票已使用 
+			for(int k=0;k<m;k++)
+			for(int v=0;v<m;v++)
+			{
+				if(weight[k][v]>=0)//存在这条道路,由k到v 
+				dp[i|1<<j][v]=min(dp[i|1<<j][v],dp[i][k]+weight[k][v]/ticket[j]);
+			}
+		}
+		
+	} 
+	double res=INF;
+	for(int i=0;i<(1<<n);i++)
+	res=min(res,dp[i][b-1]);
+	if(res==INF)
+	cout<<"Impossible"<<endl;
+	else
+	printf("%.3lf\n",res);	 
+}
+
+
+int main()
+{
+   while(cin>>n>>m>>p>>a>>b)
+   {
+   	 if(n+m+p+a+b==0)
+   	 break;
+   	 for(int i=0;i<n;i++)
+   	 cin>>ticket[i];
+   	 memset(weight,-1,sizeof(weight));//-1表示两个节点之间不通
+	 for(int i=0;i<p;i++)
+	 {
+      int x,y,z;
+	   cin>>x>>y>>z;
+	   x--;y--;
+	   weight[x][y]=z;//路径长度 
+	   weight[y][x]=z;
+     } 
+	 solve();  
+   }
+   return 0;
+} 
+

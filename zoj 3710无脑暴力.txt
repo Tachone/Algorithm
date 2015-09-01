@@ -1,0 +1,50 @@
+竟然不会超时，我也是醉了。
+终止条件就是最后一遍扫描的时候没有再出现新的friend的边，这样以后的结果都是相同的，所以这一次的时候就可以break掉了。
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+int map[102][102];
+int main()
+{
+	int T, n, m, k,a,b;
+	cin >> T;
+	while (T--)
+	{
+		cin >> n >> m >> k;
+		memset(map, 0, sizeof(map));
+		for (int i = 1; i <= m; i++)
+		{
+			cin >> a >> b;
+			map[a][b] = map[b][a] = 1;
+		}
+		int sum = 0;
+		int flag = 1;
+		while (flag)
+		{
+			flag = 0;
+			for (int i = 0; i < n-1; i++)
+			{
+				for (int j = i + 1; j < n; j++)
+				{
+					if (map[i][j])
+						continue;
+					int cur = 0;
+					for (int h = 0; h < n; h++)
+					{
+						if (map[i][h] == 1 && map[j][h] == 1)
+							cur++;
+					}
+					if (cur >= k)
+					{
+						sum++;
+						map[i][j] = map[j][i] = 1;
+						flag = 1;
+					}
+				}
+			}
+			
+		}
+		cout << sum << endl;
+	}
+}

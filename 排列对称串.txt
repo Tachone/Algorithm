@@ -1,0 +1,29 @@
+#include<iostream>
+#include<vector>
+#include<string>
+#include<algorithm>
+using namespace std;
+bool comp(const string &s1,const string &s2)
+{
+	if(s1.length()!=s2.length())
+		return s1.length()<s2.length();
+		return s1<s2;
+}
+int main()
+{
+	vector<string> l;
+	for(string s;cin>>s;)
+	{
+		   string k;
+		k=s;
+		reverse(k.begin(),k.end());
+		if(k==s)
+			l.push_back(s);
+	
+	}
+		sort(l.begin(),l.end(),comp);
+
+		for(int p=0;p<l.size();p++)
+		cout<<l[p]<<endl;
+	return 0;
+}

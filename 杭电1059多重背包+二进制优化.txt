@@ -1,0 +1,49 @@
+
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+
+using namespace std;
+int num[7],v[100],total,V,dp[120005];
+int main(){
+	//freopen("in.txt","r",stdin);
+	int temp,cas=1;
+	while(scanf("%d%d%d%d%d%d",num+1,num+2,num+3,num+4,num+5,num+6)!=EOF){
+		total=0;V=0;
+		for(int i=1;i<=6;i++){
+			V+=num[i]*i;
+			/*temp=1;
+			while(num[i]>temp){   //两种不同的二进制优化
+				v[total++]=temp*i;
+				num[i]-=temp;
+				temp*=2;
+			}
+			v[total++]=num[i]*i;*/
+			for(int j=1;j<=num[i];j=j*2)//这个好
+			{
+				v[total++]=j*i;
+				num[i]-=j;
+			}
+			if(num[i])
+			v[total++]=num[i]*i;
+		}
+		if(!V) break;
+		printf("Collection #%d:\n",cas++);
+		if(V%2){
+			printf("Can't be divided.\n\n");
+			continue;
+		}
+		V/=2;
+		memset(dp,0,sizeof(dp));
+		dp[0]=1;
+		for(int i=0;i<total;i++){
+			for(int u=V;u>=v[i];u--){
+				if(dp[u-v[i]])//当前操作物品的体积是v,若塞满容量u是可以的，那么容量u+v也是可以的 
+				dp[u]=1;
+			}
+		}
+		if(dp[V]) printf("Can be divided.\n\n");
+		else printf("Can't be divided.\n\n");
+	}
+	return 0;
+}

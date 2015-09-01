@@ -1,0 +1,92 @@
+贪心枚举+并查集判断连通性
+贪心的kruskal最小生成树算法思路， 把路径按照从小到大排序， 然后从小到大依次枚举“最小速度”， 再寻找目标起点到目标终点的路径中的“最大速度”，为了使得它们的差更小，就要使得“最大速度”尽量的小。
+那么为了让Start和End有路径，只需要按照kruskal算法从"最小路径"开始构造生成树，一旦发现Start和End有连接了，那么就表示已经构成满足条件的那个路径。由于路径已经排序好，那么此时所枚举“起点”和“满足条件之点”之差便是最大速度与最小速度之差。
+
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+struct node
+{
+	int a;
+	int b;
+	int va;
+}map[1009];
+int n,m,k,st,ed,ans1,ans2,ans;
+bool flag;
+int fa[2000];
+int s[2000];
+bool comp(node aa,node bb)
+{
+	return aa.va<bb.va;
+}
+void init()
+{
+	for(int i=1;i<=n;i++)
+	fa[i]=i;
+}
+
+int find(int x)
+{
+	if(x!=fa[x])
+	fa[x]=find(fa[x]);
+	return fa[x];
+}
+void combine(int a,int b)
+{
+	int xx=find(a);
+	int yy=find(b);
+	if(xx!=yy)
+	fa[xx]=yy;
+}
+int main()
+{
+	while(cin>>n>>m)
+	{
+		for(int i=0;i<m;i++)
+		cin>>map[i].a>>map[i].b>>map[i].va;
+		cin>>k;
+		int cur;
+		for(int i=1;i<=k;i++)
+		{
+			cin>>st>>ed;
+				flag=0;
+			sort(map,map+m,comp);
+			cur=0;
+			for(int p=0;p<m;p++)
+			{ 
+				ans1=map[p].va;
+				init(); 
+			
+			for(int j=p;j<m;j++)
+			{
+				combine(map[j].a,map[j].b);
+				if(find(st)==find(ed))
+				{
+					flag=1;
+				   
+					ans2=map[j].va;
+			
+					s[cur++]=ans2-ans1;
+                    //ans?=?min(ans,?arr[k].val-arr[j].val);可以用这个代替数组，哈哈哈
+                   //如果ans还是等于INF，就输出-1
+					break;
+				}
+			}
+			} 
+			ans=90000000;
+		    for(int e=0;e<cur;e++)
+		    {
+		    
+    			if(ans>s[e])
+    			ans=s[e];
+    		}
+			if(flag)
+			cout<<ans<<endl;
+			else
+			cout<<-1<<endl;
+		}
+	}
+	return 0;
+}

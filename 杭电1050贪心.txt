@@ -1,0 +1,42 @@
+
+
+#include<iostream>
+//#include<time.h>
+#include<string.h>
+using namespace std;
+int s[205];
+int main()
+{
+	int n,m,a,b,sum;
+	cin>>n;
+	int i,j,k;
+	for(i=1;i<=n;i++)
+	{
+		cin>>m;
+		memset(s,0,sizeof(s));
+		for(j=1;j<=m;j++)
+		{  
+		cin>>a>>b;
+		a=(a-1)/2;
+		b=(b-1)/2;
+		int temp;//未说明开始的大还是最后的大
+		if(a>b)
+		{
+			temp=a;
+			a=b;
+			b=temp;
+		}
+		for(k=a;k<=b;k++)
+		 {
+		 s[k]++;
+		 }
+		
+		}
+	    	sum=0;
+		 for(k=0;k<205;k++)
+		 if(s[k]>sum)
+		 sum=s[k];
+		cout<<sum*10<<endl;
+	}
+	return 0;
+} 

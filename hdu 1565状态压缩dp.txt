@@ -1,0 +1,201 @@
+你一个n*n的格子的棋盘，每个格子里面有一个非负数。
+从中取出若干个数，使得任意的两个数所在的格子没有公共边，就是说所取的数所在的2个格子不能相邻，并且取出的数的和最大。（n <= 20)
+算法：
+因为n比较少20，可以用状态压缩，1表示方格该数取，0表示不取。
+每一行的状态有1<<N种，先预处理所有合法状态，即相邻两位不能为1，
+判断条件是i && (i<<1),下一行的状态要满足条件的是跟上一行没有相
+邻的 num[i] & num[j] == 0
+int num[21000]; //状态 
+int sum[21][21000]; //该状态的和 
+int len;
+int mt[30][30]; //存储方格
+
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+int num[21000]; //状态 
+int sum[21][21000]; //该状态的和 
+int len;
+int mt[30][30];  //存储方格 
+int N;
+int dp[30][21000];
+
+void pre(int N)
+{ 
+  len = 0;
+  for( int i = 0; i < (1<<N); i++)
+  {
+     if( i & (i<<1) )
+         continue;
+     num[len] = i;
+     for( int k = 1; k <= N; k++)
+     {
+      int ans = i;
+      for( int j = N; j > 0; j--)
+      {
+        if( ans&1 )
+        {
+         sum[k][len] += mt[k][j];
+        }
+        ans = ans>>1;  
+      }
+     }
+     len++;
+   }          
+}
+
+int main( )
+{
+  while( scanf("%d",&N) != EOF)
+  {
+    memset(sum, 0, sizeof(sum));
+    for( int i = 1; i <= N; i++)
+         for( int j = 1; j <= N; j++)
+            scanf("%d",&mt[i][j]);      
+    pre( N );
+    memset(dp, 0, sizeof(dp));
+    dp[0][0] = 0;
+    for( int n = 1; n <= N; n++)
+     for( int i = 0; i < len; i++)
+      for( int j = 0; j < len; j++)
+      {
+             if(  (num[i]&num[j]) == 0 )
+             {
+                if( dp[n][i] < dp[n-1][j] + sum[n][i] )
+                {
+                    dp[n][i] = dp[n-1][j] + sum[n][i];    
+                }     
+                  
+             }     
+                
+      }
+    int ans = 0;
+    for( int i = 0; i < len; i++)
+       if( dp[N][i] > ans )
+           ans = dp[N][i];
+    printf("%d\n", ans);
+  }    
+  return 0;  
+}
+
+
+
+
+
+
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+#include <algorithm>
+
+using namespace std;
+int sta[50000],tol,n,mp[22][22],dp[2][50000],num[20][20000];
+void init(){
+	tol=0;
+	for(int i=0;i<(1<<n);i++){
+		if(i&(i<<1)) continue;
+		sta[tol++]=i;
+	}
+}
+bool check(int s,int ss){
+	if(s&ss) return false;
+	return true;
+}
+void debug(int o){
+	for(int i=0;i<tol;i++) printf("%d ",dp[o][sta[i]]);
+	printf("\n");
+}
+int main(){
+	while(scanf("%d",&n)!=EOF){
+		for(int i=0;i<n;i++)
+			for(int j=0;j<n;j++)
+				scanf("%d",&mp[i][j]);
+		init();//printf("%d\n",tol);
+		//for(int i=0;i<tol;i++) printf("%d ",sta[i]);
+		//printf("\n");
+		memset(dp,0,sizeof(dp));
+		memset(num,0,sizeof(num));
+		for(int i=0;i<n;i++){
+			for(int j=0;j<tol;j++){
+				int s=sta[j];
+				for(int k=0;k<n;k++) if((s>>k)&1) num[i][j]+=mp[i][k];//这里的循环用的不错
+			}
+		}
+		for(int i=0;i<tol;i++){
+			dp[0][i]=num[0][i];
+		}//debug(0);
+		for(int i=1;i<n;i++){
+			for(int j=0;j<tol;j++){
+				int s=sta[j];
+				for(int k=0;k<tol;k++){
+					int ss=sta[k];
+					if(check(s,ss)){
+						dp[i%2][j]=max(dp[i%2][j],dp[(i-1)%2][k]+num[i][j]);
+					}
+				}
+			}
+			//debug(i);
+		}
+		int ans=0;
+		for(int i=0;i<tol;i++) ans=max(ans,dp[(n-1)%2][i]);
+		printf("%d\n",ans);
+	}
+	return 0;
+}
+
+
+
+
+自己的代码哈哈哈哈哈哈
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+int map[21][21];
+const int N=1<<17;
+int state[N];
+int dp[21][N];
+int num[21][N];
+int main()
+{
+	int n;
+	while(cin>>n)
+	{
+		memset(num,0,sizeof(num));
+		memset(dp,0,sizeof(dp));
+		for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+		cin>>map[i][j];
+		int cur=0;
+		for(int i=0;i<(1<<n);i++)
+		{
+			if(i&(i<<1))
+			continue;
+			else
+			state[cur++]=i;
+		}
+		for(int i=1;i<=n;i++)
+		for(int j=0;j<cur;j++)
+        for(int k=0;k<n;k++)
+		{
+			if((state[j]>>k)&1)
+			num[i][j]+=map[i][n-k];
+		} 
+		dp[0][0]=0;
+		for(int i=1;i<=n;i++)
+		for(int j=0;j<cur;j++)
+		for(int k=0;k<cur;k++)
+		{
+			if(!(state[j]&state[k]))
+			dp[i][j]=max(dp[i][j],dp[i-1][k]+num[i][j]);
+		}
+		int ans=0;
+		for(int i=0;i<cur;i++)
+		{
+			if(dp[n][i]>ans)
+			ans=dp[n][i];
+		}
+		cout<<ans<<endl;
+	}
+	return 0;
+}

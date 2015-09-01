@@ -1,0 +1,253 @@
+共需移动 sum=2^n-1 次
+1.将n个盘上面的n-1个盘借助c从a移到b
+2.将a桩上的第n个盘移到c
+3.将b的n-1个盘借助a移到c
+
+
+
+#include<iostream>
+using namespace std;
+int main()
+{
+	char A,B,C;
+	void move(int n,char A,char B,char C);
+	int n;
+	cin>>n;
+	move(n,'A','B','C');//这个意思传入的是n变量和'a','b','c'三个字符，而不是传入变量
+	return 0;
+
+}
+
+void move(int n,char A,char B,char C)//传入四个变量的值
+{
+	if(n==1)
+		cout<<A<<"-->"<<C<<endl;
+	else
+	{
+		move(n-1,A,C,B);
+        cout<<A<<"-->"<<C<<endl;
+		move(n-1,B,A,C);
+
+}
+
+
+}
+1.总体递归逻辑：设圆盘有n个
+     if(n==1)
+         cout<<a<<"-->"<<c<<endl;//只有一块圆盘，直接移至c
+     else{
+          move(n-1,a,c,b);//将a上的n-1块圆盘通过c移至b
+          cout<<a<<"-->"<<c<<endl;//将a上第n块圆盘移至c
+          move(n-1,b,a,c);//将b上的n-1块圆盘移至c
+      }
+
+
+      很抽象，但是后面一个大弯要靠其绕过。
+
+
+2.逐步考虑的方法：列表格跟踪递归的每一步（n=3时如图）
+值来源指的是实参的来源，也是一个需要好好理解的大弯，后面详解。
+m1,m2分别指程序中第一和第二个move(n-1,a,b,c)。
+以上需自己动笔在草稿上考虑，一次过关终身受益。。。
+
+
+3详解：  分析a=3的情况。。其它只有计算机才考虑得过来
+ 
+1    void move(int n,char a,char b,char c)
+     {
+2     if(n==1)
+3        cout<<a<<"-->"<<c<<endl;
+4     else{
+5        move(n-1,a,c,b);
+6        cout<<a<<"-->"<<c<<endl;
+7        move(n-1,b,a,c);
+      }
+     }
+
+ 
+ 
+main函数首先传来实参'a','b','c'，第1行初始值既为move(3,a,b,c),3>1,进入第4行else语句，开始第5行m1的递归，分别为move(2,a,c,b)、move(1,a,b,c),此时n=1，执行语句2、3，完成第一步 a-->c;
+ 
+m1的递归开始逐层返回，当然，这里只有move(2,a,c,b)（注意，这里是a,c,b，而不是n=1时最后的a,b,c,原因在于其实际各自调用一个函数，且后者在前者的函数内，n=1的值的改变不影响外层n=2的值，只在其自身函数作用域内有效。），程序继续执行第６行（一个递归引用相当于一个函数体，递归返回时便执行函数体内的语句），完成第二步　a-->b;
+ 
+进入语句7，变为由move(2,a,c,b)变为move(1,c,a,b)，n=1，执行语句2、3，完成第三步 c-->b;
+ 
+第四步最难理解，先说明：从进入函数，move(3)中实际包含三个部分：一是move(n=2,a,c,b)，二是cout<<a<<"-->"<<c<<endl，三是move(2,b,a,c),即实参下的5、6、7行语句，三个属于并列关系，上面已经完成三个输出的三个步骤都属于三个部分的第一部分move(n=2,a,c,b)，即第一部分已完成，于是将继续执行并列的语句6：cout<<a<<"-->"<<c<<endl，(需要注意的是，同上面一样，此时已近完成m1的递归，程序回到n=3的最外层，所以此时a,c的值分别从move(3,a,b,c)中获取）完成第四步 a->c;
+
+以上理解透了，接下来就非常简单，程序进入语句7，开始递归m2，其过程与m1完全相同，也是最开始的三步，简单写出：
+第5行，由move(2,b,a,c)下推出move（1,b,c,a),进入2、3行，完成第五步 b-->a;
+第6行，a,c从move(2,b,a,c)取值，完成第六步 b-->c;
+第七行，move(1,a,b,c)，完成第七步 a-->c;
+ 
+
+
+
+
+#include<iostream>
+using namespace std;
+char A,B,C;
+int main()
+{
+    int n;
+    void hanoi(int,char,char,char);
+    cout<<"请输入a座上的盘子数目";
+    cin>>n;
+    hanoi(n,'A','B','C');
+    return 0;
+}
+
+
+
+void print(char A,char C)
+{
+     cout<<A<<"--"<<C<<endl;
+}
+
+
+void hanoi(int n,char A,char B,char C)
+{
+    if(n==1) 
+		print(A,C);
+    else
+    {
+          hanoi(n-1,A,C,B);
+          print(A,C);
+          hanoi(n-1,B,A,C);
+    }
+}
+
+热心问友 2012-04-05
+anoi(n,a,b,c)
+int n;
+char a,b,c;
+{if (n==1) printf("%c-->%c\
+",a,c);
+else {hanoi (n-1,a,c,b);
+printf ("%c-->%c\
+",a,c);
+hanoi (n-1,b,a,c);}
+}
+我给你详细解释下这个程序中的代码吧。我也是刚学，希望对你有用。可能有些不好之处，还希望谅解。
+
+先说下这个问题的整体思想：
+1，如果只有1个盘，那么就直接把这个盘从A移动到C上。
+
+2，如果存在两个盘，那么先把第一个盘移动到B上，在把最下面一个盘移动到C上，在把B上的盘移动到C上。
+
+3，这样，我们可以得出一个结论，如果存在N个盘，可以先把上面N-1个盘通过C 移动到B上，然后把第N个盘移动到C上， 再把B上的N个盘通过A移动到C上。
+
+if (n==1) printf("%c-->%c\
+",a,c);
+这一句，表示只有1个盘子的时候，那么就是把第一个盘子直接移到第三个盘子上。
+
+else {hanoi (n-1,a,c,b);
+如果超过一个盘字，则需要先把N-1个盘子通过C 移动到B上。
+
+printf ("%c-->%c\
+",a,c);
+把剩下的第N个盘，从A移动到C上。
+
+hanoi (n-1,b,a,c);}
+再把剩下的在B上的N-1个盘，通过A移动到C上。
+
+这属于一个递归算法。
+现在，N=3。
+我们看下程序怎么运行的。
+else {hanoi (n-1,a,c,b);
+printf ("%c-->%c\
+",a,c);
+hanoi (n-1,b,a,c);}
+
+N=3，也就是开始程序会执行
+hanoi (2,a,c,b);这句语句。
+
+再看，2还是大于1，所以
+程序会继续运行。 注意，这里，为hanoi (2,a,c,b); C和B 换了位置。
+
+hanoi (2,a,c,b);
+我们把数字代入，得出。
+根据 N=2，C和B 互换。以及下面的代码，得出
+````````````````````````````````````````````````
+hanoi(n,a,b,c)
+int n;
+char a,b,c;
+{if (n==1) printf("%c-->%c\
+",a,c);
+else {hanoi (n-1,a,c,b);
+printf ("%c-->%c\
+",a,c);
+hanoi (n-1,b,a,c);}
+}
+
+```````````````````````````````````````````````
+hanoi(2,a,c,b)
+int n=2;
+char a,c,b;
+{if (n==1) printf("%c-->%c\
+",a,b);
+else {hanoi (1,a,b,c);
+printf ("%c-->%c\
+",a,b);
+hanoi (1,c,a,b);}
+} / 这并不是正确的代码，只是为了得出答案而写的一些数据。/
+这样， 我们可以看出，程序会先执行
+else {hanoi (1,a,b,c);
+所以，开始会先输出A C（中间的符号省略，以下也一样）
+然后，再输出
+printf ("%c-->%c\
+",a,b);
+A B
+接着，执行
+hanoi (1,c,a,b);}
+这时候，就是C B了。
+
+也就是说 hanoi(2,a,c,b) 的输出为 AC AB CB
+
+你的问题就已经解决了。
+接下来再返回第一层：
+
+现在，N=3。
+我们看下程序怎么运行的。
+else {hanoi (n-1,a,c,b);
+printf ("%c-->%c\
+",a,c);
+hanoi (n-1,b,a,c);}
+
+这时候，我们再把数字代进去。
+现在，N=3。
+我们看下程序怎么运行的。
+else {hanoi (2,a,c,b);
+printf ("%c-->%c\
+",a,c);
+hanoi (2,b,a,c);}
+
+
+根据上面的结论
+/ 也就是说 hanoi(2,a,c,b) 的输出为 AC AB CB /
+
+可以看出，先执行第一条语句：
+else {hanoi (2,a,c,b);
+则输出
+AC AB CB
+再执行第二条语句：
+printf ("%c-->%c\
+",a,c);
+输出 AC
+然后执行第三条
+hanoi (2,b,a,c);}
+根据这里，/ 也就是说 hanoi(2,a,c,b) 的输出为 AC AB CB /
+字母进行替代后，A变B，C变A B变C。
+所以输出的AC AB CB 则为
+
+BA BC AC
+
+所以，最终的结果为 AC AB CB AC BA BC AC
+
+中间可能有很多废话，可以不看。
+这样算下去，不管多少层都能推算出来，可复杂度会高得难以想像。
+
+
+
+
+
+

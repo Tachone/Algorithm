@@ -1,0 +1,20 @@
+#include<iostream>
+#include<string>
+#include<stdio.h>//zoj中使用getchar函数要这个头文件 
+#include<algorithm>
+using namespace std;
+int main()
+{
+	string s;
+	int n;
+	cin>>n;
+	//getchar();//少了他就不对，不知道为什么 
+	for(int i=1;i<=n;i++)
+	{
+	getline(cin,s);//应该是这个getline存在的原因还有题目中的要求
+	reverse(s.begin(),s.end());
+	cout<<s<<endl;
+	}
+	
+	return 0;
+} 

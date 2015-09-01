@@ -1,0 +1,33 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+using namespace std;
+int main()
+{
+	char c;
+	int a,b;
+   for(int n,k;cin>>n>>k;)
+   {
+   	 priority_queue<int,vector<int>,greater<int> > v;//优先队列的简单使用
+   	 for(int i=1;i<=n;i++)
+   	 {
+ 	   	cin>>c;
+ 	   	if(c=='I')
+ 	   	{
+	   	 	cin>>a;
+	   	 	v.push(a);
+	   	 	if(v.size()>k)
+	   	 	v.pop();
+	   	 }
+	   	 else
+	   	 cout<<v.top()<<endl;
+ 	 }
+   }
+   return 0;
+} 
+优先队列的定义使用方法
+1.由小到大输出priority_queue<int, vector<int>, greater<int> >qi2;
+2.由大到小输出priority_queue<int ,vector<int> ,less<int > >q8;
+头文件#include<functional>
+
+

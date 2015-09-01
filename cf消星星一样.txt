@@ -1,0 +1,31 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#define pb push_back
+#define mp make_pair
+using namespace std;
+int main(){
+	int n,m,k,i,j,x,sz=0,ans=0,mx=0;
+	vector< pair<int,int> > a;
+	cin >> n >> m >> k;
+	for(i=0;i<n;i++){
+		cin >> x;
+		if(sz==0 || a[sz-1].first != x) a.pb(mp(x,1)),sz++;
+		else a[sz-1].second++;
+	}
+	for(i=0;i<sz;i++){
+		//cout<<a[i].first<<" "<<a[i].second<<endl;
+		if(a[i].first != k) continue;
+		if(a[i].second == 1) continue;
+		mx=2;
+		for(j=1;;j++){
+			if(i-j<0||i+j>=sz) break;
+			if(a[i-j].first != a[i+j].first) break;
+			if(a[i-j].second+a[i+j].second<=2) break;
+			mx+=a[i-j].second+a[i+j].second;
+		}
+		ans = max(ans,mx);
+	}
+	cout<<ans;
+	return 0;
+}

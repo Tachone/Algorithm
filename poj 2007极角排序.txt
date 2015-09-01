@@ -1,0 +1,28 @@
+#include<iostream>
+#include<string>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+struct node
+{
+	int x;
+	int y;
+}N[100];
+bool comp(node a,node b)//特殊有一个是(0,0) 
+{
+	return a.x*b.y>a.y*b.x;
+}
+int main()
+{
+	int k=0;
+	while(cin>>N[k].x>>N[k].y)
+	{
+		k++;
+	}
+	cout<<"(0,0)"<<endl;
+	sort(N+1,N+k,comp);
+	for(int i=1;i<k;i++)
+	cout<<"("<<N[i].x<<","<<N[i].y<<")"<<endl;
+	return 0;
+	
+}

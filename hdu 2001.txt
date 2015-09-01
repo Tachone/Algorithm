@@ -1,0 +1,16 @@
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	double a,b,c,d;
+	while(cin>>a>>b>>c>>d)
+	{
+		double ans;
+		ans=sqrt((a-c)*(a-c)*1.0+(b-d)*(b-d)*1.0);
+		cout<<setiosflags(ios::fixed)<<setprecision(2)<<ans<<endl;
+	}
+	return 0;
+}

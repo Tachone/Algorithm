@@ -1,0 +1,25 @@
+
+分析: 贪心，最大值显然是n－m＋1人为一组，最小值则是尽可能均分，均分的话将余数均分分别加到商上即可
+
+
+//贪心   
+#include<iostream>
+#include<string>
+#include<algorithm>
+#define ll long long 
+using namespace std;
+ll f(ll n)
+{
+	return n*(n-1)/2;
+}
+int main()
+{
+	ll n,m;
+	cin>>n>>m;
+	ll min1,max1;
+	max1=f(n-m+1);
+     ll temp=n%m;
+     min1=f(n/m+1)*temp+f(n/m)*(m-temp);
+	cout<<min1<<" "<<max1<<endl;
+	return 0;
+}

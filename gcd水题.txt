@@ -1,0 +1,44 @@
+#include<iostream>
+#include<string>
+#include<cstring>
+using namespace std;
+long long gcd(long long a,long long b)
+{
+	if(b==0)
+	return a;
+	else
+	return gcd(b,a%b);
+}
+int main()
+{
+   long long l,r;
+    
+   cin>>l>>r;
+    bool flag=true;
+   if(r-l<=1)
+   {
+   	flag=false;
+   cout<<-1;
+   }
+   else 
+   {
+   	 for(long long i=l;i<=r-2;i++)
+   	 {
+ 	   	for(long long j=l+1;j<=r-1;j++)
+ 	   	if(gcd(i,j)==1)
+ 	   	for(long long  k=j+1;k<=r;k++)
+ 	   	{
+	   	 	if(gcd(j,k)==1&&gcd(i,k)!=1)
+	   	 	{
+	 	   		cout<<i<<" "<<j<<" "<<k;
+	 	   		flag=false;
+	 	   		goto loop;
+	 	   	}
+	   	 }
+     }
+   }
+   if(flag)
+   cout<<-1;
+   loop:
+   cout<<endl;
+} 

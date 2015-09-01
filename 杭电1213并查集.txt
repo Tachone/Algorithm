@@ -1,0 +1,60 @@
+
+#include<iostream>
+using namespace std;
+int father[1005];
+int root[1005];
+void init()
+{
+	for(int i=1;i<=1004;i++)
+	{
+	father[i]=i; 
+	root[i]=1;
+	}
+}
+int find(int x)
+{
+	if(x!=father[x])
+	father[x]=find(father[x]);
+	return father[x];
+}
+void combine(int a,int b)
+{
+	int m=find(a);
+	int n=find(b);
+	if(m!=n)
+	{
+		if(root[m]>=root[n])
+		{
+		father[n]=m;
+     	root[m]+=root[n];	
+		}
+		else
+		{
+		father[m]=n;
+     	root[n]+=root[m];
+		}	
+	}
+}
+int main(){
+	int  t;
+	cin>>t;
+	while(t--)
+	{
+		int n,m;
+		cin>>n>>m;
+		init();
+		while(m--){
+			int a,b;
+			cin>>a>>b;
+			combine(a,b);
+		}
+		int sum=0;
+		for(int i=1;i<=n;i++)
+	   {
+		if(father[i]==i)
+		sum++;
+	   } 
+		cout<<sum<<endl;
+	}
+	return 0;
+}    

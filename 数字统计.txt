@@ -1,0 +1,20 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	int m=0,i,j;
+	for(string s;cin>>s;)
+	{
+    	int a[10]={0};
+		cout<<(m++?"\n":"");
+		for(i=0;i<s.length();i++)
+	    a[s[i]-'0']++;//原来还可以这样
+	for(j=0;j<=9;j++)
+	{
+		if(a[j]!=0)
+			cout<<j<<" "<<a[j]<<endl;
+	}
+		}
+	return 0;
+}

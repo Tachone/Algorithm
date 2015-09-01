@@ -1,0 +1,99 @@
+#include<iostream>
+#include<string>
+#include<queue>
+#include<vector>
+#include<stack>
+#include<string.h>
+using namespace std;
+int m,n;
+int dir[4][2]={{1,0},{-1,0},{0,1},{0,-1}}; 
+struct node
+{
+	int x;
+	int y;
+};
+stack <node> st;
+int map[300][300];
+bool flag;
+
+
+void bfs()
+{
+	queue<node> q;
+	node temp;
+	for(int i=1;i<=m;i++)
+	for(int j=1;j<=n;j++)
+	{
+		if(map[i][j]==1)
+		{
+			temp.x=i;
+			temp.y=j;
+			q.push(temp);
+		}
+	}
+	while(!q.empty())
+	{
+		node u=q.front();
+		q.pop();
+		if(map[u.x][u.y]!=1)
+		{
+			flag=false;
+			return ;
+		}
+		map[u.x][u.y]=0;
+		st.push(u);
+		for(int i=0;i<4;i++)
+		{
+			int xx=u.x+dir[i][0];
+			int yy=u.y+dir[i][1];
+			if(map[xx][yy]==0)
+			continue;
+			if(!(xx>=1&&xx<=m&&yy>=1&&yy<=n))
+			continue;
+			map[xx][yy]--;
+			if(map[xx][yy]==1)
+			{
+				node temp1;
+				temp1.x=xx;
+				temp1.y=yy;
+				q.push(temp1);
+			} 
+		}
+		
+	}
+}
+
+int main()
+{
+	while(cin>>m>>n)
+	{
+		for(int i=1;i<=m;i++)
+		for(int j=1;j<=n;j++)
+		cin>>map[i][j];
+		flag=true;
+		bfs();
+	   for(int i = 1 ; i <= m ; i++){
+	   for(int j = 1 ; j <= n ; j++){
+              if(map[i][j] != 0) flag = false;
+         	}
+     	}
+   	  node path;
+   	  if(flag)
+   	  {
+	   while(!st.empty())
+	   {
+ 		path=st.top();
+ 		st.pop();
+ 		cout<<path.x<<" "<<path.y<<endl;
+ 	   }
+ 	 } 
+ 	 else
+	  cout<<"No solution"<<endl; 
+	}
+	return 0;
+}
+倒着推，起点必定为1,枚举每一个值为1的点，对其周围的点-1
+
+每一个开始遍历的起点必定为1
+这样直到有两个1相邻或者最后推出的矩阵不是000矩阵的话，得出矛盾
+期间用了一个stack的栈记录了路径

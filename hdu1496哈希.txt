@@ -1,0 +1,44 @@
+???? 题目大意，给你a,b,c,d这4个数的值，然后问a*x1^2 + b*x2^2 +? c*x3^2 + d*x4^2 = 0
+的（x1,x2,x3,x4）解一共有多少种？
+????????初看这题，想直接4次循环找，但是这样绝对超时，所以就用了hash这种方法来解决，很巧妙！分开两部分求和，若两部分的和是0，则就加上那么多种，最后乘以16。这样就能从n^4变成2*n^2，速度快了很多很多！！
+学哈希表时的习题。
+H:a*x1^2+b*x2^2 = -(c*x3^2+d*x4^2)，H关于X轴对称，由于会有负下标，我们把函数位置右移maxn，即H（x+maxn) = H(maxn-x)，原函数关于X=maxn对称。
+所以我们可以先算出X右边的所有数，然后通过左边的数去映射右边的数，把所有可能解相加。因为x1,x2,x3,x4可以为正数或者为负数两种情况，所以在找到一种可能解时，需要把结果乘以2的4次幂。
+
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+using namespace std;
+int hash1[2000010];
+int main()
+{
+	int a, b, c, d;
+	while (scanf("%d%d%d%d", &a, &b, &c, &d) != EOF)
+	{
+		int ans = 0;
+		
+		if ((a > 0 && b > 0 && c > 0 && d > 0) || (a < 0 && b < 0 && c < 0 && d < 0))
+		{
+			cout << 0 << endl;
+			continue;//
+		}
+		memset(hash1, 0, sizeof(hash1));//大的数组很耗时间
+		for (int i = 1; i <= 100; i++)
+		for (int j = 1; j <= 100; j++)
+		{
+			hash1[a*i*i + b*j*j + 1000000]++;
+		}
+		for (int i = 1; i <= 100; i++)
+		for (int j = 1; j <= 100; j++)
+		{
+			ans += hash1[-(c*i*i + d*j*j) + 1000000];
+		}
+		cout << 16 * ans << endl;//还是要注意优化
+	}
+	return 0;
+}
+
+
+
+
+

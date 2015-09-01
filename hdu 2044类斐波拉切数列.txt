@@ -1,0 +1,22 @@
+#include<iostream>
+#include<string>
+using namespace std;
+long long s[70];
+int main()
+{
+	long long T,a,b;
+	cin>>T;
+	s[1]=1;
+	s[2]=2;
+	for(int i=3;i<51;i++)
+	s[i]=s[i-1]+s[i-2];
+	while(T--)
+	{
+		cin>>a>>b;
+		cout<<s[b-a]<<endl;
+	}
+	return 0;
+}
+
+
+到蜂巢上的数字其实可以明白了。相差为1或2的两个蜂巢都只有一条路能通到。而相差3的呢？其实就是走到b点相邻点的方式有几种，与b直接相邻的这有两个点。那到b定其实就是到b-1点和到b-2点的路数之和，这就回到了大家很熟悉的斐波那契数列了，体也就解决了。

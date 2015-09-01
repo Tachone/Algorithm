@@ -1,0 +1,54 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+    int f(int n);
+	for(int n;cin>>n;)
+	cout<<f(n)<<endl;
+		
+
+	
+	return 0;
+}
+
+int f(int n)
+{
+	if(n==1||n==2||n==3)
+		return 1;
+	else
+		return f(n-1)+f(n-3);
+}
+
+数组
+#include<iostream>
+using namespace std;
+int main()
+{
+	int a[40]={1,1,1,1};
+	for(int i=3;i<=40;i++)
+		a[i]=a[i-1]+a[i-3];
+	for(int n;cin>>n;)
+		cout<<a[n-1]<<endl;
+	return 0;
+}
+
+递推
+#include<iostream>
+using namespace std;
+int main()
+{
+	for(int n;cin>>n;)
+	{   int a3=1;//这就是为什么把a3放到循环外面的原因
+		for(int i=4,a1=1,a2=1,t;i<=n;i++)//注意千万不能将a1，a2放到循环体里面，否则每次都会被赋初值
+		{
+		
+			t=a1;
+			a1=a2;
+			a2=a3;
+			a3=a3+t;
+		}
+		cout<<a3<<endl;//否则会显示无定义
+	}
+
+	return 0;
+}

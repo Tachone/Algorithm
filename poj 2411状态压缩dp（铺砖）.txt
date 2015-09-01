@@ -1,0 +1,74 @@
+
+//View Code 
+#include<iostream>
+#include<string>
+#include<string.h>
+using namespace std;
+long long dp[1<<11][11];
+int ok[1<<11];
+int full;
+int m,n;
+inline bool check(int in)
+{
+	int sum=0;
+	while(in>0)
+	{
+	  if((in&1)==1)
+	  sum++;
+	  else
+	  {
+  		if((sum&1)==1)//存在奇数个1 
+  	    return false;
+  	    
+  	    sum=0;	
+  	  }
+  	  	in=in>>1;
+	}
+
+	if((sum&1)==1)
+	return false;
+	
+	return true;
+}
+
+inline bool check2(int x1,int x2)
+{
+	if((x1|x2)!=full-1)//没有铺满，或者出现00 
+	return false;
+
+	return ok[x1&x2]; 
+	//反例 11011 要排除这种情况 
+    //     01111 
+}
+int main()
+{
+	//memset(ok,0,sizeof(ok));
+	full=1<<11;
+	for(int i=0;i<full;i++)
+	{
+		if(check(i))
+		ok[i]=1;
+	}
+	while(cin>>m>>n)
+	{ 
+	if(m==0&&n==0)break;
+	memset(dp,0,sizeof(dp));
+	full=1<<n;
+	for(int s=0;s<full;s++)
+	{
+		if(ok[s])
+		dp[s][0]=1;
+	}
+	for(int i=1;i<m;i++)
+	for(int s=0;s<full;s++)
+	for(int s1=0;s1<full;s1++)
+	{
+		if(!check2(s1,s))
+		continue;
+		dp[s][i]+=dp[s1][i-1];
+	}
+	long long  res=dp[(1<<n)-1][m-1];
+	cout<<res<<endl;
+	} 
+	return 0;
+}

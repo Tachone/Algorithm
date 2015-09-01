@@ -1,0 +1,110 @@
+优先队列+bfs主要用于每一步可能+1或者+2这种情况
+普通的bfs就不能保证到达终点的是最小的步数，只有这样做才是可以的
+
+
+struct node
+{
+	int x,y;
+	int time;  //定义一个优先队列
+	friend bool operator<(node a, node b)
+	{     //从小到大排序采用“>”号；如果要从大到小排序，则采用“<”号
+		return a.time> b.time;       //从小到大排序
+	}
+};  
+priority_queue<node>q;       //优先队列中元素的比较规则默认是按元素的值从大到小排序；
+
+#include<iostream>
+#include<string.h>
+#include<queue>
+using namespace std;
+int m,n;
+char map[303][303]; 
+int bi,bj,ei,ej;
+bool flag;
+int dir[4][2]={{1,0},{-1,0},{0,1},{0,-1}}; 
+struct node
+{
+	int ii;
+	int jj;
+	int time;
+	friend bool operator <(node a,node b)//都是重载<<运算符 
+	{
+		return a.time>b.time;//由小到大则>
+		//由大到小则< 
+	}
+};
+
+int bfs(int a,int b)
+{
+	priority_queue<node> q;
+	node w;
+	w.ii=a;
+	w.jj=b;
+	w.time=0;
+	q.push(w);
+	while(!q.empty())
+	{
+		node mp;
+	    mp=q.top();
+		q.pop();
+		if(mp.ii==ei&&mp.jj==ej)
+		{
+			flag=1;
+			return mp.time;
+		}
+		node temp;
+		for(int i=0;i<4;i++)
+		{
+			temp.ii=mp.ii+dir[i][0];
+			temp.jj=mp.jj+dir[i][1];
+			if(temp.ii>=1&&temp.ii<=m&&temp.jj>=1&&temp.jj<=n)
+			{
+				if(map[temp.ii][temp.jj]=='B')
+				{
+					temp.time=mp.time+2;//注意都是在mp基础上进行操作（不能写temp.time+=1） 
+					map[temp.ii][temp.jj]='R';
+					q.push(temp);
+				}
+				else if(map[temp.ii][temp.jj]=='E'||map[temp.ii][temp.jj]=='T')
+				{
+					temp.time=mp.time+1;
+					map[temp.ii][temp.jj]='R';
+					q.push(temp);
+				}
+				else
+				continue;
+			}
+		}
+	}
+}
+
+
+int main()
+{
+	while(cin>>m>>n&&(m||n))
+	{
+		 flag=0;
+		for(int i=1;i<=m;i++)
+		for(int j=1;j<=n;j++)
+		{
+		  cin>>map[i][j];
+		  if(map[i][j]=='Y')
+		  {
+  			bi=i;
+  			bj=j;
+  		  }
+  		  if(map[i][j]=='T')
+  		  {
+  		  	ei=i;
+  		  	ej=j;
+  		  }
+  		  
+		}
+		int ans=bfs(bi,bj);
+		if(flag)
+		cout<<ans<<endl;
+		else
+		cout<<-1<<endl;
+	}
+	return 0;
+} 

@@ -1,0 +1,155 @@
+逆向思维即可。
+每次先考虑行R，由3~1。只要这个行不存在O（是.表示已经访问过了，或者是x的话），就全部标记已经访问，然后对列也进行如此。注意如果每次每行每列都已经访问过了要continue，若整个方格都已经访问过了则程序结束。
+
+#include<iostream>
+#include<stack>
+#include<string>
+#include<cstring>
+using namespace std;
+char map[1005][1005];
+struct node
+{
+	char c;
+	int index;
+};
+int T,n,flag;
+bool op;
+stack<node> sk; 
+int main()
+{
+
+	node temp;
+	cin>>T;
+	while(T--)
+	{
+		cin>>n;
+	    while(!sk.empty())
+	    sk.pop();
+		for(int i=1;i<=n;i++)
+        for(int j=1;j<=n;j++)
+		cin>>map[i][j];
+		bool it=false;
+		int fir=0;
+		int tot=0;
+		while(1)
+		{
+			if(!it&&fir++==1)
+			{
+				cout<<"No solution"<<endl;
+				break;
+			}
+		    if(tot==n*n)
+		    {
+		    	loop:
+    			 temp=sk.top();
+		  cout<<temp.c<<temp.index;
+		 sk.pop();
+		 while(!sk.empty())
+	   	 {
+		  temp=sk.top();
+		  cout<<" "<<temp.c<<temp.index;
+		  sk.pop();
+		 }	
+		cout<<endl;
+		break;
+    		}
+		  	for(int i=n;i>=1;i--)
+			{
+				 flag=1;
+				 op=false;
+		        for(int j=1;j<=n;j++)
+		        {
+        			if(map[i][j]!='.')
+        			{
+			        	op=true;
+			        	break;
+			        }
+        		} 
+        		if(!op)
+        		{
+		        	flag=0;
+		        }
+				else
+				{
+				  for(int j=1;j<=n;j++)
+				{
+					
+					if(map[i][j]=='O')
+					{
+						flag=0;
+						break;
+					}
+				} 
+				} 
+				if(flag)
+				{
+					it=true;
+					temp.c='R';
+					temp.index=i;
+					sk.push(temp);
+					for(int j=1;j<=n;j++)
+					{
+					   if(map[i][j]!='.')
+					  {
+  					   map[i][j]='.';
+					   tot++;
+					  }
+					}
+					if(tot==n*n)
+					goto loop;
+					
+				}
+				
+			}
+			for(int j=n;j>=1;j--)
+			{
+				flag=1;
+				op=true;
+				for(int i=1;i<=n;i++)
+				{
+					if(map[i][j]!='.')
+					{
+						op=false;
+						break;
+					}
+				} 
+				if(op)
+				{
+					flag=0;
+					
+				}
+				else{ 
+				for(int i=1;i<=n;i++)
+				{
+					if(map[i][j]=='X')
+					{
+						flag=0;
+						break;
+					}
+				}
+				} 
+				if(flag)
+				{
+					it=true;
+					temp.c='C';
+					temp.index=j;
+					sk.push(temp);
+					for(int i=1;i<=n;i++)
+					{
+						if(map[i][j]!='.')
+						{ 
+					      map[i][j]='.';
+					      tot++; 
+                        } 
+					}
+					if(tot==n*n)
+					goto loop;
+				}
+			}
+		}	
+	
+	} 
+	
+}
+
+

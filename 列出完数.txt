@@ -1,0 +1,56 @@
+Acm通过版
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+	vector<int> a;
+	for(int i=2;i<=10000;i+=2)
+	{
+		int sum=1;
+		for(int j=2;j<=i/2;j++)
+			if(i%j==0)
+				sum+=j;
+			if(sum==i)
+				a.push_back(i);
+	}
+	for(int n;cin>>n;)
+	{
+		cout<<n<<":";
+		for(int i=0;i<a.size();++i)
+			if(a[i]<=n)
+				cout<<" "<<a[i];
+			cout<<"\n";
+	}
+	return 0;
+
+}
+
+最好理解版
+#include<iostream>
+using namespace std;
+int main()
+{
+	for(int n;cin>>n;)
+	{
+		cout<<n<<":";//放在这里
+	
+		for(int i=2;i<=n;i+=2)//完数为偶数，步长是2
+		{
+			int sum=0;//为什么一定要在这里赋值呢，放到上面为什么不可以;因为每次要先清零再计算啊
+			for(int j=1;j<=i/2;j++)
+			{
+				if(i%j==0)
+					sum+=j;
+			}
+			if(sum==i)
+				cout<<" "<<i;
+
+		}
+		cout<<endl;
+		
+}
+	return 0;
+}
+
+

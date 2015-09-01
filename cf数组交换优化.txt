@@ -1,0 +1,41 @@
+对数组进行行和列的交换，最后输出制定位置的值，我们先开数组分别记录交换但是不进行实质上的交换。防止Tle
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+int s[1003][1004];
+int co[1003],ro[1003];
+int main()
+{
+	int n,m,k,a,b;
+    char c;
+   	scanf("%d%d%d",&n,&m,&k);
+   	for(int i=1;i<=n;i++)
+   	{
+   		ro[i]=i;
+   	  for(int j=1;j<=m;j++)
+      {
+      	  co[j]=j;
+	      scanf("%d",&s[i][j]);
+      }
+   	}
+   	while(k--)
+   	{
+	   getchar();
+	   scanf("%c",&c);
+   	   scanf("%d%d",&a,&b);
+   	   if(c=='g')
+   	   printf("%d\n",s[ro[a]][co[b]]);
+   	   else if(c=='r')
+   	   {
+   	      swap(ro[a],ro[b]);
+   	   }
+   	   else
+   	   {
+   	   	  swap(co[a],co[b]); 
+   	   }
+    }
+	return  0;
+}

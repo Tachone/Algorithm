@@ -1,0 +1,73 @@
+/* Author: Tach
+Time : 
+Type: 
+freopen("in.txt","r",stdin);
+*/ 
+#include<iostream> 
+#include<stdio.h>
+using namespace std;
+int m,n,k,c,root;
+int fa[30004];
+void init()
+{
+	for(int i=0;i<m;i++)
+	{
+		fa[i]=i;
+	}
+}
+//非递归式路径压缩 
+int find(int x)
+{
+	int r=x;
+	while(r!=fa[r])
+	r=fa[r];
+	int k=x;
+	int j;
+	while(k!=r)
+	{
+	  k=fa[k];
+  	  fa[k]=r;
+	}
+	return r;
+}
+//递归式路径压缩 
+/*int find(int x)
+{
+	if(x!=fa[x])
+	fa[x]=find(fa[x]);
+	return fa[x];
+}*/
+void combine(int a,int b)
+{
+	int x=find(a);
+	int y=find(b);
+	if(x!=y)
+	fa[x]=y;
+}
+int main()
+{
+	//freopen("in.txt","r",stdin);
+	while(cin>>m>>n&&(m||n))
+	{
+		init();//总是忘记这个。。一定要记住啊啊啊啊 
+		int sum=0;
+		for(int i=1;i<=n;i++)
+		{
+			cin>>k;
+			cin>>root;
+			for(int j=1;j<k;j++)
+			{
+				cin>>c;
+				combine(root,c);
+			}
+		}
+		for(int i=0;i<m;i++)
+		{
+			if(find(0)==find(i))
+			sum++;
+		} 
+		cout<<sum<<endl;
+	} 
+	return 0;
+}
+http://blog.csdn.net/sysucph/article/details/7263010

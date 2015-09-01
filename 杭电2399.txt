@@ -1,0 +1,35 @@
+#include<iostream>
+#include<string>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	string s;
+	while(getline(cin,s))
+	{
+		double sum=0,temp=0;
+		bool it=true;
+		for(int i=0;i<s.length();i++)
+		{
+			if(s[i]!=' ')
+			{
+				temp++;
+				switch(s[i])
+				{
+					case 'A':sum+=4;break;
+					case 'B':sum+=3;break;
+					case 'C':sum+=2;break;
+					case 'D':sum+=1;break;
+					case 'F':sum+=0;break;
+					default:it=false;break;
+				}
+			}	
+		}
+		if(it==false)
+		cout<<"Unknown letter grade in input"<<endl;
+		else
+		cout<<setiosflags(ios::fixed)<<setprecision(2)<<sum/temp<<endl;
+	}
+	return 0;
+	
+}

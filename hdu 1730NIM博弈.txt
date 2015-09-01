@@ -1,0 +1,23 @@
+
+#include<iostream>
+#include<string>
+#include<cmath>
+using namespace std;
+int main()
+{
+	int m,n,a,b;
+	while(cin>>m>>n)
+	{
+	    int ans=0;
+		for(int i=1;i<=m;i++)
+		{
+			cin>>a>>b;
+			ans^=abs(abs(a-b)-1);
+		}
+		if(ans)
+		cout<<"I WIN!"<<endl;
+		else
+		cout<<"BAD LUCK!"<<endl; 
+	}
+	return 0;
+}

@@ -1,0 +1,65 @@
+#include<iostream>
+#include<stdio.h>
+using namespace std;
+const int MAX_N=100100;
+int sum[MAX_N<<2],col[MAX_N<<2];
+int n,q,x,y,c;
+
+void push_down(int l,int r,int o)//об╥е 
+{
+	int m=(l+r)>>1;
+	if(col[o])
+	{
+		col[o<<1]=col[o<<1|1]=col[o];
+		sum[o<<1]=(m-l+1)*col[o];
+		sum[o<<1|1]=(r-m)*col[o];
+		col[o]=0;
+	}
+}
+void build(int l,int r,int o)
+{
+	col[o]=0;
+	sum[o]=1;
+	if(l==r)
+	return ;
+	int m=(l+r)>>1;
+	build(l,m,o<<1);
+	build(m+1,r,o<<1|1);
+	sum[o]=sum[o<<1]+sum[o<<1|1];
+}
+
+void update(int l,int r,int o)
+{
+	int m=(l+r)>>1;
+	if(x<=l&&r<=y)
+	{
+		col[o]=c;
+		sum[o]=(r-l+1)*c;
+		return ;
+	}
+	push_down(l,r,o);
+	if(x<=m)
+	update(l,m,o<<1);
+	if(y>m)
+	update(m+1,r,o<<1|1);
+	sum[o]=sum[o<<1]+sum[o<<1|1];
+}
+int main()
+{
+	int T,cas=1;
+	scanf("%d",&T);
+	while(T--)
+	{
+		scanf("%d%d",&n,&q);
+		build(1,n,1);
+		while(q--)
+		{
+		   scanf("%d%d%d", &x, &y, &c);
+		   update(1,n,1);
+		}
+		printf("Case %d: The total value of the hook is %d.\n", cas++, sum[1]);
+	}
+	return 0;
+}
+
+

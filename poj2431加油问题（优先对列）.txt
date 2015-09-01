@@ -1,0 +1,53 @@
+#include<iostream>
+#include<string>
+#include<queue>
+#include<algorithm>
+#include<string.h>
+using namespace std;
+struct node
+{
+	int a;
+	int b;
+}map[100006];
+bool comp(node a1,node a2)
+{
+	return a1.a<a2.a;
+}
+int n,l,p;
+int main()
+{
+	cin>>n;
+	for(int i=0;i<n;i++)
+	cin>>map[i].a>>map[i].b;
+	cin>>l>>p;
+	for(int i=0;i<n;i++)
+	map[i].a=l-map[i].a;
+	map[n].a=l;
+	map[n].b=0;
+	n++; 
+	sort(map,map+n,comp);
+	int pos=0;
+	int tank=p;
+	int ans=0;
+	priority_queue<int> q;
+	for(int i=0;i<n;i++)
+	{
+		int d=map[i].a-pos;
+		while(tank<d)
+		{
+			if(q.empty())
+			{
+				cout<<"-1"<<endl;
+				return 0;
+			}
+			tank+=q.top();
+			q.pop();
+			ans++;
+		}
+		tank-=d;
+		pos=map[i].a;
+		q.push(map[i].b); 
+	}
+	cout<<ans<<endl;
+	return 0;
+}

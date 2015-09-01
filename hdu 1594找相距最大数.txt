@@ -1,0 +1,29 @@
+#include<stdio.h>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+int a[100007];
+int b[100007];
+int main()
+{
+	int n,ans;
+	while(~scanf("%d",&n))
+	{
+		int max1=-900000000;
+		for(int i=1;i<=n;i++)
+		scanf("%d",&a[i]);
+		for(int i=1;i<n;i++)
+		{
+           b[i]=abs(a[i+1]-a[i]);
+           if(b[i]>max1)
+           {
+           	max1=b[i];
+           	ans=i;
+           }
+		}
+
+        printf("%d %d\n",ans,ans+1);
+	}
+	return 0;
+} 
+

@@ -1,0 +1,86 @@
+#include<iostream>
+#include<queue>
+#include<string.h>
+using namespace std;  
+struct node
+{
+	int z;
+	int x;
+	int y;
+	int step;
+}; 
+int l,x,y;
+int i,j,k;
+int bx,by,bz,ex,ey,ez;
+char map[35][35][35];
+int vis[35][35][35];
+int dir[6][3]={{0,0,1},{0,0,-1},{0,1,0},{0,-1,0},{1,0,0},{-1,0,0}};
+bool it;
+int bfs()
+{
+	queue<node> q;
+	node p,temp;
+	p.z=bz;
+	p.x=bx;
+	p.y=by;
+	p.step=0;
+	q.push(p);
+	while(!q.empty())
+	{
+		p=q.front();
+		q.pop();
+		if(p.z==ez&&p.x==ex&&p.y==ey)
+     	{
+		it=true;
+		return p.step;
+	    }
+		for(int ii=0;ii<6;ii++)
+		{
+			 temp.z=p.z+dir[ii][0];
+			 temp.x=p.x+dir[ii][1];
+			 temp.y=p.y+dir[ii][2];
+			if(vis[temp.z][temp.x][temp.y]==0&&temp.z>=1&&temp.z<=l&&temp.x>=1&&temp.x<=x&&temp.y>=1&&temp.y<=y&&map[temp.z][temp.x][temp.y]=='.')
+			{
+				vis[temp.z][temp.x][temp.y]=1;
+				temp.step=p.step+1;
+                q.push(temp);
+			}
+		}
+	}
+} 
+int main()
+{ 
+	while(cin>>l>>x>>y&&(l||x||y))
+	{
+		it=false;
+		memset(vis,0,sizeof(vis));
+		for(i=1;i<=l;i++)
+		for(j=1;j<=x;j++)
+		for(k=1;k<=y;k++)
+		{
+			cin>>map[i][j][k];//Âèµ° 
+			if(map[i][j][k]=='S')
+			{
+				bz=i;
+				bx=j;
+				by=k;
+			}
+			if(map[i][j][k]=='E')
+			{
+				ez=i;
+				ex=j;
+				ey=k;
+				map[i][j][k]='.';//¾¹È»ÊÇ.++
+			}
+			
+		}
+		vis[bz][bx][by]=1;
+		int total=bfs();
+		if(it)
+		cout<<"Escaped in "<<total<<" minute(s)."<<endl;
+		else
+		cout<<"Trapped!"<<endl;
+	}
+	return 0;
+} 
+                     									

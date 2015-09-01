@@ -1,0 +1,43 @@
+#define  _CRT_SECURE_NO_WARNINGS
+
+#include <iostream>
+
+using namespace std;
+
+#define maxx 50010
+
+int set[maxx];
+
+int find(int x) 
+{ 
+	return x == set[x] ? x : (set[x] = find(set[x])); 
+}
+
+
+int main()
+{
+	int n, m;
+	int kase = 0;
+	while (cin >> n >> m && (n || m))
+	{
+		for (int i = 1; i <= n; i++)
+		{
+			set[i] = i;
+		}
+		for (int i = 0; i < m; i++)
+		{
+			int a, b;
+			scanf("%d %d", &a, &b);
+
+			int c = find(a), d = find(b);
+			if (c != d){ set[c] = d; }
+
+		}
+		int cnt = 0;
+		for (int i = 1; i <= n; i++)
+		{
+			if (set[i] == i) cnt++;
+		}
+		cout << "Case " << ++kase << ": " << cnt << endl;
+	}
+}

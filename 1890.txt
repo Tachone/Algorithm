@@ -1,0 +1,38 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	bool run(int n);
+	int a,b;
+	int s[13]={0,31,28,31,30,31,30,31,31,30,31,30,31};
+	for(;cin>>a>>b&&a!=0&&b!=0;)
+	{
+		if(run(a)==false)
+		{
+			if(b>=1&&b<=12)
+			cout<<s[b]<<endl;
+			else
+			cout<<"ERROR"<<endl;	
+		}
+		else
+		{
+			if(b>=1&&b<=12)
+			{
+				if(b==2)
+				cout<<"29"<<endl;
+				else
+				cout<<s[b]<<endl;
+			}
+			else
+			cout<<"ERROR"<<endl;
+		}	
+	}
+	return 0;
+} 
+
+bool run(int n)
+{
+	if(n%4==0&&n%100!=0||n%400==0)
+	return true;
+	return false;
+}

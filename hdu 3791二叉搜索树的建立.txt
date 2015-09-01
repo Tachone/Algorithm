@@ -1,0 +1,70 @@
+
+　注意二叉树和二叉搜索树（BST）的概念是不同的，二叉搜索树是一种特殊的二叉树。它符合规律：所有节点的左孩子节点的值小于它根节点的值，右孩子节点的值大于根节点的值。就是小数放左边，大数放右边，来构成一棵二叉树。（还不明白的点击上面有下划线的深色链接）
+　　一开始没有搞明白两者的区别，以为二叉搜索树就是二叉树，这让我在构造二叉树的时候产生了疑惑，因为根据数据结构书上的描述，二叉树可以根据前序、中序、后序序列构造，这样产生的结果就是不唯一的。最后还是查找了一下二叉搜索树的概念才明白过来。根据它的规则就可以根据一个序列构成一个唯一的二叉搜索树了！而同一个二叉搜索树却可以有不同的序列来描述。这就产生了这道题的题意：给你两个不同的序列判断是否能构造出同一个二叉搜索树。
+　　思路：那么我们就可以根据二叉搜索树的生成规则先将一开始给你的序列生成一个二叉搜索树用tree[]存储起来，然后输入n个序列，每一个序列都生成一个二叉搜索树建立一个临时数组tree2[]存储，比较两个数组是否相同，相同输出“YES”，不同输出“NO”。
+　　本题代码：
+
+#include<iostream>
+#include<string>
+#include<cstring>
+using namespace std;
+int tree[900];
+int ano[900];
+int main()
+{
+	int n,p,num;
+	bool flag;
+	string s;
+	while(cin>>n&&n)
+	{
+		memset(tree,-1,sizeof(tree));
+		cin>>s;
+		for(int i=0;i<s.length();i++)
+		{
+			p=1;
+			num=s[i]-'0';
+			while(tree[p]!=-1)
+			{
+				if(num<=tree[p])
+				p=2*p;
+				else
+				p=2*p+1;
+			}
+			tree[p]=num;
+		}
+		for(int j=1;j<=n;j++)
+		{
+			cin>>s;
+			memset(ano,-1,sizeof(ano));
+		 	for(int i=0;i<s.length();i++)
+		     {
+			p=1;
+			num=s[i]-'0';
+			while(ano[p]!=-1)
+			{
+				if(num<=ano[p])
+				p=2*p;
+				else
+				p=2*p+1;
+			}
+			ano[p]=num;
+		  }
+		  flag=0;
+		  for(int k=1;k<=870;k++)
+		  {
+  			if(tree[k]!=ano[k])
+  			{
+			  	flag=1;
+			  	break;
+		    }
+  		  }
+  		  if(flag)
+  		  cout<<"NO"<<endl;
+			else
+			cout<<"YES"<<endl; 
+		}
+		
+	}
+	return 0;
+}
+

@@ -1,0 +1,29 @@
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <cstdlib>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <utility>
+#include <string>
+
+using namespace std;
+
+int main()
+{
+    int a, b;
+    cin >> a >> b;
+
+    a = min(a, b);
+
+    if (a%2)
+        cout << "Akshat" << endl;
+    else
+        cout << "Malvika" << endl;
+    
+    return 0;
+}
+
+
+取最小数，然后判断是不是偶数次

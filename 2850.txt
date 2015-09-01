@@ -1,0 +1,61 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int a[15][15];
+	int i,j,k;
+	for(int m,n;cin>>m>>n&&n!=0&&m!=0;)
+	{
+		for(j=1;j<=m;j++)
+		for(k=1;k<=n;k++)
+		cin>>a[j][k];
+		bool it=true;
+		for(j=1;j<=m;j++)
+		for(k=1;k<=n;k++)
+		{
+			if(a[j][k]==0)
+			{
+				if(j-1>0)
+				{
+					if(a[j-1][k]==0)
+					it=false;	
+				}
+				if(j+1<=m)
+				{
+					if(a[j+1][k]==0)
+					it=false;
+				}
+				if(k-1>0)
+				{
+					if(a[j][k-1]==0)
+					it=false; 
+				}
+				if(k+1<=n)
+				{
+					if(a[j][k+1]==0)
+					it=false;	
+				}
+			} 
+		}
+		int sum=0;
+		for(j=1;j<=m;j++)
+		for(k=1;k<=n;k++)
+		{
+			if(a[j][k]==1)
+		       sum++;
+		
+		}
+		if(sum==m*n)
+		it=false;
+		if(it==true)
+		cout<<"Yes"<<endl;
+		else
+		cout<<"No"<<endl;
+		
+		
+	}
+
+	return 0;
+} 
+
+

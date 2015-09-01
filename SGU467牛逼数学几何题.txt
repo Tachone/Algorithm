@@ -1,0 +1,33 @@
+/*
+纯数学,找到解就是水题
+*/
+#include<iostream>
+#include<cstdio>
+#include<cstdlib>
+#include<cmath>
+#include<algorithm>
+#include<string>
+#include<cstring>
+using namespace std;
+typedef long long ll;
+const int MAXN = 200000;
+int n;
+int main(){  
+    int cas=0;  
+    while (~scanf("%d",&n)){  
+        int ans=0;  
+        if (n==0) ans=0;  
+        else if (n<=78) ans=1;  
+        else if (n<=95) ans=2;  
+        else if (n<=99) ans=3;  
+        else ans=4;  
+        printf("Case #%d: %d\n",++cas,ans);  
+    }  
+    return 0;  
+} 
+
+我擦，数学题，数学渣伤不起
+
+充分利用对称性求解
+
+

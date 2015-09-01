@@ -1,0 +1,27 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int n;
+	cin>>n;
+	int a,b,c;
+    for(int i=1;i<=n;i++)
+    {
+    	cin>>a>>b>>c;
+    	bool it=false;//这句可高深咧，不能放在for外面
+    	for(int j=1000;j<=9999;j++)
+    	{
+	    	if(j%a==0&&(j+1)%b==0&&(j+2)%c== 0)
+	    	{
+    		   it=true;
+			   cout<<j<<endl;
+	    	   break;
+			}
+			
+	    }
+	    if(it==false)
+	    cout<<"Impossible"<<endl;
+
+    }
+	return 0;
+}

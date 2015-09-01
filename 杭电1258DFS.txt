@@ -1,0 +1,56 @@
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+int s[20],m,n;
+int print[20]; 
+int vis[20];
+bool it;
+bool comp(int a,int b)
+{
+	return a>b;
+}
+int main()
+{
+	void dfs(int begin,int cur,int sum);
+	int i,j;
+	for(;cin>>m>>n&&(m||n);)
+	{
+		memset(vis,0,sizeof(vis));
+		for(i=0;i<n;i++)
+		cin>>s[i];
+		sort(s,s+n,comp);
+		cout<<"Sums of "<<m<<":"<<endl;
+	    it=false;
+	    dfs(0,0,0);
+	    if(it==false)
+	    cout<<"NONE"<<endl;		
+	}
+	return 0;
+}	
+void dfs(int begin,int cur,int sum)
+{//begin从哪个数开始的，cur一共合法的有几个数，sum总和 
+	if(sum>m)
+	return ;
+	else if(sum==m)
+	{
+		it=true;
+		cout<<print[0];
+		for(int i=1;i<cur;i++)
+		cout<<"+"<<print[i];
+		cout<<endl;
+	}
+	else
+	{
+		for(int j=begin;j<n;j++)
+		{
+			if(vis[j]==0&&(j==begin||s[j]!=s[j-1]))//能达到判重的作用。。厉害 
+			{
+				vis[j]=1;
+				print[cur]=s[j];
+				dfs(j+1,cur+1,sum+s[j]);
+				vis[j]=0;
+			}
+		}
+	}
+}

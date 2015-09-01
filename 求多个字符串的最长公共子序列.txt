@@ -1,0 +1,47 @@
+
+//DAG求最长路，如果两个位置在所有数据中总是保持前后关系不变，就连起来进行dp求最长路
+
+#include<iostream>
+#include<string>
+#include<cstring>
+using namespace std;
+int dp[1009],a[10][1009],idx[10][1009];
+int main()
+{
+	int n,k,ans=1;
+	cin>>n>>k;
+	for(int i=1;i<=k;i++)
+	for(int j=1;j<=n;j++)
+	cin>>a[i][j];
+	for(int i=1;i<=k;i++)
+	for(int j=1;j<=n;j++)
+	idx[i][a[i][j]]=j;//记住这种技巧,判断两个数的前后位置 
+	 int x,s;
+	 for(int i=1;i<=n;i++)
+	 dp[i]=1;
+	 for(int i=1;i<=n;i++)
+	 {
+	 	int y=a[1][i];
+ 		for(int j=1;j<i;j++)
+ 		{
+ 			int z=a[1][j];
+		 	for( s=2;s<=k;s++)
+		 	{
+	 			if(idx[s][y]<idx[s][z])
+	 			break;
+	 		}
+	 		if(s>k)//不是break出来的 
+	 		{
+		 		if(dp[i]<dp[j]+1)//dp找最长路 
+		 		dp[i]=dp[j]+1; 
+		 	}
+		 }
+ 	}
+ 	for(int i=1;i<=n;i++)
+ 	{
+	 	if(ans<dp[i])
+	 	ans=dp[i];
+	 }
+	 cout<<ans<<endl;
+	 return 0;
+}

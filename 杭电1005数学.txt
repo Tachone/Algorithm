@@ -1,0 +1,23 @@
+每个f（n）为0到6，最多组合7*7=49，所以周期最大49后必然循环
+#include<iostream>
+#include<vector>
+#include<cmath>
+#include<string>
+#include<map>
+#include<algorithm>
+#include<iomanip>
+using namespace std;
+int ss[50];
+int main()
+{
+	for(int a,b,n;cin>>a>>b>>n&&a!=0&&b!=0&&n!=0;)
+	{
+		ss[1]=1;
+		ss[2]=1;
+		for(int i=3;i<=49;i++)
+		ss[i]=(a*ss[i-1]+b*ss[i-2])%7;
+		cout<<ss[n%49]<<endl;
+	}
+   return 0;
+} 
+

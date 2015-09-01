@@ -1,0 +1,28 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<string>
+#include<sstream>
+using namespace std;
+int main()
+{
+	for(string s;getline(cin,s);)
+	{
+		vector<int> v;
+		istringstream sin(s);//绑定字符串
+		for(int num;sin>>num;)//从句子中读取单词
+			v.push_back(num);
+		sort(v.begin(),v.end());
+		reverse(v.begin(),v.end());
+		for(int j=0;j<v.size();j++)
+		{
+			if(v[j]>v[j+1])
+			{
+				cout<<v[j+1]<<endl;
+				break;	
+			}
+		}
+	}
+	return 0;
+}
+

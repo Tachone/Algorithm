@@ -1,0 +1,37 @@
+#include<iostream>
+#include<iomanip>
+using namespace std;
+int main()
+{
+double f(double x,int n);
+	int m=0;
+	for(double x;cin>>x;)
+	{
+		if(m==0)
+		{
+			m++;
+			cout<<"  "<<"x";
+			for(int i=2;i<=6;i++)
+				cout<<"      "<<"p"<<i<<"(x)";
+			cout<<endl;
+	}
+    	cout.precision(3);
+	   cout<<fixed<<x;
+	    cout.precision(6);
+	   for(int j=2;j<=6;j++)
+          cout<<"  "<<fixed<<(f(x,j)<0?"":" ")<<f(x,j);
+	   cout<<endl;
+		
+	}
+		return 0;
+
+}
+
+double f(double x,int n)
+{
+	if(n==0)
+		return 1;
+	else if(n==1)
+		return x;
+		return ((2*n-1)*x*f(x,n-1)-(n-1)*f(x,n-2))/n;
+}

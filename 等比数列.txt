@@ -1,0 +1,51 @@
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	int n;double q;
+	for(;cin>>n>>q;)
+	{
+		double sum=0,t;
+	
+		for(int j=0;j<=n;j++)
+		{
+			t=pow(q,j);
+			sum=sum+t;
+
+		}
+		cout<<setiosflags(ios::fixed)<<setprecision(3)<<sum<<endl;
+	}
+	return 0;
+
+	
+	
+	}
+
+直接公式法
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	int n;
+	double q;
+	double sum;
+	for(;cin>>n>>q;)
+	{
+	if(q==1)
+		sum=1+n;
+	else
+		sum=(1-pow(q,n+1))/(1-q);//注意一共有n+1项，两边都加括号
+        cout<<setiosflags(ios::fixed)<<setprecision(3)<<sum<<endl;
+	}
+	
+	return 0;
+}
+
+
+
+
+

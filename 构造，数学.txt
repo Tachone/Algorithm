@@ -1,0 +1,49 @@
+题意是找出n的一个排列p1 p2 ... pn，使得|p2-p1|, |p3-p2| ... |pn-p(n-1)|的值恰好有k个不同
+其实这个题是很简单的
+很容易想到的想法是我们先找到一个排列，然后将这个排列通过某种变换得到对应不同k值的结果
+我的做法是先找到恰有n-1个不同差值的排列，
+很容易发现当n=5时
+1 5 2 4 3满足条件
+当n=6时
+1 6 2 5 3 4满足条件
+多以对于n
+1 n 2 n-1...满足条件
+这个序列对应n-1个不同差值，对于要求的k，我们可以把数列的后半部分截取，排序，
+使得差值变为恒为1即可
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+using namespace std;
+int a[100002];
+int main()
+{
+	int n,k;
+	cin>>n>>k;
+	a[1]=1;
+	int temp=n-1;
+	int flag=1;
+	for(int i=2;i<=n;i++)//构造数列满足条件 
+	{
+		a[i]=a[i-1]+flag*temp;
+		temp--;
+		flag*=-1;
+	}
+	sort(a+k+1,a+n+1);
+	if(abs(a[k+1]-a[k])==1)
+	{
+		for(int i=1;i<=n;i++)
+		cout<<a[i]<<" ";
+		cout<<endl;
+	}
+	else{
+		for(int i=1;i<=k;i++)
+		cout<<a[i]<<" ";
+		for(int i=n;i>k;i--)//主要关键点在这里，根据最后的排序，再决定后面的间距为1
+		//的是正着放还是倒着放 
+		cout<<a[i]<<" ";
+		cout<<endl;
+		
+	}
+	
+	return 0;
+} 

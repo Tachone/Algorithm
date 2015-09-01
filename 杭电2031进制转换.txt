@@ -1,0 +1,79 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+int main()
+{
+	for(int m,n;cin>>m>>n;)
+	{
+		int i;
+		bool it=false;
+		string s(100,0);
+		int begin=0;
+		int temp=m;
+		if(m==0)
+		{
+		cout<<0<<endl;
+		continue; 	
+		} 
+		if(m<0)
+		{
+		temp=-m;
+		it=true;
+		}
+		while(temp>0)
+		{
+			if(temp%n>9)
+			{
+				s[begin]=temp%n+55;
+			}
+			else
+			{
+				s[begin]=temp%n+'0';
+			}
+			temp=temp/n;
+			begin++;
+		}
+		if(it)
+		cout<<"-";		
+		for(i=begin-1;i>=0;i--)
+		cout<<s[i];
+		cout<<endl;	
+	}
+	return 0;	
+} 
+
+//简洁优美的递归代码
+//递归会自己调用栈 
+#include<iostream>
+using namespace std;
+int main()
+{
+	void change(int m,int n);
+	for(int m,n;cin>>m>>n;)
+	{	
+		if(m>0)
+		change(m,n);
+		else if(m==0)
+		cout<<"0";
+		else
+		{
+			cout<<"-";
+			change(-m,n);
+		
+		}
+		cout<<endl;
+	}
+	return 0;
+}    
+void change(int m,int n)
+{
+	if(m>0)
+	{
+	  change(m/n,n);
+	  cout<<(m%n>9?char(m%n+55):char(m%n+48));	
+	}	
+}
+
+
+

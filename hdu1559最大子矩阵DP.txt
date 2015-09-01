@@ -1,0 +1,36 @@
+
+//从（m,n）的矩阵中找出最大的（x,y）的子矩阵
+//注意以下两处加减的顺序是不一样的
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<algorithm> 
+using namespace std;
+int dp[1003][1003];
+int s[1003][1003];
+int main()
+{
+	int t,m,n,x,y;
+	cin>>t;
+	while(t--)
+	{
+		cin>>m>>n>>x>>y;
+		memset(dp,0,sizeof(dp));
+		for(int i=1;i<=m;i++)
+		for(int j=1;j<=n;j++)
+		{
+			cin>>s[i][j];
+			dp[i][j]=s[i][j]+dp[i-1][j]+dp[i][j-1]-dp[i-1][j-1];
+			//记录下（1,1）到（i，j）的和 
+		}
+		int ans=0;
+		for(int i=x;i<=m;i++)
+		for(int j=y;j<=n;j++)
+		{
+			ans=max(ans,dp[i][j]-dp[i-x][j]-dp[i][j-y]+dp[i-x][j-y]);
+			//截取子矩阵 
+		}
+		cout<<ans<<endl;
+	}
+	return 0;
+}

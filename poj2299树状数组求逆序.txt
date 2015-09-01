@@ -1,0 +1,88 @@
+
+
+给定n个数，要求这些数构成的逆序对的个数。除了用归并排序来求逆序对个数，还可以使用树状数组来求解。
+树状数组求解的思路：开一个能大小为这些数的最大值的树状数组，并全部置0。从头到尾读入这些数，每读入一个数就更新树状数组，查看它前面比它小的已出现过的有多少个数sum，然后用当前位置减去该sum，就可以得到当前数导致的逆序对数了。把所有的加起来就是总的逆序对数。
+题目中的数都是独一无二的，这些数最大值不超过999999999，但n最大只是500000。如果采用上面的思想，必然会导致空间的巨大浪费，而且由于内存的限制，我们也不可能开辟这么大的数组。因此可以采用一种称为“离散化”的方式，把原始的数映射为1-n一共n个数，这样就只需要500000个int类型的空间。
+离散化的方式：
+struct Node
+{
+int val;
+int pos;
+};
+Node node[500005];
+int reflect[500005];
+val存放原数组的元素，pos存放原始位置，即node[i].pos = i。
+把这些结构体按照val的大小排序。
+reflect数组存放离散化后的值，即reflect[node[i].pos] = i。
+这样从头到尾读入reflect数组中的元素，即可以保持原来的大小关系，又可以节省大部分空间。
+
+主要是范围减小后并不影响顺序。
+
+
+#include<iostream>
+#include<cstdio>
+#include<string>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+int reflect[500004];
+struct node
+{
+	int val;
+	int pos;
+}N[500004];
+bool comp(node a,node b)
+{
+  return a.val<b.val;
+}
+int c[500004],n;
+int lowbit(int x)
+{
+	return x&(-x);
+}
+int Sum(int n)
+{
+	int sum=0;
+	while(n>0)
+	{
+		sum+=c[n];
+		n-=lowbit(n);
+	}
+	return sum;
+}
+void update(int x)
+{
+	
+	while(x<=n)
+	{
+		c[x]+=1;
+		x+=lowbit(x);
+	}
+}
+int main()
+{
+	while(scanf("%d",&n)!=EOF)
+	{
+		if(n==0)
+		break;
+		for(int i=1;i<=n;i++)
+		{ 
+		   scanf("%d",&N[i].val);
+		   N[i].pos=i;
+		}
+		sort(N+1,N+n+1,comp);
+		for(int i=1;i<=n;i++)
+		reflect[N[i].pos]=i;
+		memset(c,0,sizeof(c));
+		long long ans=0;
+		for(int i=1;i<=n;i++)
+		{
+		
+			update(reflect[i]);
+		    ans+=i-Sum(reflect[i]);
+		}
+		printf("%lld\n",ans);
+	//	cout<<ans<<endl;
+	}
+	return 0;
+} 

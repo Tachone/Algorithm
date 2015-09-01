@@ -1,0 +1,50 @@
+/* Author: Tach
+Time : 
+Type: 
+freopen("in.txt","r",stdin);
+*/ 
+#include<iostream>
+#include<string>
+using namespace std;
+char map[200][200]; 
+int m,n;
+int dir[4][2]={{-1,0},{1,0},{0,1},{0,-1}}; 
+void dfs(int i,int j)
+{
+	for(int p=0;p<4;p++)
+	{
+		int x=i+dir[p][0];
+		int y=j+dir[p][1];
+		if(map[x][y]=='.'&&x>=1&&x<=m&&y>=1&&y<=n)
+		{
+		  map[x][y]=153-map[i][j];	
+		  dfs(x,y);
+		}
+	} 
+}
+int main()
+{
+//	freopen("in.txt","r",stdin);
+	cin>>m>>n;
+	for(int i=1;i<=m;i++)
+	for(int j=1;j<=n;j++)
+	{
+	cin>>map[i][j];
+	}
+	for(int i=1;i<=m;i++)
+	for(int j=1;j<=n;j++)
+	{
+		if(map[i][j]=='.')
+		{
+			map[i][j]='B';
+			dfs(i,j);
+		}
+	}
+	for(int i=1;i<=m;i++)
+	{
+	for(int j=1;j<=n;j++)
+	cout<<map[i][j];
+	cout<<endl;
+	}
+	return 0;
+}

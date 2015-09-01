@@ -1,0 +1,17 @@
+#include<iostream>
+#include<string>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+#define PI 3.1415927
+int main()
+{
+	double r;
+	while(cin>>r)
+	{
+		double ans;
+		ans=4.0/3.0*PI*r*r*r;
+		cout<<setiosflags(ios::fixed)<<setprecision(3)<<ans<<endl;
+	}
+	return 0;
+}

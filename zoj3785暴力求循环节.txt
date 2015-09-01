@@ -1,0 +1,85 @@
+
+暴力求循环节是这类题的解法
+
+#include<iostream>
+#include<string>
+using namespace std;
+#define ll long long
+ll f[10000];
+ll cals(int n)
+{
+	ll sum=1;
+	for(int i=1;i<=n;i++)
+	sum=(sum*n)%7;
+	return sum;
+}
+int main()
+{
+	int n;
+	f[1]=1;
+	while(cin>>n)
+	{
+	   for(int i=2;i<=n;i++)
+	   f[i]=(f[i-1]+cals(i))%7;
+	   for(int i=1;i<=n/2;i++)//循环节长度	
+	   {
+	   	bool it=true;
+   		for(int j=1;j<i;j++)
+   		{
+		   if(f[j]!=f[i+j])
+		    {
+    			it=false;
+    			break;
+    		} 	
+	    }
+	    if(it&&i!=1)
+	    {
+    		cout<<"循环节："<<i<<endl;
+    		break;
+    	}
+   	  }
+	}
+	
+}
+#include<iostream>
+#include<string>
+using namespace std;
+#define ll long long
+ll f[300];
+void put1(ll x){  
+    if(x==1)cout<<"Sunday"<<endl;  
+    if(x==2)cout<<"Monday"<<endl;  
+    if(x==3)cout<<"Tuesday"<<endl;  
+    if(x==4)cout<<"Wednesday"<<endl;  
+    if(x==5)cout<<"Thursday"<<endl;  
+    if(x==6)cout<<"Friday"<<endl;  
+    if(x==0)cout<<"Saturday"<<endl;  
+}  
+ll cals(ll n)
+{
+	ll sum=1;
+	for(ll i=1;i<=n;i++)
+	sum=(sum*n)%7;
+	return sum;
+}
+int main()
+{
+	ll T,n;
+	cin>>T;
+	f[1]=1;
+	for(ll i=2;i<=294;i++)
+    f[i]=(f[i-1]+cals(i))%7;
+	while(T--)
+	{
+		cin>>n;
+		if(n<=294)
+	    put1(f[n]);
+		else
+		{
+			if(n%294==0)
+		     put1(f[294]);
+			else
+			put1(f[n%294]);
+		}
+	}
+} 

@@ -1,0 +1,56 @@
+
+这个题虽然说是一个贪心，但是一开始处理的时候还有有一个地方没有思考清楚。
+那就是如果要在i处停止的话，那么b[i+1]-b[i]一定要大于maxtime，否则是不能停下的。
+注意此处即可。
+
+#include<iostream>
+#include<stdio.h>
+using namespace std;
+int main()
+{
+	int pi[1001],ti[1001];
+	double temp,Maxtime,Max,Time;
+	int t,n,i,sum;
+	scanf("%d",&t);
+	while(t--)
+	{
+		scanf("%d",&n);
+		for(i=1;i<=n;i++)
+		{
+			scanf("%d",&pi[i]);
+		}
+		ti[0]=0;
+		for(i=1;i<=n;i++)
+		{
+			scanf("%d",&ti[i]); 
+		}
+		sum=0;
+		Max=0;
+		Maxtime=0;
+		for(i=1;i<=n;i++)
+		{
+			sum+=pi[i];
+			temp=(double)sum/(i);//当前的平均价格
+			if(Maxtime<(ti[i]-ti[i-1]))
+			{
+				Maxtime=ti[i]-ti[i-1];
+			}
+			if(i==n)
+			{
+				if(temp>Max)
+				{
+					Max=temp;
+					Time=Maxtime;
+				}
+				continue;
+			}
+			if(Maxtime<(ti[i+1]-ti[i])&&temp>Max)
+			{
+				Max=temp;
+				Time=Maxtime;
+			}
+		}
+		printf("%.6lf %.6lf\n",Time,Max);
+	}
+	return 0;
+}

@@ -1,0 +1,69 @@
+用数组做
+#include<iostream>
+using namespace std;
+int main()
+{
+	int a[47]={0,1};
+	for(int i=2;i<=47;i++)
+		a[i]=a[i-1]+a[i-2];
+	for(int n;cin>>n;)
+		cout<<a[n]<<endl;
+	return 0;
+
+}
+函数调用一次成功版
+#include<iostream>
+using namespace std;
+int main()
+{
+
+	int f(int n);
+	for(int n;cin>>n;)
+		cout<<f(n)<<endl;
+	return 0;
+}
+
+
+
+
+int f(int n)
+{
+	if(n==0)
+		return 0;
+	else if(n==1)
+		return 1;
+	else
+	{
+		int t;
+		t=f(n-1)+f(n-2);
+		return t;
+		
+	}
+
+}
+
+
+递推
+#include<iostream>
+using namespace std;
+int main()
+{
+	for(int n;cin>>n;)
+	{ 
+		for(int i=2,a0=0,a1=1,t;i<=n;++i)
+		{
+			t=a0;
+			a0=a1;
+			a1=a1+t;
+
+
+		}
+		cout<<a1<<endl;
+
+
+		
+	}
+
+	return 0;
+}
+

@@ -1,0 +1,37 @@
+Nim博弈变形，依次取，这样的话，就要看前缀有几个连续1，不算最后一个。
+因为连续的1的时候是说没有机会选择的，从第一个不是1的时候开始，就有机会选择了
+。。
+#include<iostream>
+#include<string>
+#include<cmath>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+int main()
+{
+	int T,n,ans;
+	long long c;
+	cin>>T;
+	while(T--)
+	{
+		cin>>n;
+		ans=0;
+		bool flag=1;
+		for(int i=1;i<=n;i++)
+		{
+			cin>>c;
+			if(c==1&&flag&&i!=n)
+			ans++;
+			else
+			flag=0;
+			
+		} 
+		if(ans%2==1)
+		{
+			cout<<"No"<<endl;
+		}
+		else
+		cout<<"Yes"<<endl;
+	}
+	return 0;
+} 

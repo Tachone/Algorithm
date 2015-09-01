@@ -1,0 +1,37 @@
+/* Author: Tach
+Time : 
+Type: 
+freopen("in.txt","r",stdin);
+*/ 
+#include<iostream>
+#include<stdio.h>
+#include<string>
+#include<string.h>
+#include<vector>
+#include<stack>
+#include<cmath>
+#include<iomanip> 
+#include<algorithm>
+using namespace std;
+int a[100003];
+int b[100003];
+int dp[100003]; 
+int main()
+{
+    //freopen("in.txt","r",stdin);
+    int T,n;
+    while(cin>>T)
+    {
+    	memset(dp,0,sizeof(dp));
+    	for(int i=1;i<=T;i++)
+    	scanf("%d%d",&a[i],&b[i]);
+    	scanf("%d",&n);
+    	for(int i=1;i<=T;i++)
+    	for(int j=b[i];j<=n;j++)
+    	{
+	    	dp[j]=max(dp[j],dp[j-b[i]]+a[i]);
+	    }
+    	cout<<dp[n]<<endl;
+    }
+	return 0;
+} 

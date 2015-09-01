@@ -1,0 +1,47 @@
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+int dp[2005];
+int a[2005],b[2005];
+int main()
+{
+    int k,n;
+    cin>>k;
+    while(k--)
+    {
+      cin>>n;
+      for(int i=1;i<=n;i++)
+      cin>>a[i];
+      for(int i=1;i<n;i++)
+      cin>>b[i];
+      dp[0]=0;
+      dp[1]=a[1];
+      for(int i=2;i<=n;i++)
+      dp[i]=min(dp[i-1]+a[i],dp[i-2]+b[i-1]);
+      int tot=dp[n];
+      int sec=tot%60;
+      tot/=60;
+      int mint=tot%60;
+      tot/=60;
+      int shi=tot;
+      if(8+shi<10)
+      cout<<0<<8+shi;
+      else
+      cout<<8+shi;
+      if(mint<10)
+      cout<<":"<<0<<mint;
+      else
+      cout<<":"<<mint;
+      if(sec<10)
+      cout<<":"<<0<<sec;
+      else
+      cout<<":"<<sec;
+      
+      if(shi<12)
+      cout<<" am"<<endl;
+      if(shi>=12)
+      cout<<" pm"<<endl;
+    }
+    return 0;
+}

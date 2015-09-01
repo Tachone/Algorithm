@@ -1,0 +1,53 @@
+/* Author: Tach
+Time : 
+Type: 
+freopen("in.txt","r",stdin);
+*/ 
+#include<iostream>
+#include<string>
+#include<string.h>
+#include<vector>
+#include<stack>
+#include<cmath>
+#include<iomanip> 
+#include<algorithm>
+using namespace std;
+int dp[1003][1003];
+int a[1003];
+int b[1003];
+int main()
+{
+    //freopen("in.txt","r",stdin);
+    int T;
+    int num,vol;
+	cin>>T;
+	while(T--)
+	{
+		memset(dp,0,sizeof(dp));
+		cin>>num>>vol;
+		for(int i=1;i<=num;i++)
+		cin>>a[i];
+		for(int i=1;i<=num;i++)
+		cin>>b[i];
+		for(int i=1;i<=num;i++)
+		for(int j=0;j<=vol;j++)
+		{//注意要从0开始，这个题测试数据有点变态，有的骨头有价值，但占的空间是0
+		  if(j>=b[i]&&dp[i-1][j-b[i]]+a[i]>dp[i-1][j]) 
+		  dp[i][j]=dp[i-1][j-b[i]]+a[i];
+		  else
+		  dp[i][j]=dp[i-1][j];
+		} 
+		cout<<dp[num][vol]<<endl;
+
+	} 
+	return 0;
+} 
+
+　　一维背包的解法
+　　
+           for(i=1;i<=n;i++)
+            for(j=v;j>=vol[i];j--)//省去了判断
+                if(dp[j]<dp[j-vol[i]]+val[i])
+                    dp[j]=dp[j-vol[i]]+val[i];
+        cout<<dp[v]<<endl;
+    }

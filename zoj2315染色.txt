@@ -1,0 +1,45 @@
+?其实可以将问题抽象成一棵树。
+? ? ?那么题目就变成要我们求出这样的一些点：
+? ? ?（1）儿子和父亲不能同时染色
+? ? ?（2）兄弟中只能有一个点被染色
+? ? ? 可以从树的底部开始往上找，如果某个节点被染色，那么它的父亲就不能被染色，所以要用到一个标记数组vis[]。可以发现，实现过程中其实不需要检查兄弟节点是否被染色的。还有一点就是special judge，答案是不唯一的。例如对于5 ? ?1 1 2 4 答案可以为 3 5，或者是2 5。
+
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+using namespace std;
+const int maxn=500000+5;
+int fa[maxn],vis[maxn],ans[maxn];
+int main()
+{
+	int T,n;
+	while(cin>>T)
+	{
+		while(T--)
+		{
+			cin>>n;
+			for(int i=2;i<=n;i++)
+			cin>>fa[i];//fa[i]是编号为i的点的父亲
+			memset(vis,0,sizeof(vis));
+			int cnt=0;
+			for(int i=n;i>=2;i--)
+			{
+				if(!vis[i]&&!vis[fa[i]])
+				{
+					vis[i]=vis[fa[i]]=1;
+					ans[cnt++]=i;
+				}
+			} 
+			cout<<cnt*1000<<endl;
+			for(int i=cnt-1;i>=0;i--)
+			{
+				if(i==cnt-1)
+				cout<<ans[i];
+				else
+				cout<<" "<<ans[i];
+			}
+			cout<<endl;
+		}
+	}
+	return 0;
+}

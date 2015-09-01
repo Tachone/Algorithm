@@ -1,0 +1,116 @@
+Arithmetic progression:?
+g(i)=k*i+b;?
+We assume k and b are both non-nagetive integers.?
+
+Fibonacci Numbers:?
+f(0)=0?
+f(1)=1?
+f(n)=f(n-1)+f(n-2) (n>=2)?
+
+The Gauss Fibonacci problem is described as follows:?
+Given k,b,n ,calculate the sum of every f(g(i)) for 0<=i<n?
+The answer may be very large, so you should divide this answer by M and just output the remainder instead.
+
+
+
+矩阵构造+二分乘幂
+题目中的公式：
+f(0)=0?f(1)=1
+f(n)=f(n-1)+f(n-2) (n>=2)
+g(i)=k*i+b;
+对于Fib序列:
+
+如果用F表示上市中的矩阵就有?F(n+1) = AF(n)?是等比数列
+g(i)=k*i+b?是等差数列
+所以F(g(i)) = F(b) + F(b+k)+F(b+2k)+....+F(b+nk)
+???????????= F(b) + (A^k)F(b) + (A^2k)F(b)+….+(A^nk)F(b)
+提取公因式?F(b)
+???????????= F(b) [ E +A^k + A^2k + ….+ A^nk]???(式中E表示的是单位矩阵)
+令?K = A^k?后
+?????????????????E +A^k + A^2k + ….+ A^nk?变成?K^0+K^1+K^2+…+K^n
+构造矩阵
+??????????????
+
+
+相当于结合了上一题的求A+A2+A3+A4的解法还有数学公式的推导，更麻烦一些，注意 A 1
+           0 1 
+这个是用来求和的神奇的矩阵
+#include<stdio.h>  
+struct node  
+{  
+    long long num[5][5];  //注意这里要用long long 或者__int64   
+};  
+int m;  
+node res,tp;   // res为单位阵   
+  
+node mut(node a,node b,int d)  //矩阵乘法  
+{  
+    node c;  
+    int i,j,k;  
+    for(i=1;i<=d;i++)  
+        for(j=1;j<=d;j++)  
+        {  
+            c.num[i][j]=0;  
+            for(k=1;k<=d;k++)  
+                c.num[i][j]+=(a.num[i][k]*b.num[k][j])%m;  
+            c.num[i][j]%=m;  
+        }  
+        return c;  
+}  
+      
+node abc(node a,int temp,int d)  
+{  
+    if(temp==0)  
+        return res;  // 这里要千万注意啊，如果传进来的b等于0是返回单位阵，因为a^b=a^0=单位阵，晕HDOJ真郁闷，我错的答案也能AC  
+    tp=a;  
+    a=res;  
+    while(temp)  
+    {  
+        if(temp&1)  
+            a=mut(a,tp,d);  
+        tp=mut(tp,tp,d);  
+        temp>>=1;  
+    }  
+    return a;  
+}  
+  
+int main()  
+{  
+    int i,j;  
+    int k,b,n;  
+    node a;  
+    a.num[1][1]=0;a.num[1][2]=1;  
+    a.num[2][1]=1;a.num[2][2]=1;  
+    for(i=1;i<=4;i++)  
+        for(j=1;j<=4;j++)  
+            if(i==j)  
+                res.num[i][j]=1;  
+            else  
+                res.num[i][j]=0;  
+    while(scanf("%d%d%d%d",&k,&b,&n,&m)!=EOF)  
+    {  
+        node ak,ab;  
+        ak=abc(a,k,2);  
+        ab=abc(a,b,2);  
+        node ans;  
+        for(i=1;i<=2;i++)  
+            for(j=1;j<=2;j++)  
+                ans.num[i][j]=ak.num[i][j];  
+            for(i=3;i<=4;i++)  
+                for(j=1;j<=2;j++)  
+                    ans.num[i][j]=0;  
+                ans.num[1][3]=ans.num[2][4]=1;  
+                ans.num[1][4]=ans.num[2][3]=0;  
+                ans.num[3][3]=ans.num[4][4]=1;  
+                ans.num[3][4]=ans.num[4][3]=0;  
+            ans=abc(ans,n,4);  
+            node cn;  
+            cn.num[1][1]=ans.num[1][3];  // 提取右上角的4位数  
+            cn.num[1][2]=ans.num[1][4];  
+            cn.num[2][1]=ans.num[2][3];  
+            cn.num[2][2]=ans.num[2][4];  
+            cn=mut(ab,cn,2);            // 再乘上ab就是答案了  
+            printf("%d/n",cn.num[2][1]); // 最后取num[2][1]  
+    }  
+    return 0;  
+}  

@@ -1,0 +1,115 @@
+//还是尽量不要使用vector
+
+#include<iostream>
+#include<string>
+#include<string.h>
+using namespace std;
+int s[100];
+int vis[100];
+int n;
+int v[100];
+
+void dfs(int begin,int cur,int sum)
+{
+	if(sum==6)
+	{
+		for(int j=1;j<=6;j++)
+		{
+			if(j==1)
+			cout<<v[1];
+			else
+			cout<<" "<<v[j];
+		}
+		cout<<endl;
+		return ;
+		
+	}
+	for(int i=1;i<=n;i++)
+	{
+		if(!vis[i]&&i>begin)
+		{ 
+		    vis[i]=1; 
+		    v[cur+1]=s[i];
+	    	dfs(i,cur+1,sum+1);
+	    	vis[i]=0;
+		} 
+	}
+}
+
+int main()
+{
+	int m=0;
+	while(cin>>n&&n)
+	{
+		cout<<(m++?"\n":"");
+		for(int i=1;i<=n;i++)
+		cin>>s[i];
+		
+		for(int i=1;i<=n-5;i++)
+		{
+			memset(vis,0,sizeof(vis));
+			v[1]=s[i];
+			vis[i]=1;
+			dfs(i,1,1);
+		}	
+	}
+	return 0;
+}
+///////////////////////////////////////
+
+#include<iostream>
+#include<string>
+#include<string.h>
+using namespace std;
+int s[100];
+int vis[100];
+int n;
+int v[100];
+
+void dfs(int begin,int cur,int sum)
+{
+	if(sum==6)
+	{
+		for(int j=1;j<=6;j++)
+		{
+			if(j==1)
+			cout<<v[1];
+			else
+			cout<<" "<<v[j];
+		}
+		cout<<endl;
+		return ;
+		
+	}
+	for(int i=begin+1;i<=n;i++)
+	{
+		if(!vis[i])
+		{ 
+		    vis[i]=1; 
+		    v[cur+1]=s[i];
+	    	dfs(i,cur+1,sum+1);
+	    	vis[i]=0;
+		} 
+	}
+}
+
+int main()
+{
+	int m=0;
+	while(cin>>n&&n)
+	{
+		cout<<(m++?"\n":"");
+		for(int i=1;i<=n;i++)
+		cin>>s[i];
+		
+		for(int i=1;i<=n-5;i++)
+		{
+			memset(vis,0,sizeof(vis));
+			v[1]=s[i];
+			vis[i]=1;
+			dfs(i,1,1);
+		}	
+	}
+	return 0;
+}
+

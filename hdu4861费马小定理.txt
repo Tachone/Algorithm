@@ -1,0 +1,28 @@
+
+解题思路：
+首先是DouBiNan先取，所以肯定优先选取剩余中值最大的，于是不存在说DouBiNan值小的情况，只有大于和小于。
+然后，对于val(i)=1i+2i+?+(p?1)i%p来说，只有当i=?(p)=p?1（p为素数）时，val(i)=p?1，其他情况下val(i)=0，那么只要确定说有多少个i是非0的即可，如果是偶数则输出NO，奇数输出YES。
+证明,假设p有原根g,那么1i,2i,…,(p?1)i即是g1?i,g2?i,…,g(p?1)?i的一个排序，因为对于gk来说，k从1到p-1，gk均不相同，并且为1到p-1。
+于是val(i)=gi?(1?gi?(p?1))1?gi
+根据费马小定理，gi?(p?1)%p=1
+所以有val(i)=gi?(1?1)1?gi=0
+1p为质数，所以一定有原根
+2原根，即gi%p≠gj%p(i≠j且i,j<p)
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+
+using namespace std;
+typedef long long ll;
+ll k, p;
+
+int main () {
+    while (cin >> k >> p) {
+        ll t = k / (p-1);    
+        if (t&1)
+            cout << "YES" << endl;
+        else
+            cout << "NO" << endl;
+    }
+    return 0;
+}

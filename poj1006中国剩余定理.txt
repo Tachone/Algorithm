@@ -1,0 +1,113 @@
+
+
+//见博客http://www.cnblogs.com/walker01/archive/2010/01/23/1654880.html
+#include<iostream>
+#include<string.h>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+int gcd(int m,int n)//最大公约数 
+{
+    int t;
+    if(m<n)
+    {
+        t=n;
+        n=m;
+        m=t;
+    }
+    if(n==0)
+    return m;
+    else
+    return gcd(n,m%n);
+}
+int lcm(int a,int b)//最小公倍数 
+{
+    return (a*b)/gcd(a,b);
+}
+int main()
+{
+  int p,e,i,d;
+  int cas=1;
+  while(cin>>p>>e>>i>>d)
+  {
+    
+    if(p==-1&&e==-1&&i==-1&&d==-1)
+    break;
+    int pe=lcm(23,28),pi=lcm(23,33),ei=lcm(28,33);
+    while((pe-1)%33 != 0)
+            pe += lcm(23,28);
+    while((pi-1)%28 != 0)
+            pi += lcm(23,33);
+    while((ei-1)%23 != 0)
+            ei += lcm(28,33);
+            int sum = pe*i + pi*e + ei*p;
+        int lcmt = 23*33*28;
+        int ans = sum%lcmt-d;
+        if(ans<=0) ans+=lcmt;
+        cout<<"Case "<<cas++<<":"<<" the next triple peak occurs in "<<ans
+        <<" days."<<endl;
+    
+  }
+  return 0;
+}
+
+
+
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+
+int m[3]={23,28,33},a[5],x,y,mul,d,ans;
+
+int ex_gcd(int a,int b)
+{
+    int t;
+    
+    if (!b) 
+    {
+        x=1;
+        y=0;
+        return a;
+    }
+    ex_gcd(b,a%b);
+    t=x;
+    x=y;
+    y=t-a/b*y;
+}
+
+int china()
+{
+    int i,w,ret=0;
+    
+    mul=1;
+    for (i=0;i<3;i++) mul*=m[i];
+    for (i=0;i<3;i++)
+    {
+        w=mul/m[i];
+        ex_gcd(m[i],w);
+        ret=(ret+w*y*a[i]) % mul;
+    }
+    return (ret+mul+mul-d) % mul;
+}
+
+int main()
+{
+    int _c=0;
+    while (~scanf("%d",a+0) && a[0]!=-1)
+    {
+        a[0]%=m[0];
+        for (int i=1;i<=2;i++) 
+        {
+            scanf("%d",a+i);
+            a[i]%=m[i];
+        }
+        scanf("%d",&d);
+        ans=china();
+        if (!ans) ans+=mul;
+        printf("Case %d: the next triple peak occurs in %d days.\n",++_c,ans);
+    }
+    
+    return 0;
+}

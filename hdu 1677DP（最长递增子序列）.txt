@@ -1,0 +1,59 @@
+
+（最少导弹拦截系统啊哈哈哈哈，太灵活了）
+题目大意：给你n个宽为w，高为h的洋娃娃，小的洋娃娃能装到大的洋娃娃里面。问你尽可能装完后剩下的洋娃娃数。
+解题思路：
+? ? ? 这题和上一题思想类似，先排个序，注意排序的时候w从大到小排，当w相等时h从小到大排，这么排的原因是w或者h相同的不能被装下（后面的dp会让你清楚为什么这么排）。接下来如果和上题一样用直接用贪心做的话，TLE，囧。
+? ? ?这题要换种做法，用dp。将排序后的h存入dp[0~n-1]中，再从0开始对这个序列进行遍历。定义一个max_len最长递增序列长度。如果第i个h大于前面存的，max_len加1，并存入dp[max_len]的最后一个。如果小于第j个（j属于（0~max_len-1）），则将第dp[i]替换第dp[j]。以此类推，动态的更新存储求得的max_len就是最大的了。
+#include <iostream>
+#include <cstdio>
+#include <cmath>
+#include <algorithm>
+#include <cstring>
+using namespace std;
+
+const int maxn=20005;
+int  dp[maxn];
+
+struct node
+{
+    int w, h;
+}f[maxn];
+
+bool cmp(node A, node B)
+{
+    if(A.w!=B.w)
+        return A.w>B.w;
+    else
+        return A.h<B.h;
+}
+
+int LIS(int n)
+{
+    int max_len=0, i, j;
+    for(i=0; i<n; i++)
+    {
+        for(j=0; j<max_len; j++)
+          if(dp[i]<dp[j]) break;
+        if(j==max_len) max_len++;
+        dp[j]=dp[i];
+    }
+    return max_len;
+}
+
+int main()
+{
+    int  T, n;
+    cin >> T;
+    while(T--)
+    {
+        cin >> n;
+        for(int i=0; i<n; i++)
+            scanf("%d%d",&f[i].w,&f[i].h);
+        sort(f,f+n,cmp);
+        memset(dp,0,sizeof(dp));
+        for(int i=0; i<n; i++)
+            dp[i]=f[i].h;
+        cout << LIS(n) <<endl;
+    }
+    return 0;
+}

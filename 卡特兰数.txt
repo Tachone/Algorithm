@@ -1,0 +1,21 @@
+一种很神奇的计数方式，一般用于+1，-1，二叉树形态个数，合法括号表达式，火车进出站等诸多变形
+提示是1,1,2,5,14,42.。。记住这个就行哈哈
+http://blog.csdn.net/duanruibupt/article/details/6869431详细讲解
+不过卡特兰数要用大数.....java
+
+?问题描述：卡塔兰数，是组合数学中一个常出现在各种计数问题中出现的数列。输入一个整数n，计算h(n)。其递归式如下：h(n)= h(0)*h(n-1)+h(1)*h(n-2) + ... + h(n-1)h(0) (其中n>=2，h(0) = h(1) = 1) ? ?该递推关系的解为：h(n)=C(2n,n)/(n+1) (n=1,2,3,...)
+
+const int MAXN=1000;
+long long  catalan[MAXN + 1];
+void Catalan(int n) {
+    catalan[0] = 1;
+    for (int i = 1; i <= n; i++) {
+        catalan[i] = 0;
+        for (int j = 0; j < i; j++) {
+            catalan[i] += catalan[j] * catalan[i - 1 - j];
+        }
+    }
+}
+注意n是从0开始的，
+　　1   1   2   5  14 .....
+N   0   1   2   3  4.......

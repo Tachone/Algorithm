@@ -1,0 +1,27 @@
+#include<iostream>
+#include<string>
+#include<string.h> 
+#include<cmath>
+#include<iomanip>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    long long m,n;
+    while(cin>>m>>n)
+    {
+    	long long  sum1=0,sum2=0;
+    	if(m>n)
+    	swap(m,n);
+    	for(long long  i=m;i<=n;i++)
+    	{
+	    	if(i%2==0)
+	    	sum1+=i*i;
+	    	if(i%2==1)
+	    	sum2+=i*i*i;
+	    }
+	    cout<<sum1<<" "<<sum2<<endl; 
+    }
+	return 0;
+}
+

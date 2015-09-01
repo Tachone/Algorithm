@@ -1,0 +1,28 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	int n,i,j,s;
+	int m=0;
+	cin>>n;
+	for(i=1;i<=n&&cin>>s;i++)
+	{
+		cout<<(m++?"\n":"");
+		for(i=(s-1)/2;i>=1;i--)
+		{
+			cout<<string(s-1-i,' ')<<"*"<<string(2*i-1,' ')<<"*"<<endl;
+		}
+		cout<<"*";
+	for(i=1;i<s;i++)
+		cout<<" "<<"*";
+	cout<<endl;
+	for(i=1;i<=(s-1)/2;i++)
+	{
+		cout<<string(s-1-i,' ')<<"*"<<string(2*i-1,' ')<<"*"<<endl;
+
+	}
+
+	}
+	return 0;
+}

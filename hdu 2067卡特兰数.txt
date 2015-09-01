@@ -1,0 +1,69 @@
+棋盘问题，属于卡特兰数的应用
+//卡特兰数标称 
+#include<iostream>
+#include<string>
+using namespace std;
+const int MAXN=100;
+long long  catalan[MAXN + 1];
+void Catalan(int n) {
+    catalan[0] = 1;
+    for (int i = 1; i <= n; i++) {
+        catalan[i] = 0;
+        for (int j = 0; j < i; j++) {
+            catalan[i] += catalan[j] * catalan[i - 1 - j];
+        }
+    }
+}
+int main()
+{
+	Catalan(35);
+	int n,ca=1;
+	while(cin>>n)
+	{
+		if(n==-1)
+		break;
+		cout<<ca++<<" "<<n<<" "<<catalan[n]*2<<endl;
+	}
+	return 0;
+}
+
+//dp确实很厉害.. 
+#include<iostream>
+#include<cstring>
+using namespace std;
+long long  dp[40][40];
+int main()
+{
+	for(int i=1;i<40;i++)
+	dp[0][i]=1;
+	for(int i=1;i<40;i++)
+	for(int j=i;j<40;j++)
+	{
+		if(i==j)
+		dp[i][j]=dp[i-1][j];
+		else
+		dp[i][j]=dp[i-1][j]+dp[i][j-1];
+	}
+	int n,m=1;
+	while(cin>>n)
+	{
+		if(n==-1)
+		break;
+		else
+		{
+			cout<<m++<<" "<<n<<" "<<2*dp[n][n]<<endl; 
+		}
+	}
+}
+
+
+假设小兔的棋盘是 8 × 8 的 ( 当然你也可以假设是其他 )。如下图:
+
+
+箭头方向表示从该格子下一步能去的格子。因为不能穿越对角线，所有对角线上的格子只有进去的箭头，没有出来的箭头。
+
+
+观察上图你就可以发现，其实这是一张关于对角线对称的图。所有我们只要求一个方向的值，然后乘以2即可。
+我们就拿下三角来考虑。不难发现，所有在0列上的格子，路径数都是 1 (只能从上面过来)。
+而其他格子则都是由上、左两个方向过来，即:f(i, j) = f(i - 1, j) + f(i, j - 1);
+另外f(i, i) = f(i, j - 1)  或者 f(i, i) = f( i-1, j ) ;

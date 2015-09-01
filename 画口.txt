@@ -1,0 +1,33 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	int m=0;
+	int j;
+	for(int n;cin>>n;)
+	{
+		char a;
+		int b;
+		for(int i=1;cin>>a>>b&&i<=n;i++)
+		{
+			cout<<(m++?"\n":"");
+			for( j=1;j<=2;j++)
+			{
+				for(int k=1;k<=(b+4);k++)
+					cout<<a;
+				cout<<endl;
+			}
+				for(int h=1;h<=b;h++)
+					cout<<string(2,a)+string(b,' ')+string(2,a)+"\n";
+				for(j=1;j<=2;j++)
+				{
+				for( int k=1;k<=(b+4);k++)
+					cout<<a;
+				cout<<endl;
+				}
+
+		}
+	}
+	return 0;
+}

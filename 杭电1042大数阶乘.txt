@@ -1,0 +1,39 @@
+//大数的阶乘，思路：大数*普通数，每一位记录值，最后再
+//进位，翻转。有趣的是，两个整数翻转乘与这个 一正一翻乘
+//整个数是一样的。数学真是奇妙啊 
+#include<iostream>
+#include<string.h>
+using namespace std;
+int s[60000];
+int i,j;
+int main()
+{
+	for(int n;cin>>n;)
+	{
+		memset(s,0,sizeof(s));
+		s[0]=s[1]=1;
+		int len=1;//记录位数 
+		for( i=2;i<=n;i++)
+		{
+			int pre=0;//进位 
+			for( j=1;j<=len;j++)
+			{
+				int temp=s[j]*i+pre;
+				pre=temp/10;
+				s[j]=temp%10;
+				
+			}
+			while(pre)//不断进位 
+			{
+				s[j]=pre%10;
+				len=j;
+				pre=pre/10;
+				j++;
+			}
+		}
+		for(j=len;j>=1;j--)
+		cout<<s[j];//逆序输出 
+		cout<<endl;
+	}
+	return 0;
+}

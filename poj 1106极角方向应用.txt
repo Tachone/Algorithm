@@ -1,0 +1,67 @@
+/*
+Author: Tach -zjut
+int dir[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
+*/
+题意：给一个半圆的半径和圆心坐标，再给平面上的n个点，这个半圆可以绕圆心任意旋转，问半圆最多能覆盖多少个点？
+?
+分析：本题可以这样做，我们只需要考虑到圆心距离小于或者等于半径的那些点，因为大于半径的点一定不能覆盖到，那么这
+样我们把符合条件的点全部存入一个数组p[]，那么然后就二重循环枚举每一个点与圆心所连的直线的的左侧有多少个点，记录
+最大即可。
+
+#include<iostream> 
+#include<string>
+#include<cstring>
+#include<cmath>
+#include<iomanip>
+#include<algorithm>
+using namespace std;
+const double eps=1e-9;
+double ox,oy,r;
+int sum;
+struct node
+{
+	double x;
+	double y;
+}N[200];
+double len(double a,double b)
+{
+	return (a-ox)*(a-ox)+(b-oy)*(b-oy);
+}
+bool comp(node a,node b)
+{
+	return (a.x-ox)*(b.y-oy)<=(a.y-oy)*(b.x-ox);
+}
+int main()
+{
+	while(cin>>ox>>oy>>r)
+	{
+		double c1,c2;
+		cin>>sum;
+		if(r<0)
+		break;
+		int k=0;
+		for(int i=0;i<sum;i++)
+		{
+		  cin>>c1>>c2;
+		  if(len(c1,c2)<=r*r)//||fabs(len(c1,c2)-r*r)<eps
+		  {
+  			N[k].x=c1,N[k].y=c2;
+  			k++;
+  		  }
+		}
+		int max1=0;
+		for(int i=0;i<k;i++)//循环一定要是完全循环
+		{
+          int tot=1;
+		  for(int j=0;j<k;j++)
+		  {
+			if(i!=j&&comp(N[i],N[j]))
+			tot++;
+		  }
+		  if(max1<tot)
+		  max1=tot;
+		}
+		cout<<max1<<endl;
+	}
+	return 0;
+}

@@ -1,0 +1,86 @@
+#include<iostream>
+#include<stdio.h>
+#include<string.h>
+using namespace std;
+int map[35][35];
+int visi[35];
+int rans[35];
+int n;
+
+void dfs(int p,int c)
+{
+    visi[p]=1;
+    if(p==1) 
+	return;
+    for(int i=0;i<n;i++)
+    {
+        if((c&map[p][i])&&!visi[i]) 
+            dfs(i,c);
+    }
+}
+
+int main()
+{
+    int m,k,i;
+    int a,b,c;
+    while(cin>>k>>n>>m)   
+    {
+        memset(map,0,sizeof(map));
+        while(m--)
+        {
+            scanf("%d%d%d",&a,&b,&c);
+            map[a][b]=(map[a][b]|(1<<c));//利用二进制存储 
+            map[b][a]=map[a][b];
+        }
+
+        int ans=1e9;  
+        int tmp,cnt,q;
+        int res;
+       
+        for(i=0;i<(1<<k);i++)//剪枝 
+        {
+            tmp=i,cnt=0;
+            q=tmp;
+            while(tmp)    
+            {
+                if(tmp&1)
+                    cnt++;
+                tmp>>=1;
+            }
+            if(cnt>=ans)
+			 continue;
+
+            tmp=q;
+            memset(visi,0,sizeof(visi));
+            dfs(0,tmp);
+            if(visi[1])
+            {
+                ans=0;
+                res=tmp;
+                while(tmp)
+                {
+                    if(tmp&1)
+                        ans++;
+                    tmp>>=1;
+                }
+            }
+        }
+
+        int t=0;
+        q=0;
+        while(res)
+        {
+            if(res&1)
+                rans[t++]=q;
+            res>>=1;
+            q++;
+        }
+
+        cout<<t<<endl;
+        cout<<rans[0];
+        for(i=1;i<t;i++)
+            cout<<" "<<rans[i];
+        cout<<endl;
+    }
+    return 0;
+}

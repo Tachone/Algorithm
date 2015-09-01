@@ -1,0 +1,104 @@
+//详见博客http://www.cnblogs.com/frog112111/archive/2012/08/19/2646012.html
+#include<iostream>
+#include<stdio.h>
+#include<string.h>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+//ax + by = gcd(a, b)
+long long extended_gcd(long long a, long long b, long long &x, long long &y)
+{
+    long long ret, tmp;
+    if (!b)
+    {
+        x = 1, y = 0;
+        return a;
+    }
+    ret = extended_gcd(b, a % b, x, y);
+    tmp = x;
+    x = y;
+    y = tmp - a / b * y;
+    return ret;
+}
+
+//ax = b mod n
+long long modular_linear_equation(long long a, long long b, long long n)
+{
+    long long x, y, e;
+    long long d = extended_gcd(a, n, x, y);
+    if (b % d)
+    return -1;
+    x=(x*(b/d))%n;  
+    x=(x%(n/d)+n/d)%(n/d);
+	return x; 
+}
+
+int main()
+{
+    long long a, b, c, ans;
+    int k;
+    while (cin>>a>>b>>c>>k)
+    {
+        if (a == 0 && b == 0 && c == 0 && k == 0)
+            break;
+        ans = modular_linear_equation(c, b - a, 1LL << k);
+        if (ans == -1)
+            cout<<"FOREVER"<<endl;
+        else
+            cout<<ans<<endl;
+    }
+
+    return 0;
+}
+
+
+
+
+通神代码
+//Memory Time 
+//212K   0MS 
+
+#include<iostream>
+using namespace std;
+
+//d=ax+by,其中最大公约数d=gcd(a,n)，x、y为方程系数，返回值为d、x、y
+__int64 EXTENDED_EUCLID(__int64 a,__int64 b,__int64& x,__int64& y)
+{
+    if(b==0)
+    {
+        x=1;
+        y=0;
+        return a;  //d=a，x=1,y=0,此时等式d=ax+by成立
+    }
+    __int64 d=EXTENDED_EUCLID(b,a%b,x,y);
+    __int64xt=x;
+    x=y;
+    y=xt-a/b*y;  //系数x、y的取值是为满足等式d=ax+by
+    return d;
+}
+
+int main(void)
+{
+    __int64A,B,C,k;
+    while(scanf("%I64d %I64d %I64d %I64d",&A,&B,&C,&k))
+    {
+        if(!A && !B && !C && !k)
+            break;
+
+        __int64 a=C;
+        __int64 b=B-A;
+        __int64n=(__int64)1<<k;  //2^k
+        __int64x,y;
+        __int64d=EXTENDED_EUCLID(a,n,x,y);  //求a,n的最大公约数d=gcd(a,n)和方程d=ax+by的系数x、y
+
+        if(b%d!=0)  //方程 ax=b(mod n) 无解
+            cout<<"FOREVER"<<endl;
+        else
+        {
+            x=(x*(b/d))%n;  //方程ax=b(mod n)的最小解
+            x=(x%(n/d)+n/d)%(n/d);  //方程ax=b(mod n)的最整数小解
+            printf("%I64d\n",x);
+        }
+    }
+    return 0;
+}

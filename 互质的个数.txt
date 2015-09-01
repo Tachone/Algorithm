@@ -1,0 +1,36 @@
+#include<iostream>
+#include<algorithm>
+#include<string>
+#include<sstream>
+#include<vector>
+using namespace std;
+
+unsigned int gcd(unsigned int x,unsigned int y)
+{
+	if(x%y==0)
+		return y;
+	else return gcd(y,x%y);
+}
+int main()
+{
+	string s;
+	while(getline(cin,s))
+	{
+		istringstream sin(s);
+		vector<unsigned int> a;
+		unsigned int x;
+		while(sin>>x)
+			a.push_back(x);
+		sort(a.begin(),a.end());
+		reverse(a.begin(),a.end());
+		int sum=0;
+		for(int i=0;i<a.size();i++)
+			for(int j=i+1;j<a.size();j++)
+			{
+				if(gcd(a[i],a[j])==1)
+					sum++;
+			}
+			cout<<sum<<endl;
+	}
+  
+}

@@ -1,0 +1,52 @@
+异或运算法则：
+1. a ^ b = b ^ a
+2. a ^ b ^ c = a ^ (b ^ c) = (a ^ b) ^ c;
+3. d = a ^ b ^ c 可以推出 a = d ^ b ^ c.
+4. a ^ b ^ a = b.
+#include <iostream>
+using namespace std;
+int main()
+{
+	int T,res,n;
+	while(scanf("%d",&T)&&T){
+		res=0;
+		for(int i=0;i<T;i++){
+			scanf("%d",&n);
+			res^=n;
+		}
+		cout<<res<<endl;
+	}
+	return 0;
+}
+利用法则四，可以把奇数项找出来。
+
+#include<iostream>
+#include<cstdio>
+#include<map>
+using namespace std;
+int main()
+{
+	int n,c;
+	map<int,int> p;
+	while(scanf("%d",&n)!=EOF)
+	{
+		if(n==0)
+		break;
+		p.clear();
+		for(int i=1;i<=n;i++)
+		{
+			scanf("%d",&c);
+			p[c]++;
+		}
+		map<int,int>::iterator it;
+		for(it=p.begin();it!=p.end();it++)
+		{
+			if((it->second)%2==1)
+			{
+				cout<<it->first<<endl;
+				break;
+			}
+		} 
+	}
+	return 0;
+} 

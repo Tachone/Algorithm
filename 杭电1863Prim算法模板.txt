@@ -1,0 +1,88 @@
+普利姆（Prime）算法（只与顶点相关）
+ 
+算法描述：
+普利姆算法求最小生成树时候，和边数无关，只和定点的数量相关，所以适合求稠密网的最小生成树，时间复杂度为O（n*n）。
+算法过程：
+1.将一个图的顶点分为两部分，一部分是最小生成树中的结点（A集合），另一部分是未处理的结点（B集合）。
+2.首先选择一个结点，将这个结点加入A中，然后，对集合A中的顶点遍历，找出A中顶点关联的边权值最小的那个（设为v），将此顶点从B中删除，加入集合A中。
+3.递归重复步骤2，直到B集合中的结点为空，结束此过程。
+4.A集合中的结点就是由Prime算法得到的最小生成树的结点，依照步骤2的结点连接这些顶点，得到的就是这个图的最小生成树。
+
+算法实现具体过程：
+
+1.将第一个点放入最小生成树的集合中（标记visit[i]=1意思就是最小生成树集合）。
+2.从第二个点开始，初始化lowcost[i]为跟1点相连（仅仅相连）的边的权值（lowcost[i]不是这个点的最小权值！在以后会逐步更新）。
+3.找最小权值的边。
+从第二点开始遍历，如果不是最小生成树的集合的点，则找出从2到n的最小权值（lowcost[j]）。
+4.将找出来的最小权值的边的顶点加入最小生成树的集合中（标记visit[i] = 1），权值想加。
+5.更新lowcost[j]集合。
+假设第一次：lowcost[2]代表与1相连的点的权值，现在加入了k点。则比较k点与2点的边map[k][2]和lowcost[2]的大小，若lowcost[2]大，则lowcost[2] = map[k][2]。（关键步骤：实质就是每在最小生成树集合中加入一个点就需要把这个点与集合外的点比较，不断的寻找两个集合之间最小的边）
+6.循环上述步骤，指导将全部顶点加入到最小生成树集合为止。
+
+prim算法和Dijkstra算法非常类似，他们的伪码几乎相近，只是他们优先队列所排序的键值不同而已。Prim算法的键值为节点与集合S中顶点间的最轻边的权重，而在Dijkstra算法中，键值为由起始点到某节点的完整路径长度。
+
+
+/*Prim算法求最小生成树（MST） 
+耗费矩阵map[][],标号从1开始
+返回最小生成树的权值和，返回-1代表不连通*/
+#include<iostream>
+#include<string.h>
+using namespace std; 
+int n,m,va,a,b;
+const int INF=100000;
+const int MAXN=110;
+int vis[MAXN];
+int lowc[MAXN];
+int map[MAXN][MAXN];
+int Prim(int n)//n表示结点个数 
+{
+	memset(vis,0,sizeof(vis));
+	int ans=0;
+	vis[1]=1;
+	for(int i=1;i<=n;i++)
+	lowc[i]=map[1][i];
+	for(int i=1;i<n;i++)//从1开始，注意这是总循环，把n-1个点全放进去 
+	{
+		int minc=INF;
+		int p=-1;
+		for(int j=1;j<=n;j++)
+		{
+			if(!vis[j]&&lowc[j]<minc)
+			{
+			   minc=lowc[j];
+			   p=j;
+			   //cout<<minc<<endl;
+			}
+		}
+		if(minc==INF)//不连通，返回-1
+		return -1;
+		ans+=minc;
+		vis[p]=1;
+		for(int j=1;j<=n;j++)
+		{
+			if(!vis[j]&&lowc[j]>map[p][j])
+			lowc[j]=map[p][j];//更新
+		} 	
+	} 
+	return ans;
+} 
+int main()
+{
+	while(cin>>n&&n)
+	{
+		cin>>m;
+		for(int i=1;i<=m;i++)
+		for(int j=1;j<=m;j++)
+     	map[i][j]=INF;
+		for(int i=1;i<=n;i++)
+		{
+			cin>>a>>b>>va;
+			map[a][b]=map[b][a]=va;
+		}
+		if(Prim(m)!=-1)
+		cout<<Prim(m)<<endl;
+		else
+		cout<<"?"<<endl;
+	}
+	return 0;
+}

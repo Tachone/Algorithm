@@ -1,0 +1,39 @@
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+#include <algorithm>
+using namespace std;
+#define ll long long
+ll dp1[100100],dp2[100010];
+int main()
+{
+    ll ans;
+    int n,k,i;
+    while(scanf("%d%d",&n,&k),n)
+    {
+        dp1[0]=1;
+        dp2[0]=0;
+        if(k==0) 
+               {printf("%d\n",n-1>1234567891?1234567891:n-1);continue;}
+        ans=0;
+        for(i=1;i<n;i++)
+        {
+            dp2[i]=dp2[i-1]+dp1[i-1];
+            dp1[i]=dp1[i-1]*2;
+            if(i>k)
+                dp1[i]-=dp1[i-k-1];
+            if(i==n-1||dp2[i]>1234567891)
+            {
+                ans=dp2[i];
+                break;
+            }
+        }
+              printf("%lld\n",ans);
+    }
+    return 0;
+}
+   
+关键在于开两个数组，一个用来记录结点个数，一个用来记录总重量，这样当大于k时
+有些结点不再伸展枝叶，即在应该加的结点数中减去那些即可，注意当k为0时候的特殊情况
+至于这个比1234567890大，那么最小便是1234567891.。。。。。。。这他妈有点不能理解呃

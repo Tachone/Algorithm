@@ -1,0 +1,71 @@
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+const int MAX_N=12;
+struct matrix
+{
+	long long map[MAX_N][MAX_N];
+};
+matrix A,res,ans;
+long long k;
+void init()
+{
+	memset(res.map,0,sizeof(res.map));
+	for(int i=1;i<=2;i++)
+     res.map[i][i]=1;
+}
+matrix  mul(matrix a,matrix b)//n为中间连乘矩阵的阶数 
+{
+	matrix c;
+	memset(c.map,0,sizeof(c.map));
+
+    for(int i=1;i<=2;i++)
+	for(int j=1;j<=2;j++)
+	{
+		for(int k=1;k<=2;k++)
+		c.map[i][j]+=a.map[i][k]*b.map[k][j];
+		c.map[i][j]%=10000;
+	}
+
+	return c;
+}
+matrix quick_pow(matrix A,int k)
+{
+	while(k)
+	{
+		if(k&1)
+	    res=mul(res,A);
+    	k=k>>1;
+    	A=mul(A,A);
+	}
+	return res;
+}
+
+
+int main() 
+{
+   while(cin>>k)
+   {
+   	if(k==-1)
+   	break;
+   	long long total=0;
+    init();
+  /*for(int i=1;i<=n;i++)
+	for(int j=1;j<=n;j++)
+	cin>>A.map[i][j];*/
+    A.map[1][1]=1;
+    A.map[1][2]=1;
+    A.map[2][1]=1;
+    A.map[2][2]=0;
+    
+	ans=quick_pow(A,k);//k是连乘的次数
+	/*for(int i=1;i<=n;i++)
+	total+=ans.map[i][i];*/
+	
+	cout<<ans.map[2][1]%10000<<endl;
+   }
+   return 0;
+}

@@ -1,0 +1,26 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+int main()
+{
+	int n;
+	cin>>n;
+	string s;
+	for(int i=1;i<=n&&cin>>s;i++)
+	{
+		if(s[0]!='-')
+		{
+			reverse(s.begin(),s.end());
+			cout<<s<<endl;
+		}
+		else 
+		{
+				reverse(s.begin()+1,s.end());
+				cout<<s<<endl;
+
+		}
+
+	}
+	return 0;
+}

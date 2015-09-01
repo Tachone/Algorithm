@@ -1,0 +1,52 @@
+#include<iostream>
+#include<queue> 
+#include<string.h>
+using namespace std;
+typedef long long ll;
+int main()
+{
+    priority_queue <ll, vector<ll> ,greater<ll> > q;//由小到大 
+	ll n,a;
+	long long  sum=0;
+	cin>>n;
+	while(n--)
+	{
+	  cin>>a;
+	  q.push(a);	
+	}
+	while(q.size()>1)
+	{
+		ll b=q.top();
+	    q.pop();
+	    ll c=q.top();
+	    q.pop();
+	    sum=sum+b+c;
+	    q.push(b+c);		
+	}
+	cout<<sum<<endl;
+	return 0;
+}
+
+
+每次去最小的两个，将他们的和push进去，这样就可以满足要求了
+类似于霍夫曼树的内容。
+   21
+
+13    8
+8  5
+
+
+另外优先队列的使用还是要注意的
+结果可能爆int
+第二种方法：
+在示例1中，如果我们要把元素从小到大输出怎么办呢？
+这时我们可以传入一个比较函数，使用functional.h函数对象作为比较函数。
+priority_queue<int, vector<int>, greater<int> >qi2;
+
+3、结构体声明方式：
+struct node
+{int x, y;
+friend booloperator< (node a, node b)
+{return a.x > b.x; //结构体中，x小的优先级高}
+};
+priority_queue<node>q;//定义方法//在该结构中，y为值, x为优先级。//通过自定义operator<操作符来比较元素中的优先级。//在重载”<”时，最好不要重载”>”，可能会发生编译错误

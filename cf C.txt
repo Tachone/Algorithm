@@ -1,0 +1,43 @@
+
+#include<iostream>
+#include<string>
+#include<cstring>
+using namespace std;
+char s[200][200];
+int vis[200];
+int main()
+{
+	int n,m;
+	cin>>n>>m;
+	int ans=0;
+	for(int i=1;i<=n;i++)
+	for(int j=1;j<=m;j++)
+	cin>>s[i][j];
+	memset(vis,0,sizeof(vis));
+	loop:
+        for(int i=1;i<n;i++)
+		{
+			for(int j=1;j<=m;)
+			{
+				if(!vis[j])
+				{ 
+				if(s[i+1][j]>s[i][j])
+				{
+					break;
+				}
+				else if(s[i+1][j]<s[i][j])
+				{
+				   	vis[j]=1;
+				   	ans++;
+				   	goto loop;
+				}
+				else
+				j++;
+				}
+				else
+				j++; 
+			}
+		}
+	cout<<ans<<endl;
+	return 0;
+} 

@@ -1,0 +1,20 @@
+1使用floor函数。floor(x)返回的是小于或等于x的最大整数。如：
+floor(2.5) = 2
+floor(-2.5) = -3
+2使用ceil函数。ceil(x)返回的是大于x的最小整数。如：
+ceil(2.5) = 3
+ceil(-2.5) = -2
+floor()是向负无穷大舍入，floor(-2.5) = -3；ceil()是向正无穷大舍入，ceil(-2.5) = -2。
+
+#include <stdio.h>
+#include <math.h>
+int main()
+{
+	int n,m;
+	while(scanf("%d%d",&n,&m),(n!=0)||(m!=0))
+	{
+		double x=(n+sqrt(n*n-4*m))/2;
+		printf((floor(x)==ceil(x))?"Yes\n":"No\n");//判断是不是整数 
+	}
+	return 0;
+}      

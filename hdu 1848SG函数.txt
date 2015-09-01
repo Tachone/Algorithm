@@ -1,0 +1,49 @@
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+ #define N 1001
+ //f[]：可以取走的石子个数
+ //sg[]:0~n的SG函数值
+ //hash[]:mex{}
+ int f[N],sg[N],hash[N];     
+ void getSG(int n)
+  {
+    int i,j;
+    memset(sg,0,sizeof(sg));
+    for(i=1;i<=n;i++)
+    {
+        memset(hash,0,sizeof(hash));
+        for(j=1;f[j]<=i;j++)
+        hash[sg[i-f[j]]]=1;
+        for(j=0;j<=n;j++)    //求mes{}中未出现的最小的非负整数
+        {
+           if(hash[j]==0)
+             {
+                 sg[i]=j;
+                 break;
+             }
+        }
+     }
+ }
+int main()
+{
+	int m,n,p;
+	f[0]=f[1]=1;
+	for(int i=2;i<=16;i++)
+	f[i]=f[i-1]+f[i-2];
+	getSG(1000);
+	while(cin>>m>>n>>p)
+	{
+	  if(m==0&&n==0&&p==0)
+	  break;
+	  if((sg[m]^sg[n]^sg[p])==0)
+	  cout<<"Nacci\n";
+	  else
+	  cout<<"Fibo\n";	
+	}
+	return 0;
+	
+}

@@ -1,0 +1,19 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+for(int n;cin>>n;)
+{
+	cout<<n*(n-1)+1;
+	int sum=n*(n-1)+1;
+	for(int i=1;i<=n-1;i++) 
+	{
+		sum+=2;
+		cout<<"+"<<sum;
+
+	}
+	cout<<endl;
+}
+	return 0;
+
+}

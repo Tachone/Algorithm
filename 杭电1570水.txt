@@ -1,0 +1,36 @@
+#include<iostream>
+using namespace std;
+int f(int n)
+{
+	int sum=1;
+	for(int i=1;i<=n;i++)
+	sum*=i;
+	return sum;
+}
+int main()
+{
+	char c;
+	int m,n;
+	int T;
+	cin>>T; 
+	while(T--)
+	{
+	  cin>>c>>n>>m;
+	  if(m==n)
+	  {
+	  	if(c=='A')
+		  cout<<f(m)<<endl;
+		  else
+		  cout<<1<<endl; 
+	  } 
+	  else
+	  {
+	  if(c=='A')
+	  cout<<f(n)/f(n-m)<<endl;
+	  else
+	  cout<<f(n)/(f(m)*f(n-m))<<endl;	    		
+  	 }		
+	}
+	return 0;
+	 
+}  

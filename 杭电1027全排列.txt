@@ -1,0 +1,20 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int a[1003];
+int main()
+{
+	for(int m,n;cin>>m>>n;)
+	{
+		for(int i=0;i<m;i++)
+		a[i]=i+1;
+		for(int j=1;j<n;j++)
+		next_permutation(a,a+m);
+		cout<<a[0];
+		for(int k=1;k<m;k++)
+		cout<<" "<<a[k];
+		cout<<endl; 
+	}
+	return 0;
+}
+Next_permutation 的具体用法在自己的csnd博客中的有转载的文章

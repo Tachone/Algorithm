@@ -1,0 +1,106 @@
+
+C++ Primer 学习笔记与思考_10  类型转换易错处大总结
+ （一）隐式转换
+ 先来看一组样例：
+int ival=0;
+ival=3.451+3;
+首先做加法操作，操作数分别为int和double类型，c++并没有直接把两个数加在一起，而是提供了一组转换规则，以便在执行算术操作之前，将两个操作数转换为同一种数据类型。
+在这里是自动执行的，所以他们被成为隐式转换。
+因为 C++定义了算术类型之间的内置转换以尽可能防止精度损失，所以这里3转换为double型相加得6.451。但是下一步赋值的时候，右操作数进行截断处理，对此精度会有损失，编译器也会给出警告。
+2.常见的隐式转化
+① 混合类型表达式中，操作数转换成相同的类型（如上例）
+    int ival=0;
+	double dval;
+	ival>=dval;
+②用作条件的表达式转换成bool类型
+    int val;
+    if(val)
+　　while(val)
+③ 用一个表达式初始化某个变量，或将一个表达式赋值给某个变量，则该表达式被转换成变量类型。
+    int ival=3.21;
+    int *ip;
+    ip=0; // the int converted to a null pointer of type int *
+3.由标准库类型定义的转换
+    string s;
+　　while(cin>>s)
+　　这里隐式使用了IO标准库定义的类型转换，返回的是cin，此处将istream类型的值转换为bool类型，意味这要检验流的状态，如果读取成功，返回true，如果失败，比如说读取到文件的末尾，那么转换为bool后为false；循环条件不成立。
+（二）显式转换
+  ①static_cast
+用法：static_cast < type-id > ( expression )
+说明：该运算符把expression转换为type-id类型，但没有运行时类型检查来保证转换的安全性。
+ 1.编译器隐式执行的任何类型的转换都可以由static_cast显式转换完成。
+ 2 当需要将一个较大的算术类型转换成一个较小的类型时，使用强制转换特别有用，注意这个时候编译器不会再提示警告，因为这告诉编译器：我们知道并且不关心潜在的精度损失。
+ 3. 对于编译器不提供自动转换的情况，使用static_cast来执行类型转换也是很有用的。
+  double d =5.6;
+	void* p=&d;
+　　double *dp=static_cast<double*>(*p);
+　　②const_cast
+　　顾名思义，将转换掉表达式中的const性质。
+　　常量指针被转化成非常量指针，并且仍然指向原来的对象；常量引用被转换成非常量引用，并且仍然指向原来的对象；
+	const char *pc;
+    char *p =const_cast<char*>(pc);
+    const int a=6;
+　　int &b=const_cast<int&>(a);
+　　int c=const_cast<int>(a); //error,具体对象之间是错误的 
+　　③reiterpret_cast
+　　reinterpret_cast是为了映射到一个完全不同类型的意思，这个关键词在我们需要把类型映射回原有类型时用到它。我们映射到的类型仅仅是为了故弄玄虚和其他目的，这是所有映射中最危险的。(这句话是C++编程思想中的原话).
+　　也就是说我们仅仅是把int*看作了char*类型。
+　　它可以把一个指针转换成一个整数，也可以把一个整数转换成一个指针（先把一个指针转换成一个整数，再把该整数转换成原类型的指针，还可以得到原先的指针值）。
+　　      int *ip;
+　　	 char *pc=reinterpret_cast<char*>(ip); //pc真实指向int型 
+　　	 string str(pc);// error ,int cannnot init string 
+　　	 double a=8.97;
+　　     double *p=&a;
+　　     int b=reinterpret_cast<int>(p);
+　　	 cout<<b<<endl; 
+　　错误的使用reinterpret_cast很容易导致程序的不安全，只有将转换后的类型值转换回到其原始类型，这样才是正确使用reinterpret_cast方式。不过，还是要谨慎的使用reinterpret_cast。
+ ④  dynamic_cast
+      dynamic_cast运算符用于将基类类型的指针或者引用安全的转换为派生类型的指针或引用。他可以在执行期决定真正的类型。如果 downcast 是安全的（也就说，如果基类指针或者引用确实指向一个派生类对象）这个运算符会传回适当转型过的指针。如果 downcast 不安全，这个运算符会传回空指针（也就是说，基类指针或者引用没有指向一个派生类对象），对于引用来说则是抛出bad_cast类型的异常。
+   dynamic_cast主要用于类层次间的上行转换和下行转换，还可以用于类之间的交叉转换。
+在类层次间进行上行转换时，dynamic_cast和static_cast的效果是一样的；
+在进行下行转换时，dynamic_cast具有类型检查的功能，比static_cast更安全。  
+    另外要注意：A 要有虚函数，否则会编译出错；static_cast则没有这个限制。
+这是由于运行时类型检查需要运行时类型信息，而这个信息存储在类的虚函数表（关于虚函数表的概念，详细可见<Inside c++ object model>）中，只有定义了虚函数的类才有虚函数表，没有定义虚函数的类是没有虚函数表的。
+ #include <iostream>
+#include <string>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+class A
+{
+	int a;
+	virtual void p(){} //must
+};
+class B :public  A
+{
+	int b;
+	
+};
+int main()
+{
+	B nameB;  A nameA;
+	A *p1=&nameA;
+	A* p = &nameB;
+	B* cur = dynamic_cast<B*>(p); // OK p point to B
+	B* cur1 = dynamic_cast<B*>(p1); //  error,NULL,p1没有指向B
+	//cout << cur << endl;
+	try
+	{
+		A &k = nameA;
+		B &temp = dynamic_cast<B&>(k);
+	}
+	catch(bad_cast) {
+		cout << "bad_cast" << endl;
+	}
+
+}
+
+（三）旧式强制转换
+标准C++提供的类型转换加强了转换的可视性和安全性，旧式强制转换依赖于所涉及的数据类型，具有和const_cast,static_cast和reinterpret_cast一样的行为。在合法使用static_cast或const_cast的地方，旧式强制转换提供了与各自对应的命名强制转换一样的功能。如果这两种转换均不合法，则旧式强制转换执行reinterpret_cast功能，如下：
+         
+int ival;double dval;
+ival+=int(dval); //  static_cast :converts double to int
+const char* pc_str;
+string_copy((char*)pc_str);// const_cast casts away const
+int *ip;
+char*pc=(char*)p; //reinterpret_cast :treats int* as char*                                                                                       

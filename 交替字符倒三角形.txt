@@ -1,0 +1,49 @@
+第一种方法
+
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	for(int n;cin>>n;)
+	{
+		for(int i=1;i<=n;i++)
+		{
+			cout<<string(i-1,' ')+'S';
+			for(int j=1;j<=n-i;j++)//不能用string，因为两两字符重复没有办法用string
+				cout<<"TS";
+			cout<<endl;//注意在此处输出换行
+		}
+	
+	}
+	return 0;
+
+
+}
+
+第二种方法
+
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	for(int n;cin>>n;)//用奇偶性进行控制
+	{
+		for(int i=n;i>=1;i--)//因为是倒三角形，所以i从n开始减，这样表达式容易找
+		{
+		cout<<string(n-i,' ');
+		for(int j=1;j<=2*i-1;j++)
+			/*cout<<(j%2==0?'T':'S');*/cout<<(j%2?'S':'T');//后者也可以，因为只要j%2不等于0，就为真，输出s
+			
+		cout<<endl;
+		}
+
+	
+	}
+	return 0;
+
+
+
+}
+

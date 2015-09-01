@@ -1,0 +1,28 @@
+球赛开始，每张门票50元，有30个人排队买票，20个人拿着50的，30个人拿着100的，售票处没有零钱，求出这30个人排队买票不至于出现找不开零钱的不同的排队种数（那同样面值的视为一种排队）
+1.N==0时，都是50，f(m,0)=1
+2.M<n时，肯定会找不开零，f(m,n)=0
+3.(1)第m+n拿着100的，f(m,n-1)
+(2)第m+n拿着50的，f(m-1,n)
+
+
+#include<iostream>
+using namespace std;
+int main()
+{
+	int f(int m,int n);
+	for(int m,n;cin>>m>>n;)
+		cout<<f(m,n)<<endl;
+	return 0;
+
+}
+
+int f(int m,int n)
+{
+	if(n==0)
+		return 1;
+	if(m<n)
+		return 0;
+	else
+		return f(m,n-1)+f(m-1,n);
+
+}

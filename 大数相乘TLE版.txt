@@ -1,0 +1,44 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+int main()
+{
+	string s1,s2,t;
+	int i,j,k;
+	for(;cin>>s1>>s2;)
+	{
+		int s[60000];
+		memset(s,0,sizeof(s));
+		reverse(s1.begin(),s1.end());
+		reverse(s2.begin(),s2.end());
+		if(s1.length()<s2.length())
+		{
+			t=s1;
+			s1=s2;
+			s2=t;		
+		} 	
+		for(i=0;i<s2.length();i++)
+		{
+			 int temp=0;
+			for(j=0;j<s1.length();j++)
+			{
+				temp+=(s2[i]-48)*(s1[j]-48)+s[i+j];
+				s[i+j]+=temp%10;
+				temp=temp/10;
+			}
+		s[s1.length()+i]+=temp;
+		}
+		int tt;
+        for(int k=s1.length()+s2.length()+100;k>=0;k--)
+		{
+			if(s[k]!=0)
+			{tt=k;break;} 
+		}
+		for(i=tt;i>=0;i--)
+		cout<<s[i];
+		cout<<endl;		
+	}
+	return 0;	
+}
+

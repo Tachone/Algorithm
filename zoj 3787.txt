@@ -1,0 +1,56 @@
+#include<iostream>
+#include<cmath>
+#include<string>
+#include<vector>
+#include<algorithm>
+using namespace std;
+struct node
+{
+	int h;
+	int m;
+	int s;
+	int ida;
+	int tot;
+}N[20006];
+bool comp(node aa,node bb)
+{
+	return aa.tot<bb.tot; 
+}
+vector<int> v;
+int main()
+{
+	int T,n,l;
+	char c;
+	cin>>T;
+	while(T--)
+	{
+	   cin>>n>>l;
+	   v.clear();
+	   for(int i=1;i<=n;i++)
+	   {
+   		  cin>>N[i].h>>c>>N[i].m>>c>>N[i].s;
+		  N[i].ida=i;
+		  N[i].tot=N[i].s+N[i].m*60+N[i].h*3600;
+	//	  cout<<"ÊäÈë²âÊÔ£º"<<endl;
+		 // cout<<N[i].h<<" "<<N[i].m<<" "<<N[i].s<<" "<<N[i].tot<<endl;
+   	   }
+   	   sort(N+1,N+n+1,comp);
+   	   v.push_back(N[1].ida);
+   	   int cur=N[1].tot;
+   	   for(int i=2;i<=n;i++)
+   	   {
+   	   	  if(N[i].tot-cur>=l)
+   	   	  {
+  	   	   	 v.push_back(N[i].ida);
+  	   	   	 cur=N[i].tot;
+  	   	   }
+   	   }
+   	   sort(v.begin(),v.end());
+   	   cout<<v.size()<<endl;
+   	   cout<<v[0];
+   	   for(int i=1;i<v.size();i++)
+   	   cout<<" "<<v[i];
+   	   cout<<endl;
+	}
+	return 0;
+} 

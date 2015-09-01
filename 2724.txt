@@ -1,0 +1,41 @@
+#include<iostream>
+#include<stdio.h>
+#include<queue>
+#include<algorithm>
+using namespace std;
+struct Message
+{
+	char Name[100];
+	int Data;
+	int Priority;
+	bool operator < (const Message &a) const
+	{
+		return a.Priority<Priority;
+	}
+};
+priority_queue<Message> v;
+int main()
+{
+	char command[100];
+	Message message ;
+	while (scanf("%s",command)!=EOF)
+	{
+		if(strcmp(command,"GET")==0)
+		{
+			if(v.size()==0)
+			printf("EMPTY QUEUE!\n");
+			else
+			{
+				printf("%s %d\n",v.top().Name,v.top().Data);
+				v.pop();
+			}
+		} 
+		else if(strcmp(command,"PUT")==0)
+		{
+			scanf("%s%d%d",&message.Name,&message.Data,&message.Priority);
+			v.push(message);
+		}
+	}
+	return 0;
+} 
+

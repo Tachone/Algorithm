@@ -1,0 +1,60 @@
+求解一个字符串中所有前缀和后缀相同的所有长度
+//深入理解next数组 
+#include<iostream>
+#include<string>
+#include<string.h>
+using namespace std;
+char s[400005];
+int next1[400005];
+
+int len;
+void getnext()
+{
+	int i=0,j=-1;
+	next1[0]=-1;
+	while(i<len)
+	{
+	  if(j==-1||s[i]==s[j])
+	  {
+  		i++;
+  		j++;
+  		next1[i]=j;
+  	  }
+  	  else
+  	  j=next1[j]; 	  
+	}
+}
+void print(int j)//递归输出所有长度 
+{
+	if(next1[j]<0)
+	return ;
+	print(next1[j]);
+	cout<<j<<" "; 
+}
+
+int main()
+{
+	while(cin>>s)
+	{
+		len=strlen(s);
+		getnext();
+		print(len);
+		cout<<endl;
+
+	return 0;
+}
+
+//递推的解法
+int ans[400005];
+		int cur=0;
+
+   while(len>0)
+   {
+	ans[cur++]=len;
+	len=next1[len];	
+   } 
+    cout<<ans[cur-1];
+    for(int i=cur-2;i>=0;i--)
+    cout<<" "<<ans[i];
+    cout<<endl;
+	}

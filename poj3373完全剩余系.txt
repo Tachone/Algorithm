@@ -1,0 +1,31 @@
+解法很简单 当N是2^K时输出YES，否则输出NO。printf((N & N - 1) ? "NO\n" : "YES\n");
+技巧：判断n是否为2的幂：n&(n-1)。
+别人是证明这个是完全剩余系，我是找规律发现1，2，4，8。。。。差距好大啊。。
+完全剩余系：即是通过对一一系列正整数mod m后产生的从0至（m-1）的完全数系。
+表示不会证。
+#include
+#include
+#include
+using namespace std;
+void solve()
+{
+   int n;
+   while(scanf("%d",&n)!=EOF)
+   {
+       if(n&(n-1))
+       {
+           //printf("%d\n",n&(n-1));
+           printf("NO\n");
+       }
+       else
+       {
+           //printf("%d\n",n&(n-1));
+           printf("YES\n");
+       }
+   }
+}
+int main()
+{
+   solve();
+   return 0;
+}

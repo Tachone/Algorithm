@@ -1,0 +1,44 @@
+/* Author: Tach
+Time : 
+Type :     
+*/
+#include<iostream>
+#include<cmath> 
+#include<algorithm>
+using namespace std;
+
+long long  gcd(long long a,long long b)
+{
+	if(b==0)
+	return a;
+	//cout<<a<<" "<<b<<endl;
+	return gcd(b,a%b);
+}
+
+int main()
+{
+
+         long long  a,b,c;
+         while(cin>>a>>b>>c&&(a||b||c))
+         {
+                   long long sum=0;
+                   long long flag=0;
+                   long long dd=gcd(a,b);
+                   long long d=gcd(c,dd);
+                   for(long long i=1;i*i<d;i++)
+                   {
+
+                            if(d%i==0)
+                            sum++;
+
+                   }
+                  if((long long )sqrt(d*1.0)*(long long)sqrt(d*1.0)==d)//判断是不是完全平方数
+                  flag=1;
+                   cout<<sum*2+flag<<endl;
+
+         }
+
+         return 0;
+
+}
+

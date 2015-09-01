@@ -1,0 +1,23 @@
+#include<iostream>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	int m=0;
+	for(int n;cin>>n;)
+	{
+		cout<<(m++?"\n":"");
+		for(int i=n*n-1;i>=0;i--)
+		{
+			if(i<10)
+				cout<<"   "<<"0"<<i;
+			else
+				cout<<setw(5)<<i;
+			if(i%n==0)
+				cout<<endl;
+		}
+	}
+	return 0;
+
+
+}

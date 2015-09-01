@@ -1,0 +1,49 @@
+#include<iostream>
+#include<string>
+#include<queue>
+#include<cstring>
+using namespace std;
+struct node
+{
+	string ls;
+	int a;
+	int b;
+	int cur;
+    friend bool operator<(node aa,node bb)
+    {
+    	if(aa.b!=bb.b)
+    	return aa.b>bb.b;
+    	else
+    	return aa.cur>bb.cur;
+    }
+};
+priority_queue<node> q;
+
+int main()
+{
+	string s,ss;
+	node temp,ans;
+    int op=0;
+	while(cin>>s)
+	{
+		if(s=="GET")
+		{
+			if(q.empty())
+			cout<<"EMPTY QUEUE!"<<endl;
+			else
+			{
+				ans=q.top();
+				q.pop();
+				cout<<ans.ls<<" "<<ans.a<<endl;
+			} 
+		}
+		else
+		{
+			cin>>temp.ls>>temp.a>>temp.b;
+			temp.cur=op++;
+			q.push(temp);
+		}
+		
+	}
+	return 0;
+} 

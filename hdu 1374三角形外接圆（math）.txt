@@ -1,0 +1,44 @@
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+#define PI 3.141592653589793
+double DI(double x1,double y1,double x2,double y2)
+{
+	 return sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));	
+}
+int main()
+{
+  double x1,y1,x2,y2,x3,y3,ans,r,s,p;
+  while(cin>>x1>>y1>>x2>>y2>>x3>>y3)
+  {
+  	 double a,b,c;
+  	 a=DI(x1,y1,x2,y2);
+  	 b=DI(x1,y1,x3,y3);
+  	 c=DI(x2,y2,x3,y3);
+  	 p=(a+b+c)/2.0;
+  	 s=sqrt(p*(p-a)*(p-b)*(p-c));//海伦公式求三角形面积
+  	 r=(a*b*c)/(4.0*s);//利用三角形面积和外接圆半径
+  	 ans=2*PI*r;
+  	 cout<<setiosflags(ios::fixed)<<setprecision(2)<<ans<<endl;
+  }	
+  return 0;
+} 
+
+
+两种求三角形外接圆半径的方法：
+方法一：
+　　已知三角形的三边为a,b,c,a小于等于b小于等于c，
+　　它的外接圆半径为 R=abc/( 4S)
+S为三角形面积，可由海伦公式得到:S=√[p(p-a)(p-b)(p-c)]其中P是周长的一半
+证明：对于任意三角形，其面积S＝(1/2)*absinC
+由正弦定理：a/sinA=b/sinB=c/sinC=2R
+因，c/sinC=2R
+故，R＝c/2sinC
+又由面积公式得：sinC=2S/ab
+故，R＝(c/2)/(2S/ab)
+即，R=abc/4S
+方法二：
+            根据余弦定理：c^2=a^2+b^2-2abcosC;根据正弦定理：c/sinC=2r;
+又因为Sin^2C+cos^2C=1;将余弦定理和正弦定理带入此式可得出外接圆的半径；
+

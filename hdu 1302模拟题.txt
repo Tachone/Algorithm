@@ -1,0 +1,44 @@
+#include<iostream>
+#include<string>
+#include<string.h>
+#include<cmath>
+using namespace std;
+int main()
+{
+	double h,u,d,f;
+	while(cin>>h>>u>>d>>f)//是每天比第一天少那么多.......
+	{
+		if(h==0)
+		break;
+		bool flag=0;
+		double sum=0;
+		int index;
+		double p=u*(f/100);
+		for(int i=1;;i++)
+		{
+			sum+=u;
+			u-=p;
+		//	if(u<=0)
+		//	u=0;
+			if(sum>h*1.0)
+			{
+				index=i;
+				break;
+			}
+			sum-=d;
+			if(sum<0)
+			{
+				index=i;
+				flag=1;
+				break;
+			}
+		}
+		if(flag)
+		cout<<"failure";
+		else
+		cout<<"success";
+		cout<<" on day "<<index<<endl;
+		
+	}
+	return 0;
+} 

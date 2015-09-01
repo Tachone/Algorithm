@@ -1,0 +1,39 @@
+
+
+#include<iostream>
+#include<map>
+using namespace std;
+int main()
+{
+	map<int,int> v;
+	int n,i,j,k,m,s;
+	cin>>n;
+	for(i=0;i<n;i++)
+	{
+		cin>>m;
+		v.clear();
+		int max=0;
+		for(j=0;j<m;j++)
+		{
+			cin>>s;
+			v[s]++;
+			if(s>max)
+			max=s;
+		}
+		map<int,int>::iterator it;
+		int sum=0;
+		for(it=v.begin();it!=v.end();it++)
+		{
+			if(it->second!=0)
+			{
+				sum+=5;
+				sum+=it->second;
+			}
+		}
+		sum+=max*4;	
+		sum+=max*6;
+		cout<<sum<<endl;	
+	}
+	return 0;
+
+}

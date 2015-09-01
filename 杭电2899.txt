@@ -1,0 +1,86 @@
+简单二分
+#include<iostream>
+#include<vector>
+#include<iomanip>
+#include<cmath> 
+#include<algorithm>
+using namespace std;
+int main()
+{
+
+
+double f(double x,double y);
+double daoshu(double x,double y);
+    int n;
+    double y;
+    cin>>n;
+    for(int i=1;i<=n;i++)
+    {
+    	cin>>y;
+    	double st=0,ed=100,mid;
+    	while(fabs(ed-st)>1e-8)
+    	{
+    		mid=(ed+st)/2;
+   		   if(daoshu(mid,y)<=0)
+   		   {
+   		   	st=mid;
+   		   }
+   		   else
+   		   ed=mid;
+	    	
+	    }
+	    cout<<setiosflags(ios::fixed)<<setprecision(4)<<f(mid,y)<<endl;
+    }
+	return 0;
+} 
+double f(double x,double y)
+{
+	return 6*pow(x,7)+8*pow(x,6)+7*pow(x,3)+5*pow(x,2) -y*x;
+}
+double daoshu(double x,double y)
+{
+	return 42*pow(x,6)+48*pow(x,5)+21*x*x+10*x-y;
+}
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+int main() 
+{
+	double f(double x,double y);
+	double g(double x,double y);
+	int n,y;
+	cin>>n;
+	for(int i=1;i<=n;i++)
+	{
+		cin>>y;
+		if(g(100,y)<=0)
+		cout<<setiosflags(ios::fixed)<<setprecision(4)<<f(100,y)<<endl;
+		else
+		{
+			double st=0,ed=100,mid;
+			mid=(st+ed)/2;
+			while(ed-st>1e-8)
+			{
+			  if(g(mid,y)>0)
+			  ed=mid;
+    	      else
+			  st=mid;
+		    	mid=(st+ed)/2; //这个思路清晰一些
+			}
+			cout<<setiosflags(ios::fixed)<<setprecision(4)<<f(mid,y)<<endl;
+		}
+		
+	}
+  return 0; 
+}
+    
+double f(double x,double y)
+{
+	return 6*pow(x,7)+8*pow(x,6)+7*pow(x,3)+5*x*x-y*x;
+}
+double g(double x,double y)
+{
+	return 42*pow(x,6)+48*pow(x,5)+21*pow(x,2)+10*x-y;
+}

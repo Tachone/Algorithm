@@ -1,0 +1,52 @@
+/*Author:Tach
+Time:2014/11/19
+*/
+
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<cmath>
+#include<iomanip>
+#include<algorithm>
+using namespace std;
+double dp[100][100];
+double a[10];
+int b[10]={5,12,22,29,33,38,42,46,50,55}; 
+double ans[10];
+int main()
+{
+	int T;
+	cin>>T;
+	int m=0;
+	while(T--)
+	{
+		for(int i=1;i<=6;i++)
+		cin>>a[i];
+		cout<<(m++?"\n":"");
+		memset(ans,0,sizeof(ans));
+        memset(dp,0,sizeof(dp));//初始化 
+		dp[0][0]=1.0;//notice 
+		for(int i=1;i<=10;i++)
+		for(int j=1;j<=60;j++)
+		for(int k=1;k<=6;k++)
+		{
+			if(j>=k)
+			dp[i][j]+=dp[i-1][j-k]*a[k];//注意是+ 
+		}
+	
+		for(int i=1;i<=10;i++)
+		for(int j=1;j<=60;j++)
+		for(int p=0;p<10;p++)
+		{
+			if(j==b[p])
+			ans[p]+=dp[i][j];
+		}
+		for(int i=0;i<10;i++)
+		{
+			cout<<b[i]<<": ";
+			cout<<setiosflags(ios::fixed)<<setprecision(1)
+			<<ans[i]*100<<"%"<<endl;
+		}
+	}
+	return 0;
+} 

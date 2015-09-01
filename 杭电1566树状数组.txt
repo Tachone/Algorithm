@@ -1,0 +1,81 @@
+#include<iostream>
+#include<string.h>
+using namespace std;
+int aa,bb,n;
+int s[100003];
+int lowbit(int x)
+{
+   return x&(-x);
+} 
+
+void update(int rank,int value)
+{
+  while(rank<=n)
+  {
+  	s[rank]+=value;
+  	rank+=lowbit(rank);
+  }
+}
+int sum(int rank)
+{
+  int total=0;
+  while(rank>0)
+  {
+  	total+=s[rank];
+  	rank-=lowbit(rank);
+  }
+  return total;
+}
+
+int main()
+{
+	for(;cin>>n&&n;)
+	{
+		memset(s,0,sizeof(s));
+	   for(int i=1;i<=n;i++)
+	   {
+   		  cin>>aa>>bb;
+   		  update(aa,1);
+   		  update(bb+1,-1); //具体思想是用到了一个差分数组	  
+   	   }
+   	      cout<<sum(1);
+		  for(int j=2;j<=n;j++)
+		  {
+  			cout<<" "<<sum(j);
+	      }	
+	      cout<<endl;
+	}
+	return 0;
+}
+详见王海洲的ppt
+
+
+Codeforces大牛用法
+1#include <cstdio>  
+2#include <cstring>  
+3using namespace std;  
+4const int maxn=100005;  
+5int f[maxn];  
+6int main()  
+7{  
+8    int n,x,y;  
+9    while(scanf("%d",&n)&&n)  
+10    {  
+11        memset(f,0,sizeof(f));  
+12        for(int i=0;i<n;i++)  
+13        {  
+14            scanf("%d%d",&x,&y);  
+15            f[x]++;  
+16            f[y+1]--;  
+17        }  
+18        printf("%d",f[1]);  
+19        for(int i=2;i<=n;i++)  
+20        {  
+21            f[i]+=f[i-1];  
+22            printf(" %d",f[i]);  
+23        }  
+24        printf("\n");  
+25    }  
+26    return 0;  
+27} 
+

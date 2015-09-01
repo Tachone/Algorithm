@@ -1,0 +1,92 @@
+//求两点之间的路径的权值和
+# include<stdio.h>
+# include<string.h>
+# define N 40005
+# define M 205
+struct node{
+    int from,to,next,val;
+}edge[2*N],edge1[2*M];//edge1是询问 
+int tol,head[N],head1[N],tol1,father[N],dis[N],LCA[M],n,m;
+bool visit[N];
+void add(int a,int b,int c)
+{
+    edge[tol].from=a;
+	edge[tol].to=b;
+	edge[tol].next=head[a];
+	edge[tol].val=c;
+	head[a]=tol++;
+}
+void add1(int a,int b,int c)
+{
+    edge1[tol1].from=a;
+	edge1[tol1].to=b;
+	edge1[tol1].next=head1[a];
+	edge1[tol1].val=c;
+	head1[a]=tol1++;
+}
+int find(int x)
+{
+    if(x!=father[x])
+        father[x]=find(father[x]);
+    return father[x];
+}
+void tarjan(int u)
+{
+    int j,v;
+    visit[u]=1;
+    father[u]=u;
+    //LCA[]保存的是第i条询问的两点的最近祖先 
+    for(j=head1[u];j!=-1;j=edge1[j].next)
+    {                              
+        v=edge1[j].to;
+        if(visit[v]) LCA[edge1[j].val]=find(v);
+    }
+    //
+    for(j=head[u];j!=-1;j=edge[j].next)
+    {
+        v=edge[j].to;
+        if(!visit[v]) 
+        {
+            dis[v]=dis[u]+edge[j].val;
+            tarjan(v);
+            father[v]=u;
+        }
+    }
+}
+int main()
+{
+    int i,ncase,a,b,c;
+    scanf("%d",&ncase);
+    while(ncase--)
+    {
+        scanf("%d%d",&n,&m);
+        tol=0;
+        memset(head,-1,sizeof(head));
+        for(i=1;i<n;i++)
+        {
+            scanf("%d%d%d",&a,&b,&c);
+            add(a,b,c);
+            add(b,a,c);
+        }
+        memset(visit,0,sizeof(visit));
+        tol1=0;
+        memset(head1,-1,sizeof(head1));
+        for(i=1;i<=m;i++) //询问 
+        {
+            scanf("%d%d",&a,&b);
+            add1(a,b,i);
+            add1(b,a,i);
+        }
+        
+        dis[1]=0;
+        tarjan(1);
+        for(i=0;i<tol1;i+=2)
+        {
+            a=edge1[i].from;
+            b=edge1[i].to;
+            c=edge1[i].val;
+            printf("%d\n",dis[a]+dis[b]-2*dis[LCA[c]]);
+        }
+    }
+    return 0;
+}

@@ -1,0 +1,99 @@
+#include<iostream>
+#include<stdio.h>
+#include<string>
+#include<cstring>
+#include<set>
+#include<algorithm>
+using namespace std;
+int m,n,k,a,b;
+set<int> user[1004];
+int book[100004];
+char c;
+int reader;
+
+int main()
+{
+//	freopen("in.txt","r",stdin);
+
+	while(cin>>n>>m)
+	{ 
+		for(int i=0;i<1001;i++)
+		user[i].clear();
+		memset(book,0,sizeof(book));//0ÔÚÍ¼Êé¹Ý£¬1½èÁË 
+		scanf("%d",&k);
+		while(k--)
+		{
+			cin>>c;
+		    if(c=='R')
+		    {
+    			cin>>a;
+    			if(book[a]==0)
+    			{
+   		 		 printf("The book is already in the library\n");
+			    }
+			    else 
+			    {
+			    	book[a]=0;
+    				printf("Return success\n");
+   					set<int>::iterator it;
+    				for(int i=1;i<1001;i++)
+ 				    { 
+ 				      bool flag=true;
+    		   	     for(it=user[i].begin();it!=user[i].end();it++)
+    		   	     {
+	   		     	  if((*it)==a)
+	   		     	  {
+  	     		   		user[i].erase(it);
+  	     		   		flag=false;
+  	     		   		break;
+  	     		      } 
+   		   	        }
+   		   	        if(!flag)
+   		   	        break;
+	   		         
+                    } 
+			    }
+    		}
+    		else if(c=='B')
+    		{
+		       scanf("%d%d",&a,&b);
+		    	if(book[b]==1)
+		    	{
+	    			printf("The book is not in the library now\n");
+	    		}
+	    		else
+	    		{
+		    		if(user[a].size()>=9)
+		    		printf("You are not allowed to borrow any more\n");
+		    		else 
+		    		{
+		    			book[b]=1;
+		    			printf("Borrow success\n");
+		    			user[a].insert(b);
+		    		}
+		    	}
+		    }
+		    else if(c=='Q')
+		    {
+    		   scanf("%d",&a);
+    		   if(user[a].size()==0)
+    		   printf("Empty\n");
+    		   else 
+    		   {
+    		   	set<int>::iterator it;
+    		   	int l=0;
+    		   	for(it=user[a].begin();it!=user[a].end();it++)
+    		   	{
+    		   		if(l++)
+	   		    	printf(" %d",(*it));
+	   		    	else
+	   		    	printf("%d",(*it));
+	   		    }
+	   		    cout<<endl;
+	           }
+    		}
+		}
+		cout<<endl; 
+	}
+	return 0;
+}

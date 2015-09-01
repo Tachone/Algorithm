@@ -1,0 +1,19 @@
+#include<iostream>
+#include<string>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	double a;
+	while(cin>>a)
+	{
+		double ans;
+		if(a<0.0)
+		ans=-a;
+		else
+		ans=a;
+		cout<<setiosflags(ios::fixed)<<setprecision(2)<<ans<<endl;
+	}
+	return 0;
+}

@@ -1,0 +1,46 @@
+
+
+
+#include<iostream>
+#include<cstdio>
+#include<string>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+#define ll long long 
+ll l[100005],r[100005],s[100005];
+//注意l和r记录的是连续比其高的 最左和最有的下标 
+int main()
+{
+	int n,t;
+	while(scanf("%d",&n)&&n)
+	{
+		for(int i=1;i<=n;i++)
+		scanf("%lld",&s[i]);
+		l[1]=1;
+		r[n]=n;
+		for(int i=2;i<=n;i++)
+		{
+			t=i;
+			while(t>1&&s[i]<=s[t-1])
+			t=l[t-1];
+			l[i]=t;
+		}
+		for(int i=n-1;i>=1;i--)
+		{
+			t=i;
+			while(t<n&&s[i]<=s[t+1])
+			t=r[t+1];
+			r[i]=t;
+		}
+		ll max1=-1,temp;
+		for(int i=1;i<=n;i++)
+		{
+			temp=(r[i]-l[i]+1)*s[i];
+			if(temp>max1)
+			max1=temp;
+		}
+	
+		printf("%lld\n",max1);
+	}
+} 

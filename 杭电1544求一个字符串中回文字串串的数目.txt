@@ -1,0 +1,45 @@
+/* Author: Tach
+Time : 
+Type: 
+别忘记注释掉 。。freopen("in.txt","r",stdin);
+*/ 
+#include<iostream>
+#include<stdio.h>
+#include<string>
+#include<string.h>
+#include<vector>
+#include<stack>
+#include<cmath>
+#include<iomanip> 
+#include<algorithm>
+#define MAX_N 600
+using namespace std; 
+int main()
+{
+   //freopen("in.txt","r",stdin);
+    string s;
+	while(cin>>s)
+	{
+		int len=s.length(),l,r;
+		int ans=len;
+		for(int i=0;i<len;i++)
+		{
+			l=i-1,r=i+1;//扩展的时候是奇数 
+			while(l>=0&&r<len&&s[l]==s[r])//不等的时候跳出，枚举下一个 
+			{
+				l--,r++;
+				ans++;
+			}
+			l=i,r=i+1;//偶数 
+			while(l>=0&&r<len&&s[l]==s[r])
+			{
+				l--,r++;
+				ans++; 
+			}
+		}	
+		cout<<ans<<endl; 
+	} 
+	return 0;
+} 
+
+

@@ -1,0 +1,112 @@
+#include<iostream>
+#include<string>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+int fa[200];
+int T,n,a,b,c;
+void init()////biewanfji 
+{
+    for(int i=1;i<=n;i++)
+    fa[i]=i;
+}
+int find(int x)
+{
+    if(x!=fa[x])
+    fa[x]=find(fa[x]);
+    return fa[x];
+}
+void combine(int x,int y)
+{
+    int xx=find(x);
+    int yy=find(y);
+    if(xx!=yy)
+    fa[xx]=yy;
+}
+structnode
+{
+    int aa;
+    int bb;
+    int va;
+}map[10006];
+bool comp(node x,nodey)
+{
+    if(x.va!=y.va)
+    return x.va<y.va;
+    else if(x.aa!=y.aa)
+    return x.aa<y.aa;
+    else
+    return x.bb<y.bb;
+    
+}
+structans
+{
+    int x;
+    int y;
+}tol[10007];
+bool comp1(ansa1,ans a2)
+{
+    if(a1.x!=a2.x)
+    return a1.x<a2.x;
+    else
+    return a1.y<a2.y;
+}
+int main()
+{
+    cin>>T;
+    while(T--)
+    {
+        cin>>n;
+        int cur=0;
+        for(int i=1;i<=n;i++)
+        for(int j=1;j<=n;j++)
+        {
+            cin>>c;
+            map[cur].aa=i;
+            map[cur].bb=j;
+            map[cur].va=c;
+            cur++;
+        }
+        for(int i=0;i<cur;i++)
+        {
+            if(map[i].aa>map[i].bb)
+            swap(map[i].aa,map[i].bb);
+        }
+        init();
+        int total=0;
+        sort(map,map+cur,comp);
+        for(int j=0;j<cur;j++)
+        {
+            if(find(map[j].aa)!=find(map[j].bb)&&map[j].va)
+            {
+              combine(map[j].aa,map[j].bb);
+              tol[total].x=map[j].aa;
+              tol[total].y=map[j].bb;
+              total++;
+            }
+        }
+        sort(tol,tol+total,comp1);
+        int sum=0;
+       for(int k=1;k<=n;k++)
+       {
+        if(fa[k]==k)
+        sum++;
+       }
+       if(sum>1)
+       cout<<-1<<endl;
+       else
+       {
+         for(int w=0;w<total-1;w++)
+        {
+    
+            cout<<tol[w].x<<" "<<tol[w].y<<" ";
+        }
+        
+         cout<<tol[total-1].x<<" "<<tol[total-1].y;
+         cout<<endl;
+       }
+    }
+    return 0;
+}
+
+¶ñÐÄµÄÅÅÐò

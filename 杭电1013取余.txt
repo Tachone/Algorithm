@@ -1,0 +1,35 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	for(string s;cin>>s&&s!="0";)
+	{
+		int sum=0;
+		for(int i=0;i<s.length();i++)
+		sum+=s[i]-48;
+        if(sum%9==0)//注意取余的时候，要注意考虑相等的特殊情况。。
+	    cout<<9<<endl;
+	   else
+		cout<<sum%9<<endl;
+	}
+	return 0;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////
+#include<iostream>
+ using namespace std;
+int main()
+{
+    string s;
+    int sum;
+    while(cin>>s&&s[0]!='0')
+    {
+        sum=0;
+        string::size_type k=s.size();
+        while(k) sum+=s[--k]-'0';          //之所以用字符串输入考虑到第一次输入的数据太大     
+        cout<<(sum-1)%9+1<<endl;//这既是处理的特殊情况
+    }
+    return 0;
+}

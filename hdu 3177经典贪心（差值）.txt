@@ -1,0 +1,57 @@
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+struct node
+{
+    int a;
+    int b;
+    int c;
+}mark[1005];
+bool comp(node aa,node bb)
+{
+    return aa.c>bb.c;
+}
+int main()
+{
+    int T,a,b,n,v;
+    cin>>T;
+    while(T--)
+    {
+        cin>>v>>n;
+        int sum=0;
+        for(int i=0;i<n;i++)
+        {
+        cin>>mark[i].a>>mark[i].b;
+        mark[i].c=mark[i].b-mark[i].a;
+        }
+        sort(mark,mark+n,comp);
+        for(int i=0;i<n;i++)
+        {
+            if(v>=mark[i].b)
+            {
+                sum++;
+                v-=mark[i].a;
+            }
+            else
+            break;
+        }
+        if(sum==n)
+        cout<<"Yes"<<endl;
+        else
+        cout<<"No"<<endl;
+    }
+    return 0;
+}
+我觉得要充分利用空间，所以要先趁着空间还大的时候把差值最小的放进去
+。但是网上的普遍方法是 对两个进行判断去最小的
+该题讲的是搬家问题，搬运东西需要占多大空间还有搬运时要求的空间。该题的贪心原则则是尽可能的装入东西，即           停放体积 移动体积
+第一件物品 　　a1 　　b1
+第二件物品 　　a2 　　b2
+假设这两件物品的移动体积都不大于洞的体积V
+那么将单独比较两个物品的时候会发现 a1+b2为先放第一件物品 后放第二件物品的最大瞬时体积
+a2+b1为先放第二件物品 后放第一件物品的最大瞬时体积
+我们应该选择a1+b2和a2+b1中比较小的先放那么从2件物品 扩展到N件物品 
+假设n件物品的移动体积都不大于洞的体积V(如果有大于的 那么结果必然是NO)
+将N件物品按照a1+b2<a2+b1进行排序 然后依次放入洞中，即按照差值从大到小放入洞中
+ 

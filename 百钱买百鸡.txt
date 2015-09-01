@@ -1,0 +1,44 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	for(int x=0;x<=33;x++)//有的鸡可以不买
+	for(int y=0;y<=50;y++)
+	for(int z=0;z<=300;z+=3)//必须是3的倍数，并且33,50,300需要计算
+	{
+		if(x+y+z==100&&(3*x+2*y+z/3)==100)
+			cout<<x<<" "<<y<<" "<<z<<endl;
+
+
+
+	}
+
+		
+
+	
+	return 0;
+}
+
+类似的一道题
+#include<iostream>
+using namespace std;
+int main()
+{
+	
+	for(int n;cin>>n;)
+	{
+		int sum=0;//注意每次要使sum的值重置
+		for(int i=0;i<=n;++i)
+			for(int j=0;j<=n/3;++j)
+				for(int k=0;k<=n/7;++k)
+				{
+					if(i+3*j+k*7==n)
+						sum++;
+
+				}
+				cout<<sum<<endl;
+	}
+	return 0;
+
+
+}

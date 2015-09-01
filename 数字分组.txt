@@ -1,0 +1,32 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+	int a[10];
+	for(int i=123;3*i<=987;i++)
+	{
+		for(int j=0;j<10;j++)
+	     a[j]=0;
+		a[i%10]=1;
+		a[i/10%10]=1;
+		a[i/100]=1;
+		a[i*2%10]=1;
+		a[i*2/10%10]=1;
+		a[i*2/100]=1;
+	    a[i*3%10]=1;
+		a[i*3/10%10]=1;
+		a[i*3/100]=1;
+		int sum=0;
+		for(int k=1;k<10;k++)
+		{
+			sum+=a[k];
+		}
+		if(sum==9)
+			cout<<i<<" "<<2*i<<" "<<3*i<<endl;
+
+	}
+	return 0;
+
+
+}

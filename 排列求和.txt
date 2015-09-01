@@ -1,0 +1,32 @@
+
+//不能对除法取模 
+#include<iostream>
+#include<cmath>
+using namespace std;
+#define mod 10000000000007LL
+#define ll long long
+ll f(ll a,ll b){
+	ll i,ans=1;
+	for(i=a-b+1;i<=a;i++)
+	{
+		ans*=i;
+		ans%=mod;
+	}
+	return ans%mod;
+}
+int main(){
+	ll T,l,m,n,i,t=1,ans,ansm,num;
+	scanf("%lld",&T);
+	while(T--){
+		scanf("%lld%lld%lld",&l,&m,&n);
+		num=l*l;
+		ansm=f(num,m);
+		ans=ansm;
+		for(i=m+1;i<=n;i++){
+			ansm*=(num-i+1);ansm%=mod;
+			ans+=ansm;ans%=mod;
+		}
+		printf("Case %lld: %lld\n",t++,ans%mod);
+	}
+	return 0;
+}

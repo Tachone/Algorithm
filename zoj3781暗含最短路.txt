@@ -1,0 +1,122 @@
+
+题意：有白色和黑色的一些块，相邻并且颜色相同的是同一块，每次可以把一块翻转成相对的颜色，问最少要翻转几次
+
+分析：把连通块缩成点，然后相邻的不同色连通块之间建边，枚举以每个点为根的情况，bfs求出每种情况的最大深度，最后取最小的深度即为答案
+相当于每次扩展后以前的可以看成一个连通块，这样每次扩展，相当于外圈又加进了一批，所以可以看做是又走了一步
+，仔细体会，第二个样例。
+
+#include <iostream>  
+#include<cstdio>  
+#include<cstring>  
+#include<algorithm>  
+#include<string>  
+#define N 45  
+#include<vector>  
+#include<queue>  
+#define INF 1<<29  
+using namespace std;  
+int id[N*N],vis[N*N];  
+int n,m;  
+char map[N][N];  
+vector<int> v[N*N];  
+int dir[4][2]={{0,1},{0,-1},{1,0},{-1,0}};  
+void init(){  
+    int i;  
+    for(i=0;i<n*m;i++){  
+        id[i]=-1;  
+        v[i].clear();  
+    }  
+}  
+bool ok(int x,int y){  
+    if(x>=0&&x<n&&y>=0&&y<m)  
+    return true;  
+    return false;  
+}  
+void dfs(int x,int y,int d,char c){  
+    int i,xx,yy,u;  
+    for(i=0;i<4;i++){  
+        xx=x+dir[i][0];  
+        yy=y+dir[i][1];  
+        if(ok(xx,yy)){  
+            if(map[xx][yy]==c){  
+                if(id[xx*m+yy]==-1){  
+                    id[xx*m+yy]=d;  
+                    dfs(xx,yy,d,c);  
+                }  
+            }else {  
+                if(id[xx*m+yy]!=-1){  
+                    u=id[xx*m+yy];  
+                    v[d].push_back(u);  
+                    v[u].push_back(d);  
+                }  
+            }  
+        }  
+    }  
+}  
+struct node{  
+    int x,d;  
+};  
+int bfs(int u){  
+    queue<node> q;  
+    node now;  
+    node next;  
+    now.x=u;  
+    now.d=0;  
+    int i,j,ret=0;  
+    q.push(now);  
+    memset(vis,0,sizeof(vis));  
+    vis[u]=1;  
+    while(!q.empty()){  
+        now=q.front();  
+        if(now.d>ret){  
+            ret=now.d;  
+        }  
+        q.pop();  
+        i=now.x;  
+        next.d=now.d+1;  
+        for(j=0;j<v[i].size();j++){  
+            next.x=v[i][j];  
+            if(!vis[next.x]){  
+                vis[next.x]=1;  
+                q.push(next);  
+            }  
+        }  
+    }  
+    return ret;  
+}  
+int main()  
+{  
+    int i,j,t,ans,cnt;  
+    char str[N];  
+    scanf("%d",&t);  
+    while(t--){  
+        scanf("%d%d",&n,&m);  
+        init();  
+        for(i=0;i<n;i++){  
+            scanf("%s",str);  
+            for(j=0;j<m;j++){  
+                map[i][j]=str[j];  
+            }  
+        }  
+        cnt=0;  
+        for(i=0;i<n;i++){  
+            for(j=0;j<m;j++){  
+                if(id[i*m+j]==-1){  
+                    id[i*m+j]=cnt;  
+                    dfs(i,j,cnt,map[i][j]);  
+                    cnt++;  
+                }  
+            }  
+        }  
+        ans=INF;  
+        for(i=0;i<cnt;i++){  
+            int tmp=bfs(i);  
+            if(tmp<ans){  
+                ans=tmp;  
+            }  
+        }  
+        printf("%d\n",ans);  
+    }  
+    return 0;  
+}  
+

@@ -1,0 +1,29 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	int n;
+	cin>>n;
+	int a,b,c;
+	for(int i=1;i<=n&&cin>>a>>b>>c;i++)
+	{
+		
+		if(a+b==c)
+			cout<<a<<"+"<<b<<"="<<c<<endl;
+		else if(a-b==c)
+			cout<<a<<"-"<<b<<"="<<c<<endl;
+		else if(b-a==c)
+			cout<<b<<"-"<<a<<"="<<c<<endl;
+		else if(a*b==c)
+			cout<<a<<"*"<<b<<"="<<c<<endl;
+		else if(a/b==c)
+			cout<<a<<"/"<<b<<"="<<c<<endl;
+		else if(b/a==c)
+			cout<<b<<"/"<<a<<"="<<c<<endl;
+		else
+			cout<<"None"<<endl;
+	}
+	return 0;
+}
+	

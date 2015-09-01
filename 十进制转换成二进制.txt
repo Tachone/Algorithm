@@ -1,0 +1,56 @@
+递归#include<iostream>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	int f(int n);
+	for(int n;cin>>n;)
+	{
+		cout<<setw(11)<<n<<(n>0?"-->":"-->-");
+	    f(n);
+	}
+	cout<<endl;
+	return 0;
+
+
+}
+
+
+int f(int n)
+{
+	n=(n>0?n:-n);//注意正负数的区分
+	if(n>=2)
+		f(n/2);
+	cout<<n%2;
+
+	return 0;
+}
+
+新方法
+
+#include<iostream>
+#include<algorithm>//新学到的
+#include<string>
+#include<iomanip>
+using namespace std;
+int main ()
+{
+	for(int n;cin>>n;)
+	{
+		if(n==0)
+		{
+			cout<<"          0-->0\n";
+			continue;
+		}
+
+	string s;
+	for(int a=n;a;a=a/2)
+	
+		s+=(a%2?'1':'0');//解决正负数
+		reverse(s.begin(),s.end());
+		cout<<setw(11)<<n<<(n<0?"-->-":"-->")+s+"\n";
+
+	
+	}
+return 0;
+}

@@ -1,0 +1,38 @@
+并不是很果的nim博弈，因为这个是堆的数目可能为0
+#include <iostream>
+#include <cstring>
+#include <cstdio>
+using namespace std;
+#define maxn 10010
+int T, n;
+long long  a[maxn];
+long long sum;
+int sum2;
+bool flag;
+int main(){
+    scanf("%d", &T);
+    while(T--){
+        sum = 0;sum2 = 0;
+        scanf("%d", &n);
+        flag = true;
+        for(int i = 1; i <= n; i++){
+            scanf("%I64d", &a[i]);
+            if(a[i] > 1) flag = false;
+            if(a[i] == 0) sum2++;
+        }
+        if(flag == true){ //没有大于1的 
+            if((n-sum2) % 2 == 0) printf("1\n");
+            else printf("2\n");
+            continue;
+        }   
+        sum = 0;
+        for(int i = 1; i <= n; i++){
+            sum ^= a[i];
+        }
+        if(sum == 0) printf("2\n"); //结果为0 先手输 
+        else printf("1\n"); 
+    }
+    
+    
+    return 0;
+}

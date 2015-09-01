@@ -1,0 +1,22 @@
+#include<iostream>
+#include<string>
+#include<set>
+#include<sstream>
+#include<string.h>
+using namespace std;
+int main()
+{
+   string s;
+   while(getline(cin,s)&&s!="#")
+   {
+   	 istringstream sin(s);
+
+   	 string k;
+   	 set<string> v;
+   	 while(sin>>k)
+   	 v.insert(k);
+   	 cout<<v.size()<<endl;
+   }
+   
+   return 0; 
+}

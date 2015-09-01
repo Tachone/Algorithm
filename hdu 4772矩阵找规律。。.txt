@@ -1,0 +1,47 @@
+//根据矩阵的转换规律可以找出分别旋转之后的=个数，水题
+#include<iostream>
+#include<string>
+#include<cstring>
+using namespace std;
+int a[40][40],b[40][40];
+int main()
+{
+	int n;
+	while(cin>>n&&n)
+	{
+		for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+		cin>>a[i][j];
+		for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+		cin>>b[i][j];
+		int ans=0;
+		int to1=0,to2=0,to3=0,to4=0;
+		for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+		{
+			if(a[i][j]==b[i][j])
+			to1++;	
+		}
+		for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+		{
+			if(a[i][j]==b[n+1-i][n+1-j])
+			to2++;	
+		}
+		for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+		{
+			if(a[i][j]==b[j][n+1-i])
+			to3++;	
+		}
+		for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+		{
+			if(a[i][j]==b[n+1-j][i])
+			to4++;	
+		}
+		ans=max(to1,max(to2,max(to3,to4)));
+		cout<<ans<<endl;
+	}
+}

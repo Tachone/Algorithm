@@ -1,0 +1,58 @@
+#include<iostream>
+#include<string>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+int c[27][27]={0};
+
+void table()
+{
+	
+	for(int i=0;i<=26;i++)
+	for(int j=0;j<=i;j++)
+	{
+		if(!j||i==j)
+		c[i][j]=1;
+		else
+		c[i][j]=c[i-1][j-1]+c[i-1][j];
+	}
+	c[0][0]=0;
+	return ; 
+	
+}
+
+int main()
+{
+	table();
+	string s;
+	while(cin>>s)
+	{ 
+	int len=s.length();
+	if(len>10)
+	{
+		cout<<0<<endl;
+		continue;
+	}
+    for(int i=1;i<len;i++)
+    if(s[i-1]>=s[i])
+    {
+       cout<<0<<endl;   
+       return 0;
+    }
+	int sum=0;
+	for(int i=1;i<len;i++)
+	sum+=c[26][i];
+	for(int i=0;i<len;i++)
+	{
+		char ch=(!i)?'a':s[i-1]+1;
+		while(ch<=s[i]-1)
+		{
+			sum+=c['z'-ch][len-1-i];
+			ch++;
+		}
+	}
+	 cout<<++sum<<endl;
+	} 
+	return 0;	
+}
+http://hi.baidu.com/lxyzmnwvhokptur/item/18c806469a668fe31e19bc1a#0

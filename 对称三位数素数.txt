@@ -1,0 +1,26 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+   bool isprime(int n);
+   for(int n;cin>>n;)
+   {
+	   cout<<(n>100&&n<1000&&n/100==n%10&&isprime(n)?"Yes\n":"No\n");
+   }
+   return 0;
+
+}	
+
+ bool isprime(int n)
+ {
+	 for(int i=2;i<=31;i++)//i=2才对，不可以i=1
+	 
+		 if(n%i==0)
+		 {
+			 return false;
+		 }
+		     return true;//不与for相连
+	 
+
+ }
+

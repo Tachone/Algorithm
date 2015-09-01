@@ -1,0 +1,39 @@
+#include<iostream>
+#include<string>
+#include<vector>
+#include<algorithm>
+using namespace std;
+bool comp(const int &s1,const int &s2)
+{if(s1!=s2)
+return s1<s2;
+}
+int main()
+{
+	vector<int> m;
+	int n,a,b,c;
+	cin>>n;
+	for(int i=1;i<=n;i++)
+	{
+		cin>>a;
+		int cha;
+		for(int j=1;j<=a&&cin>>b>>c;j++)
+		{
+			cha=c-b;
+			m.push_back(cha);
+
+		}
+		sort(m.begin(),m.end(),comp);
+		int n=0;
+		for(int k=0;k<m.size();k++)
+		{
+			cout<<(n++?" ":"");
+			cout<<m[k];
+		}
+		cout<<endl;
+		m.clear();
+
+	}
+	return 0;
+
+	
+}

@@ -1,0 +1,85 @@
+
+题目大意：给定一些关系，对于每个人（男孩或女孩），列出他所喜欢的人（允许同性恋），对于每次询问（聚会），求这样一种人：他喜欢所有人，但所有人都不喜欢他
+分析：简单分析可知，这种人假如存在，最多只有一个。因为假设有2个这样的人，他们彼此就与题意矛盾。故可以枚举这个人，如何快速枚举？
+? ? ? ? ? ?对于一次聚会，先把第一个人假设为这种人，遍历其后的人，与当前这个人判断关系，若发现这个人不可能是这种人，则把当前遍历的更新为这种人。
+? ? ? ? ? ?扫一遍后，再判断这个人是否真的是，只要和他前面所有的人判断一下即可
+#include <iostream>
+#include <set>
+#include <map>
+#include <cstring>
+
+using namespace std;
+
+const int MAX_N = 30000 + 100;
+set <int>_set[MAX_N];
+int cnt;
+map <string, int> id;
+
+int getID(string str)
+{
+    if(!id.count(str))
+        id[str] = cnt++;
+    return id[str];
+}
+int n, m, q, T;
+string person[MAX_N];
+
+int main()
+{
+    cin >> T;
+    while(T--)
+    {
+        id.clear();
+        for(int i = 0; i < MAX_N; i++)
+            _set[i].clear();
+        cnt = 0;
+        string str;
+        int num,ID;
+        cin >> n >> m >> q;
+        for(int i = 0; i < n + m ;i++)
+        {
+           cin >> str >> num;
+           ID = getID(str);
+           for(int j = 0; j < num; j++)
+           {
+               cin >> str;
+               _set[ID].insert(getID(str));
+           }
+        }
+        string res;
+        int flag;
+        for(int i = 0; i < q; i++)
+        {
+            cin >> num;
+            for(int j = 0; j < num; j++)
+            {
+                cin >> str;
+                person[j] = str;
+            }
+            res = person[0];
+            flag = 0;
+            for(int j = 1; j < num; j++)
+            {
+                if(!_set[getID(person[flag])].count(getID(person[j])) || _set[getID(person[j])].count(getID(person[flag])))
+                {
+                    res = person[j];
+                    flag = j;
+                }
+            }
+            for(int j = 0; j < flag; j++)
+            {
+                if(!_set[getID(person[flag])].count(getID(person[j])) || _set[getID(person[j])].count(getID(person[flag])))
+                {
+                    res = "";
+                    break;
+                }
+            }
+            if(res != "")
+                cout << 1 << " " << res << endl;
+            else
+                cout << 0 <<  endl;
+        }
+        cout << endl;
+    }
+    return 0;
+}

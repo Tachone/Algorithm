@@ -1,0 +1,50 @@
+给你一个前序遍历和中序遍历，要求后序。
+可以由先序和中序的性质得到?：?先序的第一个借点肯定是当前子树的根借点，?那么在
+中序中找到这个结点，?则这个结点左边的节点属于左子树，?右边的属于右子树。然后递归遍历就可以了。
+
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<stack>
+//以中序建树...................前序帮忙确定根（判断左树的个数数目） 
+using namespace std;
+
+const int N=1010;
+
+int n,pre[N],zho[N]; //先序数组和中序数组
+stack<int> st;      //存放父节点
+
+//按照父-右-左的顺序来push进栈
+ 
+void build(int l1,int r1,int l2,int r2){    //l1,r1,是先序遍历的数组的开始和末尾，l2,r2是中序遍历的数组的开始和末尾
+    int i,j;
+    st.push(pre[l1]);    //父节点入栈
+    for(i=l2;i<=r2;i++)
+        if(zho[i]==pre[l1])  //找到父节点在中序遍历的位置i
+            break;
+    j=l1+(i-l2+1);      //确定左子树和右子树在先序遍历的分界点j，即右子树的父节点
+    
+    if(j<=r1 && i+1<=r2)    //求解右子树
+        build(j,r1,i+1,r2);
+    if(l1+1<=j-1 && l2<=i-1)    //求解左子树
+        build(l1+1,j-1,l2,i-1);
+}
+
+int main(){
+    while(~scanf("%d",&n)){
+        for(int i=0;i<n;i++)
+            scanf("%d",&pre[i]);
+        for(int i=0;i<n;i++)
+            scanf("%d",&zho[i]);
+        build(0,n-1,0,n-1);
+        
+        while(!st.empty()){
+            printf("%d",st.top());
+            st.pop();
+            if(!st.empty())
+                printf(" ");
+        }
+        printf("\n");
+    }
+    return 0;
+}

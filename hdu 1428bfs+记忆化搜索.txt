@@ -1,0 +1,68 @@
+#include<iostream>
+#include<cstdio>
+#include<queue>
+using namespace std;
+struct point 
+{
+    int x , y;
+    int step;    
+     friend bool operator < (const point a , const point b) {
+        return a.step > b.step; 
+       }
+};
+int n ,cnt;
+int dir[4][2] = {{-1,0},{1,0},{0,1},{0,-1}};
+bool vis[60][60];
+int map[60][60];
+void bfs() {
+    priority_queue<point> Q;
+    point start,node;
+    start.x = n;
+    start.y = n;
+    start.step = map[n][n];
+    vis[n][n] = 1;
+    Q.push(start);
+    while(!Q.empty()) {
+        start = Q.top();
+        Q.pop();
+        for(int k = 0 ; k < 4 ; k ++) {
+            int xx = start.x + dir[k][0];
+            int yy = start.y + dir[k][1];
+            if(xx >= 1 && xx <= n && yy >= 1 && yy <= n && !vis[xx][yy]) {
+                vis[xx][yy] = 1;
+                node.x = xx;
+                node.y = yy;
+                node.step = start.step + map[xx][yy];
+                map[xx][yy] += map[start.x][start.y];   //优先队列求出其它点到(n,n)的最短距离 
+                Q.push(node);    
+            }    
+        }    
+    }               
+}
+__int64 ans[60][60];
+__int64 dfs(int i , int j) {            //记忆化搜索ans数组保存到终点的方案数 
+    if(ans[i][j] > 0) return ans[i][j];
+    for(int k = 0 ; k < 4 ; k ++) {
+        int xx = i + dir[k][0];
+        int yy = j + dir[k][1];
+        if(xx >= 1 && xx <= n && yy >= 1 && yy <= n) {
+            if(map[xx][yy] < map[i][j])
+            ans[i][j] += dfs(xx , yy);
+        }    
+    }
+    return ans[i][j];                
+}
+int main() {
+    int i , j;
+    while(scanf("%d",&n)!=EOF) {
+        for(i = 1 ; i <= n ; i ++)
+            for(j = 1 ; j <= n ; j ++) 
+            scanf("%d",&map[i][j]);
+            memset(vis,0,sizeof(vis));
+            bfs();
+            memset(ans,0,sizeof(ans));
+            ans[n][n] = 1;//dfs比需要终止 
+            dfs(1 , 1);
+            printf("%I64d\n",ans[1][1]);        
+    }    
+}

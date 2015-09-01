@@ -1,0 +1,28 @@
+#include <iostream>  //走的时候记得把匣子拔掉 
+#include <vector>  
+#include <map>
+#include<algorithm>
+using namespace std;
+int main()
+{
+	map<int,int> m;
+	int i=0,p=0;
+	while(1)
+	{
+		i++;
+		if(i%3==0||i%5==0)
+		{
+			p++;
+			if(p>100000)
+			break;
+			m[p]=i;
+		}
+	}
+	map<int,int >::iterator it;
+	for(int n;cin>>n;)
+	{
+		cout<<m[n]<<endl;
+	}
+   return 0; 	
+} 
+     

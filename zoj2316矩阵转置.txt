@@ -1,0 +1,8 @@
+//¾ØÕó×ªÖÃÕÒ¹æÂÉ
+
+#include <iostream>
+#include <cstdio>
+#include <string.h>
+using namespace std;
+int store[100010];
+int main(){	int n,m,t,a,b,cnt=0;	long long ans=0;	scanf("%d",&t);	while(t--)	{		if(cnt)printf("\n");		else cnt=1;		memset(store,0,sizeof(store));		scanf("%d%d",&n,&m);		ans=0;		for(int i=0;i<m;i++)		{			scanf("%d%d",&a,&b);			store[a]++;			store[b]++;		}		for(int i=1;i<=n;i++)		{		     ans+=store[i]*(store[i]-1);             ans+=store[i];		}		printf("%lld\n",ans);	}	return 0;}

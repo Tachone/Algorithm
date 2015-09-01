@@ -1,0 +1,35 @@
+#include<iostream>
+using namespace std;
+int s[101][101];
+int main()
+{
+	int m,n,a,i,j;
+	cin>>m>>n;
+	for(i=0;i<m;i++)
+	for(j=0;j<n;j++)
+	cin>>s[i][j];
+	while(m%2==0)//精巧的代码
+	{
+		bool flag=true;
+		for(i=0,j=m-1;i<j;i++,j--)//由两侧同时逼近
+		{
+			for(int k=0;k<n;k++)
+			{
+				if(s[i][k]!=s[j][k])
+				{
+					flag=false;
+					break;
+				}
+			}
+			if(flag==false)
+			break;
+		}
+		if(flag==false)
+		break;
+		m/=2;
+	}
+	cout<<m<<endl;
+	return 0; 
+   
+} 
+

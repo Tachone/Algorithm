@@ -1,0 +1,31 @@
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+#include<cstdio>
+#include<cstring>
+using namespace std;
+int n,k,d;
+long long vis[105][105];
+long long dfs(long long sum,int x)//sum最后总和，x当前最大值
+{
+    if(sum == 0)
+	{
+		return x >= d;
+	}
+    long long &remain = vis[sum][x];
+    if(remain!=-1)return remain;
+    remain = 0;
+    for(int i = 1; i <= k; i++)
+		if(i <= sum)
+			remain += dfs(sum - i, max(x, i));
+	remain %= 1000000007;
+	return remain;
+}
+int main()
+{
+    while(~scanf("%d%d%d",&n,&k,&d))
+    {
+    memset(vis,-1,sizeof(vis));
+    cout<<dfs(n,0)<<endl;
+    }
+}

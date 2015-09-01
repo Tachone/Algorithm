@@ -1,0 +1,65 @@
+思路：
+Codeforces上还有更加难的题目
+引：如果暴力枚举两点再求距离是显然会超时的。转换一下思路，我们可以对每条边，求所有可能的路径经过此边的次数：设这条边两端的点数分别为A和B，那 么这条边被经过的次数就是A*B，它对总的距离和的贡献就是(A*B*此边长度)。我们把所有边的贡献求总和，再除以总路径数N*(N-1)/2，即为最 后所求。
+每条边两端的点数的计算，实际上是可以用一次dfs解决的。任取一点为根，在dfs的过程中，对每个点k记录其子树包含的点数（包括其自身），设点数为a[k]，则k的父亲一侧的点数即为N-a[k]。这个统计可以和遍历同时进行。故时间复杂度为O(n)。
+
+#include <iostream>
+#include <string.h>
+#include <stdio.h>
+using namespace std;
+#define N 10010
+struct note
+{
+    int v,next,value;
+}edge[N*2+10];
+int head[N];
+double dp[N];
+int sum[N];
+int n;
+int kk;
+int ss;
+void add(int fa,int son,int value)
+{
+    edge[kk].v = son;
+    edge[kk].value = value;
+    edge[kk].next = head[fa];
+    head[fa] = kk++;
+}
+void dfs(int root,int fa)
+{
+    sum[root] = 1;
+    for(int i = head[root];i != -1;i = edge[i].next)
+    {
+        int son = edge[i].v;
+        if(son == fa) continue;
+        dfs(son,root);
+        sum[root] += sum[son];
+        dp[root] += dp[son] + (double)sum[son]*(n-sum[son])*edge[i].value;
+    }
+}
+int main()
+{
+    int cas;
+    scanf("%d",&cas);
+    while(cas--)
+    {
+        ss = 0;
+        memset(head,-1,sizeof(head));
+        memset(dp,0,sizeof(dp));
+        kk = 1;
+        scanf("%d",&n);
+        int a,b,v;
+        for(int i = 1;i < n;i++)
+        {
+            scanf("%d%d%d",&a,&b,&v);
+            add(a,b,v);
+            add(b,a,v);
+        }
+        dfs(0,-1);
+        ss = n*(n-1) / 2;
+        printf("%llf\n",(double)dp[0] / ss);
+    }
+    return 0;
+}
+
+

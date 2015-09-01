@@ -1,0 +1,54 @@
+/*#include<iostream>
+#include<cmath>
+#include<string.h>
+using namespace std;
+int c[20],n,total;
+int main()
+{
+	void dfs(int cur);
+	for(;cin>>n&&n!=0;)
+	{
+	   total=0;
+	   dfs(0);
+	  cout<<total<<endl;
+	}
+	return 0;
+} 
+
+void dfs(int cur)//只要一个变量就可 
+{
+	if(cur==n)
+	{
+		total++;
+		return ;
+	}
+	else
+	{
+		for(int i=0;i<n;i++)
+		{
+			c[cur]=i;//逐行来判 
+			int ok=1;
+			for(int j=0;j<cur;j++)
+			{
+				if(c[j]==c[cur]||cur-j==c[cur]-c[j]||cur-j==c[j]-c[cur])//两种对角线..... 
+				{
+					ok=0;
+					break;
+				}
+			}
+			if(ok)
+			dfs(cur+1);
+		}
+	}
+}*/
+#include<iostream>
+using namespace std;
+int main()
+{
+	int a[11]={0,1,0,0,2,10,4,40,92,352,724};
+	for(int n;cin>>n&&n!=0;)
+	{
+		cout<<a[n]<<endl;
+	}
+	return 0;
+}

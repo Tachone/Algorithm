@@ -1,0 +1,81 @@
+#include<iostream>
+#include<stdio.h>
+#include<string>
+#include<cstring>
+using namespace std;
+#define INF 0x3f3f3f3
+const int MAX_N=1005;
+int map[MAX_N][MAX_N],vis[MAX_N],dis[MAX_N],pre[MAX_N];//dis代表到每个点的最短距离 
+//注意先把map[][]=INF 
+bool flag;
+int fir=0;
+void dijkstr(int x,int m){//x代表开始点，m代表顶点个数 
+	for(int i=1;i<=m;i++){
+		dis[i]=map[x][i];
+		vis[i]=0;
+	}
+	int p;
+	vis[x]=1;
+	for(int i=1;i<=m;i++){
+	   	int min=INF;
+	   	for(int j=1;j<=m;j++){
+	   		if(!vis[j]&&dis[j]<min){
+		   		min=dis[j];
+		   		p=j;
+		   	}   	
+	   	}
+	   	vis[p]=1;
+		for(int j=1;j<=m;j++){
+			if(!vis[j]&&dis[p]+map[p][j]<dis[j])
+			{
+			   dis[j]=dis[p]+map[p][j];
+			   if(flag)
+			   pre[j]=p;
+			}
+		}	   	
+	}
+}
+
+
+int main(){
+	int m,n,a,b,c;
+	void dijkstr(int x,int n);
+	while(scanf("%d%d",&m,&n)!=EOF){
+	    memset(pre,0,sizeof(pre));
+
+		for(int i=1;i<=m;i++)
+		for(int j=1;j<=m;j++){
+			if(i==j)
+			map[i][j]=0;
+			else
+			 map[i][j]=INF;
+		}
+		for(int j=1;j<=n;j++){
+			scanf("%d%d%d",&a,&b,&c);
+			{ 
+			if(map[a][b]>c) 
+			map[a][b]=map[b][a]=c;
+			} 
+		}
+		flag=true;
+
+		dijkstr(1,m);
+		flag=false;
+		int ans=dis[m];
+	    //for(int i=1;i<=m;i++)
+	    //cout<<pre[i]<<"opop"<<endl;
+		for(int k=m;k!=0;k=pre[k])
+		{
+			//cout<<k<<"ppp"<<endl;
+			int t=map[k][pre[k]];
+			map[k][pre[k]]=map[pre[k]][k]=INF;
+			dijkstr(1,m);
+			map[k][pre[k]]=map[pre[k]][k]=t;
+			if(dis[m]>ans)
+			ans=dis[m];
+			
+		}
+		cout<<ans<<endl;	
+	}
+	return 0;
+}

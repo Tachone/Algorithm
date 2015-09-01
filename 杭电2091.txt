@@ -1,0 +1,28 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	char a;
+	int b;
+	int i,j;
+	int m=0;
+	for(;cin>>a&&a!='@'&&cin>>b;)
+	{
+		cout<<(m++?"\n":"");
+		if(b==1)//×¢Òâ²»ÒªºöÂÔ
+		cout<<a<<endl;
+		else
+		{
+		cout<<string(b-1,' ')<<a<<endl;
+		for(i=2;i<b;i++)
+		{
+			cout<<string(b-i,' ')<<a<<string(2*i-3,' ')<<a<<endl;
+			
+		}
+		cout<<string(2*b-1,a)<<endl;
+		}
+		
+	}
+	return 0;
+}

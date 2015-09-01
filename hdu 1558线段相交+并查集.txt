@@ -1,0 +1,119 @@
+
+
+//判断第k个线段的集合中一共有几条线段
+#include<iostream>
+#include<string>
+#include<cstring>
+using namespace std;
+struct node
+{
+	double x;
+	double y;
+}s[2004];
+struct edge
+{
+	node a,b;
+	int num;
+}E[2005];
+int fa[2005];
+int sum[2005]; 
+int T,n,cha;
+char c;
+int m=0;
+double direction (node p0, node p1, node p2) 
+{  
+    return ((p2.x - p0.x)*(p1.y - p0.y) - (p1.x - p0.x)*(p2.y - p0.y));  
+}  
+  
+bool on_segment (node p0, node p1, node p2)
+{  
+    double minx, maxx, miny, maxy;  
+    minx = min(p0.x, p1.x);  
+    maxx = max(p0.x, p1.x);  
+    miny = min(p0.y, p1.y);  
+    maxy = max(p0.y, p1.y);  
+    if (p2.x >= minx && p2.x <= maxx && p2.y >= miny && p2.y <= maxy)  
+        return true;  
+    else  
+        return false;  
+}  
+bool segments_intersect (node p1, node p2, node p3, node p4) 
+{  
+    double d1, d2, d3, d4;  
+    d1 = direction(p3, p4, p1);  
+    d2 = direction(p3, p4, p2);  
+    d3 = direction(p1, p2, p3);  
+    d4 = direction(p1, p2, p4);  
+    if (((d1 < 0 && d2 > 0) || (d1 > 0 && d2 < 0)) && ((d3 < 0 && d4 > 0) || (d3 > 0 && d4 < 0)))  
+        return true;  
+    else if (d1 == 0 && on_segment(p3, p4, p1))  
+        return true;  
+    else if (d2 == 0 && on_segment(p3, p4, p2))  
+        return true;  
+    else if (d3 == 0 && on_segment(p1, p2, p3))  
+        return true;  
+    else if (d4 == 0 && on_segment(p1, p2, p4))  
+        return true;  
+    else  
+        return false;  
+}  
+void init()
+{
+	for(int i=1;i<=n;i++)
+	{
+	   fa[i]=i;
+	   sum[i]=1;
+	}
+}
+int find(int x)
+{
+	if(x!=fa[x])
+	fa[x]=find(fa[x]);
+	return fa[x];
+}
+void combine(int x,int y)
+{
+	int xx=find(x);
+	int yy=find(y);
+	if(xx==yy)
+	return ;
+    fa[xx]=yy;
+    sum[yy]+=sum[xx];
+
+}
+int main()
+{
+
+	cin>>T;
+	while(T--)
+	{ 
+     	cout<<(m++?"\n":"");
+		cin>>n;
+		init();
+		int cixu=1;
+		for(int i=1;i<=n;i++)
+		{
+			cin>>c;
+			if(c=='P')
+			{
+				cin>>E[cixu].a.x>>E[cixu].a.y>>E[cixu].b.x>>E[cixu].b.y;
+				E[cixu].num=cixu;
+				for(int j=1;j<cixu;j++)
+				{
+					if(segments_intersect(E[j].a,E[j].b,E[cixu].a,E[cixu].b))
+					{
+						combine(E[j].num,E[cixu].num);
+					}
+				}
+				cixu++;
+			}
+		    
+			if(c=='Q')
+			{
+				cin>>cha;
+				cout<<sum[find(cha)]<<endl;
+			}
+		} 
+	}
+	return 0;
+}

@@ -1,0 +1,19 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	int n;
+	char c;
+	for(;cin>>c>>n;)
+	{
+		for(int i=1;i<=n;i++)
+			cout<<string(n-i,' ')+string(i,c)+' '+string(i,c)+'\n';//注意i和n不要混乱
+	
+	
+	
+	}
+
+return 0;
+
+}

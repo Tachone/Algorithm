@@ -1,0 +1,121 @@
+/*暴搜，但是注意优化，只要有一个中没有该字串
+ 就break掉。不要计数最后等于sum了，会TLE的*/ 
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+bool comp(string s,string ss)
+{
+	return s.length()<ss.length();
+}
+int main()
+{
+	bool it,temp;
+	int n,i,j,m;
+	string s[200];
+	cin>>m;
+	for(i=1;i<=m;i++)
+	{
+		cin>>n;
+		for(j=0;j<n;j++)
+		cin>>s[j];
+		sort(s,s+n,comp);
+		bool find=false;
+		for(int p=s[0].length();p>=1;p--)
+		{	
+		     bool out=false;	
+			for(int k=0;k<=s[0].length()-p;k++)
+			{
+				it=false;
+				string ss=s[0].substr(k,p);
+				string st=ss;
+				int sum=0;
+				reverse(ss.begin(),ss.end());
+				for(int t=1;t<n;t++)
+				{
+					temp=false;
+					for(int w=0;w<=s[t].length()-p;w++)
+					{
+						if(s[t].substr(w,p)==ss||s[t].substr(w,p)==st)
+						{
+                            sum++;
+                            temp=true;
+							break;
+						}		
+					}
+					if(temp==false)
+					break;					
+					
+				}
+		    	if(sum==n-1)
+				{
+					cout<<p<<endl;
+					find=true;
+					out=true;
+					break;
+				}			
+			}
+			if(out)
+			break;
+		}
+		if(find==false)//注意处理为0的情况 
+		cout<<0<<endl;
+	}
+	return 0;
+}  
+
+
+
+
+好久没ac了，先水道几道题，呵呵。
+这是道字符串的简单题。我用c++写的，说明了string类的强大。
+#include<stdio.h>
+#include<iostream>
+#include<string>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+ bool cmp(string const &x,string const &y)
+{
+ if(x.size()<y.size())
+ return true;
+ return false;
+}
+int main()
+{
+    string s[101],sss;
+ int n,t,i,j,k,m,flag;
+ scanf("%d",&t);
+ while(t--)
+ {
+  scanf("%d",&n);
+  for(i=0;i<n;i++)
+     cin>>s[i];
+  sort(s,s+n,cmp);
+  flag=1;m=0;
+  for(j=1;j<=s[0].length();j++)
+    {
+    for(i=0;i<=s[0].length()-j;i++)
+    {
+     for(flag=1,k=1;k<n&&flag;k++)
+     {
+       flag=0;
+           sss=s[0].substr(i,j);
+          if(s[k].find(sss)!=4294967295)
+          {
+             flag=1;
+          }
+                reverse(sss.begin(),sss.end());
+        if(s[k].find(sss)!=4294967295)
+          {
+              flag=1;
+          }
+     }
+    if(flag&&k==n) {m=j;break;}
+    }
+    if(m!=j) break;
+    }
+  printf("%d\n",m);
+ }
+
+}

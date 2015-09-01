@@ -1,0 +1,96 @@
+#include<time.h>
+#include<iostream>
+#include<string.h>
+int m1[600][600];
+int m2[600][600];
+int re[600][600];
+using namespace std;
+int main()
+{
+    int n;
+    scanf("%d",&n);
+    srand((unsigned)time(0));
+        for(int j=1;j<=n;j++)
+        for(int k=1;k<=n;k++)
+        scanf("%d",&m1[j][k]);
+        
+        for(int j=1;j<=n;j++)
+        for(int k=1;k<=n;k++)
+        scanf("%d",&m2[j][k]);
+        
+        for(int j=1;j<=n;j++)
+        for(int k=1;k<=n;k++)
+        scanf("%d",&re[j][k]);
+       bool flag=true;
+      
+      for(int i=1;i<=40000&&flag;i++)
+      {
+        int temp=0;
+        int x=rand()%n+1;
+        int y=rand()%n+1;
+        for(int k=1;k<=n;k++)
+        {
+            temp+=m1[x][k]*m2[k][y];
+         }
+         if(temp!=re[x][y])
+         flag=0;
+      }
+    if(flag)
+    printf("YES\n");
+    else
+    printf("NO\n");
+    return 0;   
+}
+
+随机取点进行判断
+
+
+用稀疏矩阵的优化水过的
+#include<stdio.h>
+#include<iostream>
+#include<string.h>
+int m1[600][600];
+int m2[600][600];
+int re[600][600];
+int m3[600][600];
+using namespace std;
+int main()
+{
+    int n;
+    scanf("%d",&n);
+    memset(m3,0,sizeof(m3));
+    
+        for(int j=1;j<=n;j++)
+        for(int k=1;k<=n;k++)
+        scanf("%d",&m1[j][k]);
+        
+        for(int j=1;j<=n;j++)
+        for(int k=1;k<=n;k++)
+        scanf("%d",&m2[j][k]);
+        
+        for(int j=1;j<=n;j++)
+        for(int k=1;k<=n;k++)
+        scanf("%d",&re[j][k]);
+       bool flag=true;
+    
+    
+     for(int i=1;i<=n;i++)
+     for(int j=1;j<=n;j++)
+     if(m1[i][j])
+     for(int k=1;k<=n;k++)
+     m3[i][k] += m1[i][j]*m2[j][k];
+                   
+    for(int i=1;i<=n;i++)
+    for(int j=1;j<=n;j++)
+    if(m3[i][j]!=re[i][j])
+    {
+        flag=false;
+        goto loop;
+    }
+    loop:
+    if(flag)
+    printf("YES\n");
+    else
+    printf("NO\n");
+    return 0;    
+}

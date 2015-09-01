@@ -1,0 +1,21 @@
+假如3种球从小到大是a, b, c，那么如果（a + b） 2 <= c这个比较明显答案就是a + b了，因为c肯定要剩余了，如果(a + b)2 > c的话，就肯定能构造出最优的（a + b + c) / 3，因为肯定可以先拿a和b去消除c，并且控制a和b成2倍关系或者消除一堆，让剩下两堆尽量一样
+
+有三种气球，每一个桌子三个气球，一个桌子上至少要有一个气球不一样
+求最多装饰几个桌子？
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+typedef long long ll;
+ll a[3], ans = 0;
+
+int main() {
+	for (ll i = 0; i < 3; i++)
+		scanf("%lld", &a[i]);
+	sort(a, a + 3);
+	if ((a[0] + a[1]) * 2 >= a[2]) printf("%lld\n", (a[0] + a[1] + a[2]) / 3);
+	else printf("%lld\n", a[0] + a[1]);
+	return 0;
+}
+

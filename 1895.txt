@@ -1,0 +1,27 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	int n,m,s,i,j;
+	char c;
+	int a=0;
+	for(;cin>>n>>m>>c>>s;)
+	{
+		cout<<(a++?"\n":"");
+		cout<<c;
+		for(i=1;i<=m-1;i++)
+		cout<<string(s,' ')<<c;
+		cout<<endl;
+		for(j=1;j<=n-1;j++)
+		{
+		    for(int k=1;k<=s;k++)
+			cout<<endl;
+			cout<<c;
+		    for(i=1;i<=m-1;i++)
+		    cout<<string(s,' ')<<c;
+	     	cout<<endl;
+		}	
+	}
+	return 0;
+} 

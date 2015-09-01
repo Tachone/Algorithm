@@ -1,0 +1,77 @@
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+#define INF 0x3f3f3f3
+const int MAX_N=1005;
+int map[MAX_N][MAX_N],vis[MAX_N],dis[MAX_N];
+int ans[MAX_N]; 
+int n,m,a,b,c;
+void dijkstr(int x,int m){
+	for(int i=1;i<=m;i++){
+		dis[i]=map[x][i];
+		vis[i]=0;
+	}
+	int p;
+	vis[x]=1;
+	for(int i=1;i<=m;i++){
+	   	int min=INF;
+	   	for(int j=1;j<=m;j++){
+	   		if(!vis[j]&&dis[j]<min){
+		   		min=dis[j];
+		   		p=j;
+		   	}   	
+	   	}
+	   	vis[p]=1;
+		for(int j=1;j<=m;j++){
+			if(!vis[j]&&dis[p]+map[p][j]<dis[j])
+			dis[j]=dis[p]+map[p][j];
+		}	   	
+	}
+}
+
+int dfs(int x)//¼ÇÒä»¯ 
+{
+	if(ans[x])
+	return ans[x];
+	if(x==2)
+	return 1;
+	for(int i=1;i<=n;i++)
+	{
+		if(map[x][i]<INF&&dis[i]<dis[x])
+		{
+			ans[x]+=dfs(i);
+		}
+	}
+	return ans[x];
+}
+int main()
+{
+	while(cin>>n&&n)
+	{
+		cin>>m;
+		for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+		{
+			if(i==j)
+			map[i][j]=0;
+			else
+			map[i][j]=INF;
+		}
+	
+		memset(ans,0,sizeof(vis)); 
+		for(int i=1;i<=m;i++)
+		{
+			cin>>a>>b>>c;
+			if(map[a][b]>c)
+			map[a][b]=map[b][a]=c;	
+		}
+		dijkstr(2,n);
+		int res=dfs(1);
+		cout<<res<<endl;
+		
+	}
+	return 0;
+}
+

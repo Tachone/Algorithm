@@ -1,0 +1,21 @@
+#include <iostream>
+#include <stdio.h>
+#include <cmath>
+#include <string>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+int main()
+{
+    int t;
+    cin>>t;
+    double a,b,n,c;
+    while(t--)
+    {
+        cin>>a>>b>>n;
+        c=(a+b)/3;//每家应该做的
+        cout<<n*(a-c)/c<<endl;//所以a帮c做的才是该负的报酬
+        
+    }
+    return 0;
+}

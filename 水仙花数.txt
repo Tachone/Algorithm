@@ -1,0 +1,15 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	for(int n=100;n<1000;n++)
+	{
+		int a,b,c;
+		a=n/100;//百位
+		b=n%10;//个位
+		c=n/10%10;//十位
+		if(a*a*a+b*b*b+c*c*c==n)
+			cout<<n<<endl;
+	}
+	return 0;
+}

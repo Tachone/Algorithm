@@ -1,0 +1,24 @@
+#include<iostream>
+#include<string>
+#include<string.h>
+using namespace std;
+int main()
+{
+	int n,left;
+	while(cin>>n)
+	{
+		int ans=0;
+		for(int i=0;i<=n;i++)//1
+		for(int j=0;j<=n/5;j++)//5
+		for(int k=0;k<=n/10;k++)//10
+		for(int l=0;l<=n/25;l++)
+		{
+			left=n-i-j*5-k*10-l*25;
+			if(left%50==0&&left>=0&&i+j+k+l+left/50<=100)//题意不是很清晰,超过100不换
+			ans++;
+		}
+		cout<<ans<<endl;
+		
+	}
+	return 0;
+}

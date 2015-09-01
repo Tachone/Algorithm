@@ -1,0 +1,30 @@
+#include<iostream>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	double f(int n);
+	cout<<"n e"<<endl;
+	cout<<"- -----------"<<endl;
+	cout<<0<<" "<<1<<endl;
+	double sum=1.0;
+	for(int i=1;i<=9;i++)
+	{
+		sum+=f(i);
+		if(i==1)
+		cout<<1<<" "<<2<<endl;
+		else if(i==2)
+		cout<<2<<" "<<2.5<<endl;
+		else
+		cout<<i<<" "<<setiosflags(ios::fixed)<<setprecision(9)<<sum<<endl;
+	}
+	return 0;
+}
+
+double f(int n)
+{
+	double sum=1.0;
+	for(int i=1;i<=n;i++)
+	sum*=i;
+	return (double)(1/sum);
+}

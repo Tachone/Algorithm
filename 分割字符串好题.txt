@@ -1,0 +1,72 @@
+#include<iostream>
+#include<string>
+#include<map>
+#include<sstream>
+#include<algorithm>
+#include<string.h>
+using namespace std;
+int main()
+{
+	map<string,string> mp;
+	string s,ty,ss,p,t,ok;
+	while(cin>>s)
+	{
+		if(s.find("print")!=-1)
+		{
+			for(int j=0;j<s.length();j++)
+			{
+				if(s[j]=='('||s[j]==')')
+				s[j]=' ';
+			}
+			istringstream din(s);
+			din>>t;din>>p;
+			din>>ok;
+			if(mp[ok][0]=='[')
+			cout<<"<class 'list'>"<<endl;
+			else if(mp[ok][0]=='{')
+			{
+				bool it=false;
+				for(int l=0;l<mp[ok].length();l++)
+				{
+					if(mp[ok][l]==':')
+					{
+						it=true;
+						break;
+					}
+				}
+				if(it)
+				cout<<"<class 'dict'>"<<endl;
+				else
+				cout<<"<class 'set'>"<<endl;
+			}
+			else 
+			{
+				bool flag=false;
+				for(int e=0;e<mp[ok].length();e++)
+				{
+					if(mp[ok][e]<'0'||mp[ok][e]>'9')
+					{
+						flag=true;
+						break;
+					}
+				}
+				if(flag)
+				cout<<"<class 'str'>"<<endl;
+				else
+				cout<<"<class 'int'>"<<endl;
+      		}
+		}
+		else
+		{
+			for(int i=0;i<s.length();i++)
+			{
+				if(s[i]=='=')
+				s[i]=' ';
+			}
+			istringstream sin(s);
+			sin>>ty;sin>>s;
+			mp[ty]=s;
+		}
+	}
+	return 0;
+}

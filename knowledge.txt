@@ -1,0 +1,47 @@
+1.
+#include<iostream>
+using namespace std;
+int main()
+{
+	int a=6;
+	cout<<"(int)a "<<(int)a<<endl;
+	cout<<"&a "<<&a<<endl;
+	cout<<"(int& )"<<(int&)a<<endl;
+	return 0; 
+}
+(int&)a则是告诉编译器将a当作整数看（并没有做任何实质上的转换）。
+Int& operator*() const//实现取值运算符的重载
+{
+  Return (int&)m_j;(int m_j)
+}
+2.
+	while(n--)
+	{
+		getline(cin,s);
+		istringstream sin(s);
+		while(sin>>str)
+		{
+			string ss;
+			if(str.length()<3)
+			continue;
+	        else  if(str.length()==3)
+			{
+			    for(int i=0;i<str.length();i++)
+			    {
+    				if(str[i]>=65&&str[i]<=90)
+    				ss+=(str[i]+32);//写成ss[i]=str[i]必死
+    				else
+    				ss+=str[i]; 
+    			}
+				if(ss=="and"||ss=="for"||ss=="the")
+				continue; 
+				else
+				cout<<str[0];
+			}
+			else
+			cout<<str[0];
+		}
+		cout<<endl;
+	}
+	return 0;
+} 

@@ -1,0 +1,46 @@
+#include<iostream>
+#include<string>
+#include <ctype.h>//isdigit()要包含的头文件 
+#include<string.h>
+using namespace std;
+string s;
+int dfs(int pos)
+{
+	while(pos<s.length()&&s[pos]!=')')
+	{
+		   int cnt,ans=-1;
+	        for(cnt = 0; ; pos++)
+		     {
+		 	 if(s[pos] -'0' >= 1 && s[pos]-'0' <= 9)
+			 cnt = cnt*10+ s[pos]-'0';
+			 else
+			 break;
+		     }
+		
+		if(cnt==0) cnt=1;
+		while(cnt--)
+		{
+			if(s[pos]=='(')
+			ans=dfs(pos+1);
+			else
+			cout<<s[pos];
+		}
+		if(ans!=-1)
+		pos=ans;
+		pos++;
+	}
+	return pos;
+}
+
+int main()
+{
+	int n;
+	cin>>n;
+	while(n--)
+	{
+		cin>>s;
+		dfs(0);
+		cout<<endl;
+	}
+	return 0;
+}

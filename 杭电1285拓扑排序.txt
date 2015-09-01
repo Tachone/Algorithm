@@ -1,0 +1,52 @@
+//拓扑排序。。很简单的，但是为什么那个循环不对呀
+#include<iostream>
+#include<string.h>
+using namespace std;
+int i,j,k,m,n;
+int map[600][600];
+int into[600];
+int ans[600];
+int main()
+{
+	void toposort();
+	int a,b;
+	for(;cin>>m>>n;)
+	{
+		memset(map,0,sizeof(map));
+		memset(into,0,sizeof(into));
+		for(i=1;i<=n;i++)
+		{
+			cin>>a>>b;
+			map[a][b]=1;
+		}
+		toposort();
+		cout<<ans[1];
+		for(i=2;i<=m;i++)
+	    cout<<" "<<ans[i];
+		cout<<endl;
+		
+	}
+	return 0;
+}
+void toposort()
+{
+	for(i=1;i<=m;i++)
+	for(j=1;j<=m;j++)
+	{
+		if(map[i][j]==1)
+		into[j]++;
+	}
+	for(i=1;i<=m;i++)
+	{
+		j=1;
+		while(into[j]!=0)
+		j++;
+		ans[i]=j;
+		into[j]--;
+		for(int k=1;k<=m;k++)
+		{
+			if(map[j][k]==1)
+			into[k]--;		
+		}
+	}
+}

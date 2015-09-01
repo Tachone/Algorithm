@@ -1,0 +1,34 @@
+//当初就是因为不相信随机和暴力啊啊啊啊 啊啊啊
+//不过也是要加技巧的
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <string.h>
+using namespace std;
+int zhuangtai[105][13];
+int main()
+{
+	int cnt=0;
+    int x,y,count=0;
+    while(cin>>x>>y)
+    {
+    	count=0;
+    	cnt++;
+    	for(int i=x;i<=y;i++)
+    	{
+		    if((i*i*i-3)/10>y)break;
+	    	for(int j=i;j<=y;j++)
+	    	{
+	    		if((i*i*i+j*j*j-3)/10<=y)
+	    		{
+	    			if((i*i*i+j*j*j-3)%10==0)
+					count++;
+	    		}
+	    		else break;
+	    	}	    	
+	    }
+	    cout<<"Case "<<cnt<<": "<<2*count<<endl;
+    }
+	return 0;
+}

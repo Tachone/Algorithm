@@ -1,0 +1,23 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int n,i,j,s,k,m;
+	cin>>n;
+	for(i=1;i<=n&&cin>>s;i++)
+	{
+		char a[8]={'t','Z','J','U','T','A','C','M'};
+		for(m=1;m<=s&&cin>>j>>k;m++)注意i里面不要再用i，混乱了
+		{
+			char temp;
+			temp=a[j];
+			a[j]=a[k];
+			a[k]=temp;
+
+		}
+		for(j=1;j<=7;j++)
+			if(a[j]=='J')
+				cout<<j<<endl;
+	}
+	return 0;
+}

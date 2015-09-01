@@ -1,0 +1,13 @@
+题意：求纵向分布，横向分布重合数字个数
+思路：设重合的坐标为i,j，那么
+(i-1)*m+j=(j-1)*n+i
+(i-1)*m+(j-1)=(j-1)*n+(i-1)
+(i-1)*(m-1)=(j-1)*(n-1)
+i=(j-1)*(n-1)/(m-1)+1
+特殊情况，m=1时答案为n，n=1时答案为m
+然后直接看，枚举j-1从0到m-1的话，i的范围从1到n
+那么满足的就是（n-1）和（m-1）约掉后剩下枚举j-1看能整除多少次。
+求g=gcd(n-1,m-1),那么约分后的分母为(m-1)/g，那么枚举j-1能整除的次数为 (m-1)/((m-1)/g)+1
+也就是 g+1.
+#include<cstdio>#include<iostream>#include<cstring>#include<string>#include<algorithm>#include<map>#include<set>#include<vector>#include<queue>#include<cstdlib>#include<ctime>#include<cmath>using namespace std;typedef long long LL;LL t,n,m;LL gcd(LL x,LL y){	if(y==0) return x;	return gcd(y,x%y);}int main(){	while(~scanf("%lld",&t)){		while(t--){			scanf("%lld%lld",&n,&m);			printf("%lld\n",1LL+gcd(n-1,m-1));		}	}	return 0;}
+

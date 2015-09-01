@@ -1,0 +1,75 @@
+
+http://www.cnblogs.com/yan-boy/archive/2012/11/29/2795294.html
+题目链接: http://acm.hdu.edu.cn/showproblem.php?pid=2157
+题目大意: 给出有向连通图，求A到B恰好经过K个点的方案数%m
+解题思路: 邻接矩阵0-1存储边edge[ ][ ]
+                    邻接矩阵相乘，edge[i][k]*edge[k][j]当且仅当edge[i][k]和edge[k][j]同时为1，也就是同时存在这两条边时相乘才为1
+                    定义G[i][j]m表示i到j恰好经过m条边的方案数，则方程: 
+                                            G[i][j]m=ΣG[i][k]m-1*edge[k][j](1<=k<=n)                  
+                        利用二进制的思想把m次计算简化成log m次运算
+
+#include<iostream>
+#include<stdio.h>
+#include<string.h>
+#include<cmath>
+using namespace std;
+
+int m,n,s,t,T,e,k;
+
+struct matrix
+{
+	int edge[110][110];
+};
+matrix map,map2,ant,temp;
+matrix mul(matrix &a,matrix &b)
+{
+	memset(temp.edge,0,sizeof(temp.edge));
+	for(int i=0;i<n;i++)
+	for(int j=0;j<n;j++)
+	for(int k=0;k<n;k++) 
+	{
+		temp.edge[i][j]=(temp.edge[i][j]+a.edge[i][k]*b.edge[k][j]%1000); 
+	}
+	return temp;
+}
+int quick_pow(int s,int e,int k)  //快速幂的思想  
+{  
+    while(k)  
+    { 
+        if(k%2)  
+        ant=mul(map2,ant);  
+        map2=mul(map2,map2);  
+        k>>=1;  
+    }  
+    return ant.edge[s][e];  
+}
+
+
+int main()
+{
+	//freopen("in.txt","r",stdin);
+	while(cin>>n>>m&&(n||m))
+	{
+		memset(map.edge,0,sizeof(map.edge));
+		for(int j=0;j<m;j++)
+		{
+			cin>>s>>t;
+			map.edge[s][t]=1;
+		}
+		cin>>T;
+		while(T--)
+		{
+			memset(ant.edge,0,sizeof(ant.edge));
+			
+            for(int i=0;i<n;i++)  
+            for(int j=0;j<n;j++)  
+              map2.edge[i][j]=map.edge[i][j];  
+			
+		     for(int i=0;i<n;i++)  
+             ant.edge[i][i]=1; 
+             cin>>s>>e>>k;
+	     	cout<<quick_pow(s,e,k)%1000<<endl; 
+		} 
+	}
+	return 0;
+} 

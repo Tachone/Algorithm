@@ -1,0 +1,47 @@
+/*动态规划的题，由2,3,5,7可以组合成的数，由动态规划
+可以解的*/ 
+#include<iostream>
+using namespace std;
+int f[6000];
+int i,j,k,g;
+int main()
+{
+	int min(int a,int b,int c,int d);
+	g=i=j=k=1;f[1]=1;
+	for(int p=2;p<=5842;p++)
+	{
+		f[p]=min(f[i]*2,f[j]*3,f[k]*5,f[g]*7);
+	}
+	for(int n;cin>>n&&n;)
+	{
+		if(n%10==1&&n%100!=11)//判断是否加st,nd,rd; 
+		cout<<"The "<<n<<"st humble number is "<<f[n]<<"."<<endl;
+		else if(n%10==2&&n%100!=12)
+		cout<<"The "<<n<<"nd humble number is "<<f[n]<<"."<<endl;
+		else if(n%10==3&&n%100!=13)
+		cout<<"The "<<n<<"rd humble number is "<<f[n]<<"."<<endl;
+		else
+		cout<<"The "<<n<<"th humble number is "<<f[n]<<"."<<endl;
+	}
+	return 0;
+}  
+
+int min(int a,int b,int c,int d)
+{
+	int minn=a;
+	if(b<minn)
+	minn=b;
+	if(c<minn)
+	minn=c;
+	if(d<minn)
+	minn=d;
+	if(minn==a)
+	i++;
+	if(minn==b)
+	j++;
+	if(minn==c)
+	k++;
+	if(minn==d)
+	g++;
+	return minn;
+} 

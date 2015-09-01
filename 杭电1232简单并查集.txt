@@ -1,0 +1,50 @@
+把有道路连通的城市组成一棵树，其实只要知道知道了城市有几棵，就知道了答案。有n棵树，就需要建n-1条道路。
+我们的树是子节点指向父节点的，这样容易从一个节点找出他的根。
+同根的节点代表的城市是连通的，所以一开始有n个城市则有n棵树，通过读入道路，将处于不同树的城市连通。
+读完所有道路之后，每个根代表了和他连通的城市集，将每个城市找到的根放入一个无重复值的set，便可知道set包含的根的数目，便能知道答案。
+我们用一个数组表示：下标为城市标号，所存数值为父节点下标，所存数值为-1表示没有父节点，既为根。
+#include<iostream>
+#include<stdio.h>
+using namespace std;
+int s[1005];
+int find(int x)
+{
+	if(x!=s[x])
+	s[x]=find(s[x]);
+	return s[x];
+} 
+void combine(int a,int b)
+{
+	int x=find(a);
+	int y=find(b);
+	if(x!=y)
+	s[x]=y;
+}
+int main()
+{
+	int N,M,a,b,i,j;
+	while(~scanf("%d",&N)&&N)
+	{
+		int sum=0;
+		scanf("%d",&M);
+        for(i=1;i<=N;i++)
+        s[i]=i;
+        for(i=1;i<=M;i++)
+        {
+        	scanf("%d%d",&a,&b);
+        /*	int x=find(a);
+			int y=find(b);
+			if(x!=y)
+			sum++;
+			else*/
+			combine(a,b); 
+        }
+        for(j=1;j<=N;j++)
+		{
+			if(s[j]==j)
+			sum++;
+		} 
+        cout<<sum-1<<endl;
+	}
+	return 0;
+}

@@ -1,0 +1,44 @@
+艰难成功版
+#include<iostream>
+#include<iomanip>
+using namespace std;
+int main()
+{
+	for(int n;cin>>n;)
+	{
+		double sum=0;
+		for(int i=1,a;i<=n&&cin>>a;i++)//输入的时候累加
+		{
+			sum+=a;
+			
+		}
+         cout<<setiosflags(ios::fixed)<<setprecision(3)<<sum/n<<endl;//定点输出小数位数
+	}
+
+
+	return 0;
+}
+	
+
+不记个数版
+#include<iostream>
+#include<iomanip>
+using namespace std;
+int main()
+{int array[1001];
+int i=0;
+while(cin>>array[i] )
+{i++;
+}
+double sum=0.0;
+int j;
+for(j=0;j<i;j++)
+sum+=array[j];
+sum=sum/j;
+cout<<setiosflags(ios::fixed)<<setprecision(2)<<sum<<endl;
+
+
+
+return 0;
+}
+

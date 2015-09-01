@@ -1,0 +1,22 @@
+这道题目一开始我想算出n！但是是不行的，这里的n可以有好大范围<=7000
+可以将n!表示成10的次幂,即n!=10^M(10的M次方，10^2是3位M+1就代表位数)则不小于M的最小整数就是
+n!的位数，对该式两边取对数，有M=log10^n!即：
+M = log10^1+log10^2+log10^3...+log10^n
+循环求和,就能算得M值，该M是n!的精确位数。
+#include<iostream>
+#include<cmath>
+using namespace std;
+int main()
+{
+	int n,m;
+	cin>>n;
+	for(int i=1;i<=n;i++)
+	{
+		cin>>m;
+		double  sum=1;
+		for(int j=1;j<=m;j++)
+		sum+=log10(j*1.0);
+		cout<<(int)sum<<endl;
+	}
+	return 0;
+} 

@@ -1,0 +1,49 @@
+#include<iostream>
+#include<algorithm>
+#include<iomanip>
+#include<cmath>
+using namespace std;
+struct locate
+{
+	double x;
+	double y;
+	double value;
+	double dis;
+};
+bool comp(locate a,locate b)
+{
+   return a.dis<b.dis;
+}
+int main()
+{
+	locate s[1500];
+	for(int a,b;cin>>a>>b;)
+	{
+		for(int i=0;i<a;i++)
+     	{
+		cin>>s[i].x>>s[i].y>>s[i].value;
+		s[i].dis=sqrt(s[i].x*s[i].x+s[i].y*s[i].y);
+	    }	
+		sort(s,s+a,comp);
+		double sum=b;
+		int index=0;
+		for(int j=0;j<a;j++)
+		{
+			if(sum<1000000)
+			{
+			   sum+=s[j].value;
+			   index=j;	
+			}
+			else
+			break;
+		}
+		if(sum<1000000)
+		cout<<"-1"<<endl;
+		else
+		{
+			cout<<setiosflags(ios::fixed)<<setprecision(7)
+			<<s[index].dis<<endl;
+		}	
+	}
+	return 0;
+}

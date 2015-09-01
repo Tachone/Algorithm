@@ -1,0 +1,88 @@
+/* Author: Tach
+Time : 
+Type: 
+freopen("in.txt","r",stdin);
+*/ 
+#include<iostream>
+#include<stdio.h>
+#include<string>
+using namespace std;
+int T,m,n,a,b;
+int fa[3000];
+int itr[3000];
+void init()
+{
+	for(int i=1;i<=m+5;i++)
+	{
+		fa[i]=i;
+		itr[i]=0;
+	}	
+}
+int find(int x)
+{
+	int k=fa[x];
+	if(x!=fa[x])
+	fa[x]=find(fa[x]);
+	itr[x]=(itr[x]+itr[k])%2;//路径压缩之后的关系改变 
+	return fa[x];
+}
+bool combine(int a,int b)
+{
+	int x=find(a);
+	int y=find(b);
+    if(x==y)
+    {
+ 		if(itr[a]==itr[b])
+ 		return true;
+ 		else
+ 		return false;
+ 	}
+ 	else
+ 	{
+	  fa[y]=x;
+	  itr[y]=(itr[a]-itr[b]+1)%2;//错误就是在这一步	
+	  return false;
+    }
+}
+int main()
+{
+	//freopen("in.txt","r",stdin);
+	//0表示同性，1代表异性 
+	cin>>T;
+	int total=1;
+	while(T--)
+	{
+		cin>>m>>n;
+		init();
+		bool it=false;
+		for(int i=1;i<=n;i++)
+		{
+			cin>>a>>b;
+			if(combine(a,b)&&!it)
+			{
+				it=true;
+			}
+		}
+		cout<<"Scenario #"<<total<<":"<<endl;
+		total++;
+		if(it)
+		cout<<"Suspicious bugs found!"<<endl<<endl;
+		else
+		cout<<"No suspicious bugs found!"<<endl<<endl;
+	}
+	return 0;
+} 
+
+题意：给你 N 条虫 ， 和它们间的 M 条关系。
+      每条关系 X  Y 表示 X 和 Y 不同类 ，在检验每条关系的时候，一旦发现了矛盾
+      也就是当前的这组 X 和 Y 根据前面的关系已经判定是同类的，但是这里给出的关系又是应该不同类，
+      则输出 Suspicious bugs found!
+如果从未发生矛盾，则输出No suspicious bugs found!
+
+算法：并查集的简单应用，判断是否是同类。
+注意：输出格式【换行，和属于第几组数据】
+思路：用数组 r[]记录与父亲节点的关系，0 则同类 1 则异类
+用并查集检验是否有关系：如果有关系，r[]同则矛盾。
+如果没有关系，则合并两棵子树。
+http://blog.csdn.net/freezhanacmore/article/details/8799495
+

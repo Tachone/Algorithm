@@ -1,0 +1,64 @@
+#include<iostream>
+#include<string>
+#include<string.h>
+using namespace std;
+char a[30004],b[30004];
+int main()
+{
+	int n;
+	char c;
+	cin>>n;
+	for(int i=1;i<=n;i++)
+	cin>>a[i];
+	int be=1,ed=n;
+	int cur=1;
+	while(be<=ed)
+	{
+		if(a[be]<a[ed])
+		{
+			b[cur]=a[be];
+			cur++;
+			be++;
+		}
+		else if(a[be]>a[ed])
+		{
+			b[cur]=a[ed];
+			cur++;
+			ed--;
+		}
+		else if(a[be]==a[ed])
+		{
+			int ii=be,jj=ed;
+			while(a[ii]==a[jj])
+			{
+				if(ii==jj)
+				break;
+				ii++;
+				jj--;		
+			}
+			if(a[ii]>a[jj])
+			{
+				b[cur]=a[ed];
+				cur++;
+				ed--;
+			}
+			else
+			{
+				b[cur]=a[be];
+				cur++;
+				be++;
+			}
+		}
+	
+	}
+	for(int i=1;i<=n;i++)
+	{
+	
+	cout<<b[i];
+	if(i%80==0)
+	cout<<endl;
+	}
+	cout<<endl;
+	return 0;
+	
+}

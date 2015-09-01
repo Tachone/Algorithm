@@ -1,0 +1,46 @@
+题意：有一无环森林，N个顶点；给出每个顶点的度，和与之相连所有顶点号的异或和； 输出所有遍。
+题解：叶子节点的异或值是他的父节点,依次去除叶子并维持余下的森林个点的的度与异或和；
+异或的良好性质：
+?XOR：a^b=c?则a^c=b??b^c=a;
+由于old^chl?=new?;即有?new^chl?=?old?;
+#include<iostream>
+#include<vector>
+#include<cstring>
+#include<queue>
+#include<algorithm>
+using namespace std;
+int adjsum[70000],xorr[70000];
+typedef pair<int,int> pii;//pair的使用 
+queue <int> q;
+vector <pii> ans;
+int main()
+{
+	int n;
+	cin>>n;
+	for(int i=0;i<n;i++)
+	{
+	  cin>>adjsum[i]>>xorr[i];
+	  if(adjsum[i]==1)
+	  q.push(i);//第i个结点 
+	}
+	//只有一个结点的时候，他的异或值就是他的父节点的编号 
+	while(!q.empty())
+	{
+		int k=q.front();
+		q.pop();
+		if(adjsum[k]!=1)//考虑最后一个为0的点，跳出 
+		continue;
+		int father=xorr[k];
+		ans.push_back(make_pair(k,father));
+		xorr[father]^=k;
+		adjsum[father]--;
+		if(adjsum[father]==1)
+		q.push(father);	
+	}
+	int len=ans.size();
+	cout<<len<<endl; 
+	for(int i=0;i<len;i++)
+	cout<<ans[i].first<<" "<<ans[i].second<<endl;
+	return 0;
+}
+

@@ -1,0 +1,202 @@
+//每一个顶点有一个关于其相邻边的单链表
+//遍历的时候倒着，这样最先的一个是-1 
+#include<iostream>
+#include<string.h>
+#include<queue>
+using namespace std;
+const int MAX=50000;
+const int INF=100000000;
+const int N=1005;
+struct Node
+{
+	int v;//有向弧指向的点 
+	int cost;//权值 
+	int next; 
+};
+Node edge[MAX];//边数 
+int head[N];//每个节点的头指针 
+int dis[N];//距离 
+int vis[N];
+int cou[N];
+int tot;
+
+int a,b,c;
+int n,ml,md;
+
+void add_edge(int u,int v,int cost)//加边 
+{
+	edge[tot].v=v;
+	edge[tot].cost=cost;
+	edge[tot].next=head[u];
+	head[u]=tot++;//更新 
+}
+
+
+bool spfa()
+{
+	queue<int> q;
+	memset(vis,0,sizeof(vis));
+	memset(cou,0,sizeof(cou));
+	for(int i=0;i<=n;i++)
+	dis[i]=INF;//初始化 
+	
+	dis[1]=0;
+//	vis[1]=1;
+	q.push(1);
+	
+	while(!q.empty())
+	{
+		int u=q.front();
+		q.pop();
+		vis[u]=0;//这样 
+		for(int i=head[u];i!=-1;i=edge[i].next)
+		{
+			int v=edge[i].v;
+			int va=edge[i].cost;
+			if(dis[v]>dis[u]+va)//求最大值 
+			{
+				dis[v]=dis[u]+va;
+				if(!vis[v])
+				{
+					vis[v]=1;
+					q.push(v);
+				}
+				if(++cou[v]>n)//判断是不是有负环 
+				return false;
+			}
+		}
+	}
+	return true;
+}
+int main()
+{
+	cin>>n>>ml>>md;
+	memset(head,-1,sizeof(head));//初始化头指针为-1 
+	tot=0;
+	for(int i=1;i<=ml;i++)
+	{
+		cin>>a>>b>>c;
+		add_edge(a,b,c);//dis[b]-dis[a]<=c 
+	}
+	for(int i=1;i<=md;i++)
+	{
+		cin>>a>>b>>c;
+		add_edge(b,a,-c);//dis[a]-dis[b]<=-c
+	}
+	for(int i=2;i<=n;i++)
+	{
+		add_edge(i,i-1,0);//dis[i-1]-dis[i]<=0
+		add_edge(i,1,0); //d[1] - d[i] <= 0
+	}
+     if (spfa())
+    {
+        if (dis[n] == INF)//多种可能 
+            cout<<-2<<endl;
+        else
+         cout<<dis[n]<<endl;
+    }
+    else
+       cout<<-1<<endl;//存在负环 
+    return 0;
+}
+
+
+
+设d[i] 为 第i只牛到第1只牛的距离
+       根据题意有：
+       d[1] = 0;
+       d[b] - d[a] <= D(ml)     
+       d[b] – d[a] >= D(md)  
+       d[i] – d[i-1] >= 0   题目说牛是从1~n排列下去，这是题目隐藏的条件，刚开始没有加这个条件也能ac
+       d[i] – d[1] >= 0    (1<= i <= n)
+       以1为源点开始搜索，d[n]就是答案，当d[n] = INF时，说明n是自由点，输出-2
+建完图后SPFA即可。（有负环说明无解输出-1 ， 1与n不连通说明可以随意摆放，没有约束嘛。输出-2，否则输出dis [n]）
+
+
+
+
+
+问题代码。。。。
+#include<iostream>
+#include<string>
+#include<stdio.h> 
+#include<queue>
+#include<algorithm>
+using namespace std;
+#define INF 100000000
+#define maxn 2000
+int map[1005][1005];
+int dis[1005];
+int n,l,d,a,b,c;
+
+bool spfa()
+   {
+	int judge[maxn];     //判断负环 
+    bool inq[maxn];
+    memset(inq, false,sizeof(inq));
+    memset(judge,0,sizeof(judge));
+    queue <int> q;
+    for(int i = 0;i <= n; i++){
+        dis[i] = INF;
+    }
+	dis[1]=0;
+    q.push(1);
+    //inq[1] = 1;
+    //dis[1] = 0;
+    while(!q.empty())
+	{
+        int u = q.front();
+        q.pop();
+        //inq[u]=0;
+        for(int i = 1;i<=n;i++)
+			{  
+			if(dis[u]>dis[u] + map[u][i])
+			{
+			dis[u] = dis[u] + map[u][i];
+			if(!inq[i]){
+				inq[i] = 1;
+				 q.push(i);
+			}
+			if(++judge[i] >n) 
+			return false;
+		}
+        }
+       // inq[u] = 0;
+    }
+    return true;
+}
+
+int main()
+{
+  cin>>n>>l>>d;
+  for(int i=1;i<=n;i++)
+  for(int j=1;j<=n;j++)
+  map[i][j]=INF;
+  for(int i=1;i<=l;i++)
+  {
+  	cin>>a>>b>>c;
+  	map[a][b]=c;
+  }	
+  for(int i=1;i<=d;i++)
+  {
+  	cin>>a>>b>>c;
+  	map[b][a]=-c;
+  }
+   for(int i = 2; i <= n; i++) 
+    map[i][1]=0;
+	for(int i = 2; i <= n; i++) 
+	  map[i][i-1]=0;
+	  
+     	if(spfa())
+		{			
+			if(dis[n] == INF)
+			 printf("-2\n");
+			 else
+			 printf("%d\n",dis[n]);	
+		}
+		
+		else printf("-1\n");
+		
+    return 0;
+  
+}

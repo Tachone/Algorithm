@@ -1,0 +1,49 @@
+
+//hdu 1978 
+/*
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+int map[200][200];
+int num[200][200];
+int T,n,m;
+int dfs(int x,int y)//º«“‰ªØ 
+{
+	if(num[x][y])
+	return num[x][y];
+	if(x==n&&y==m)
+	return 1;
+	int sum=map[x][y];
+	for(int i=0;i<=sum;i++)
+	for(int j=0;i+j<=sum;j++)
+	{
+		if(x+i>=1&&x+i<=n&&y+j>=1&&y+j<=m&&(!(i==0&&j==0)))
+		{ 
+ 		  num[x][y]+=dfs(x+i,y+j);
+ 	      num[x][y]%=10000;
+		}
+	}
+	return num[x][y];
+}
+
+
+int main()
+{
+	cin>>T;
+	while(T--)
+	{
+		cin>>n>>m;
+		for(int i=1;i<=n;i++)
+		for(int j=1;j<=m;j++)
+		cin>>map[i][j];
+		memset(num,0,sizeof(num));
+		int res=dfs(1,1);
+		cout<<res<<endl;
+		
+	}
+	return 0;
+}
+*/
+

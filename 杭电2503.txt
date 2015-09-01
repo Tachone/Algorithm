@@ -1,0 +1,26 @@
+#include<iostream>
+using namespace std;
+int f(int m,int n)
+{
+	int k=(m>n?n:m);
+	for(int i=k;i>=1;i--)
+	{
+		if(m%i==0&&n%i==0)
+		return i;
+	}
+}
+int main()
+{
+	int T,a,b,c,d;
+	//freopen("in.txt","r",stdin); 
+	cin>>T;
+	while(T--)
+	{
+		cin>>a>>b>>c>>d;
+		int m=a*d+b*c;
+		int n=b*d;
+		int g=f(m,n);
+		cout<<m/g<<" "<<n/g<<endl;
+	}
+	return 0;
+}

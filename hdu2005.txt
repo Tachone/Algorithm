@@ -1,0 +1,34 @@
+#include<iostream>
+#include<string>
+#include<string.h> 
+#include<cmath>
+#include<iomanip>
+using namespace std;
+int ok[13]={31,28,31,30,31,30,31,31,30,31,30,31}; 
+bool isrun(int x)
+{
+  if(((x%4==0)&&(x%100!=0))||(x%400==0))
+  return true;
+  else
+  return false;
+}
+int main()
+{
+   int year,mon,day,sum;
+   char c;
+   while(cin>>year>>c>>mon>>c>>day)
+   {
+   	 if(isrun(year))
+   	 {ok[1]=29;}
+   	 else
+   	 ok[1]=28;
+   	 
+   	 sum=0;
+   	 for(int i=0;i<mon-1;i++)
+   	 sum+=ok[i];
+   	 sum+=day;
+   	 cout<<sum<<endl;
+   }
+	return 0;
+}
+

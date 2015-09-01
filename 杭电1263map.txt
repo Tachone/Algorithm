@@ -1,0 +1,39 @@
+Map是厉害哈，解决字典序问题
+#include<iostream>
+#include<map>
+#include<algorithm>
+#include<string>
+using namespace std;
+int main()
+{
+	int n;
+	cin>>n;
+	int m,i,j,sum;
+	int k=0;
+	string place,fruit;
+	for(i=0;i<n;i++)
+	{
+		cin>>m;
+		cout<<(k++?"\n":"");
+	  map<string,int> aa;
+	  map<string,map<string,int> > AA;
+		for(j=0;j<m;j++)
+	{
+	   cin>>fruit>>place>>sum;
+		AA[place][fruit]+=sum;
+	}	
+
+	map<string,map<string,int> >::iterator it;
+	for(it=AA.begin();it!=AA.end();it++)
+	{
+	cout<<it->first<<endl;
+	map<string,int>::iterator It;
+	for(It=it->second.begin();It!=it->second.end();It++)
+	{
+		cout<<"   |----"<<It->first<<"("<<It->second<<")"<<endl;//要用it保持一致性
+	}
+	}
+		}
+	return 0;		
+}
+

@@ -1,0 +1,38 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+struct nobe
+{
+	int a;
+	int b;
+};
+bool comp(nobe aa,nobe bb)
+{
+	return aa.b<bb.b;
+}
+int main()
+{
+	nobe time[102];
+	int i,j,k;
+	for(int n;cin>>n&&n!=0;)
+	{ 
+	for(i=0;i<n;i++)
+	{
+		cin>>time[i].a>>time[i].b;
+	}
+	sort(time,time+n,comp);
+	int count=1,temp=0;
+	for(j=1;j<n;j++)
+	{
+		if(time[j].a>=time[temp].b)
+		{
+			temp=j;
+			count++;
+		}
+	}
+	cout<<count<<endl;
+	} 
+	return 0;
+	
+}
+¼òµ¥µÄÌ°ÐÄ

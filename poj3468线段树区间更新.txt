@@ -1,0 +1,92 @@
+//线段树区间增减 
+#include<iostream>
+#include<string>
+#include<stdio.h>
+#include<string.h>
+using namespace std;
+#define M ((l+r)>>1)//(l+r)/2
+#define lc (o<<1)//0*2
+#define rc (lc|1)//o*2+1
+typedef long long ll;
+const int MAX_N=100000;
+int a[MAX_N*3];
+ll add[MAX_N*4];
+ll sum[MAX_N*4]; 
+int m,n,x,y,c;
+char s;
+ll ans;
+ll build(int l,int r,int o)//建树 
+{
+     add[o] = 0;
+     if(l == r)
+	  return sum[o] = a[l];
+     int mid =M;
+     return sum[o] = build(l,mid,lc) + build(mid+1,r,rc);
+}
+
+void pushdown(int l,int r,int o)//标记下放 
+{
+     add[lc] += add[o];
+     add[rc] += add[o];
+     add[o] = 0;
+}
+void maintain(int l,int r,int o)//维持节点的和 
+{
+     int mid = M;
+     if(r > l)
+     sum[o] = sum[lc] + add[lc] * (mid - l + 1) + sum[rc] + add[rc] * (r - mid);
+}
+void update(int l,int r,int o)
+{
+     if(x <= l && r <= y){
+          add[o] += c;
+          return;//纯洁的
+     }
+     pushdown(l,r,o);//不纯洁就下放
+     int mid = M;
+     if(x <= mid) update(l,mid,lc); 
+     if(y > mid) update(mid + 1,r,rc);
+     maintain(l,r,o);//更新add
+}
+void query(int l,int r,int o)//求和 
+{
+     if(x <= l && r <= y) ans += sum[o] + add[o] * (r - l + 1);
+     else{
+          pushdown(l,r,o);
+          int mid = M;
+          if(x <= mid) query(l,mid,lc);
+          if(y > mid) query(mid+1,r,rc);
+          maintain(l,r,o);
+     }
+}
+
+
+int main()
+{
+   scanf("%d%d",&m,&n);
+   for(int i=1;i<=m;i++)
+   scanf("%d",&a[i]);
+   build(1,m,1);
+   for(int i=1;i<=n;i++)
+    {
+   	getchar();
+    scanf("%c",&s);
+  	if(s=='Q')
+  	{
+	  scanf("%d%d",&x,&y);
+	  ans=0;
+	  query(1,m,1);
+	  printf("%lld\n",ans);	  
+    }
+    if(s=='C')
+    {
+    	scanf("%d%d%d",&x,&y,&c);
+    	update(1,m,1);
+    }
+  	
+  }
+  return 0;
+}
+
+
+

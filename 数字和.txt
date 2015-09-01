@@ -1,0 +1,33 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	for(int n;cin>>n;)
+	{
+		int sum=0;
+		while(n>=10)
+		{
+			int t;
+			t=n%10;
+			sum+=t;
+			n=n/10;
+		}
+		cout<<sum+n<<endl;
+	}
+	return 0;
+}
+用字符串做
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	for(string s;cin>>s;)
+	{
+		int sum=0;
+		for(int i=0;i<s.length();i++)
+			sum+=s[i]-'0';//s[i]是数字的ASCII值，减去0才是数字的真实值
+		cout<<sum<<endl;
+	}
+	return 0;
+}

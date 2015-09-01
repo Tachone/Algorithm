@@ -1,0 +1,64 @@
+//本题和HDU畅通工程类似，只不过畅通工程给出了数的连通关系，
+//而此题需要自己判断连通关系，即两个水管是否可以连接到一起
+记录状态，不断combine（），注意只需要左上就行，这样不会重复哈哈哈，而且肯定都可以遍历到所有的状态
+#include<stdio.h>
+#include<iostream>
+#include<string>
+//记录水管的形状，每种水管用一个由'0'和'1'组成的长度为4的字符串代表,
+//分别表示上下左右四边是否有接口，'0'无，'1'有
+char a[11][5]={"1010","1001","0110","0101","1100","0011",
+               "1011","1110","0111","1101","1111"};
+int father[51][51];
+char map[51][51];
+int n,m;
+using namespace std;
+int find(int x)//查找父节点，并压缩路径
+{
+	if(father[x/n][x%n]!=x)
+		father[x/n][x%n]=find(father[x/n][x%n]);
+	return father[x/n][x%n];
+}
+
+void Union(int x,int y)//合并x,y的集合
+{
+	x=find(x);
+	y=find(y);
+	if(x!=y)
+		father[y/n][y%n]=x;
+}
+
+void judge(int i,int j)//判断map[i][j]和它的左侧和上侧是否连通,如连通则合并
+{
+	if(j>0&&a[map[i][j]-'A'][2]=='1'&&a[map[i][j-1]-'A'][3]=='1')
+		Union(i*n+j,i*n+j-1);
+
+	if(i>0&&a[map[i][j]-'A'][0]=='1'&&a[map[i-1][j]-'A'][1]=='1')
+		Union(i*n+j,(i-1)*n+j);
+}
+
+int main()
+{
+	int i,j,count;
+	while(scanf("%d%d",&m,&n)!=-1&&(n!=-1||m!=-1))
+	{
+		for(i=0;i<m;i++)
+		{
+			scanf("%s",map[i]);
+			for(j=0;j<n;j++)
+				father[i][j]=i*n+j;//将父节点初始化
+		}
+		
+		for(i=0;i<m;i++)
+			for(j=0;j<n;j++)
+				judge(i,j);
+
+			count=0;//查找父节点是本身的点的个数，即共有几个集合
+			for(i=0;i<m;i++)
+				for(j=0;j<n;j++)
+					if(father[i][j]==i*n+j)
+						count++;
+					printf("%d\n",count);
+	}
+	return 0;
+}
+

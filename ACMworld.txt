@@ -1,0 +1,7 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	cout<<"\"Welcome to the ACM world.\""<<endl;//注意是\"而不是/"
+	return 0;
+}

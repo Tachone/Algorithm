@@ -1,0 +1,26 @@
+题目意思很简单，就不多说了（全中文的）。
+??????逃跑时如果一开始就朝enil的反方向跑是不行的。最好的策略是先找到一个湖的同心圆，并且船的角速度和enil的角速度是相等的，因为这样才能保证你可以和enil在做圆周运动时相对静止。接着要做的是就是朝enil的反方向奋力逃跑就是，这样都跑不掉就没办法了。
+????? 以下是代码：
+（先趁半径不长时，抓紧和岸上保持直线背对，知道最后跟不上时就猛跑吧~）
+#include<cstdio>
+#include<cstring>
+#include<cmath>
+#include<iostream>
+using namespace std;
+const double PI=acos(-1.0);
+double R,r,v1,v2,t1,t2;
+
+int main()
+{
+ while(scanf("%lf%lf%lf",&R,&v1,&v2)==3)
+ {
+  r=v1*R/v2;    //目标同心圆的半径
+  t1=(R-r)/v1;  //0068逃到岸边的时间
+  t2=PI*R/v2;  //enil追到0068着陆点的时间
+  if(t1<t2)
+   printf("Yes\n");
+  else
+   printf("No\n");
+ }
+ return 0;
+}      

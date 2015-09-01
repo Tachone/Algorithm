@@ -1,0 +1,80 @@
+¡¡¡¡
+¡¡¡¡°Ë¸ö·½ÏòµÄbfs£¬ÁíÍâ¹ú¼ÊÏóÆåÖÐÆïÊ¿µÄ×ß·¨ÊÇ
+¡¡¡¡3ÐÐ2ÁÐ×ß¶Ô½Ç
+									
+									
+			1		1				
+		1				1			
+				Begin					
+		1				1			
+			1		1				
+									
+									
+									
+¡¡¡¡
+¡¡¡¡#include<iostream>
+¡¡¡¡#include<string>
+¡¡¡¡#include<queue>
+¡¡¡¡#include<string.h>
+¡¡¡¡#include<map>
+¡¡¡¡using namespace std;
+¡¡¡¡int vis[100][100];
+¡¡¡¡struct node
+¡¡¡¡{
+¡¡¡¡	int a;
+¡¡¡¡	int b;
+¡¡¡¡	int step;
+¡¡¡¡};
+¡¡¡¡string s1,s2;
+¡¡¡¡int bi,bj,ei,ej,ans;
+¡¡¡¡int dir[8][2]={{1,2},{1,-2},{2,1},{2,-1},{-1,2},{-1,-2},{-2,1},{-2,-1}}; 
+¡¡¡¡
+¡¡¡¡int bfs(int i,int j)
+¡¡¡¡{
+¡¡¡¡	queue<node> q;
+¡¡¡¡	node temp,k,r;
+¡¡¡¡	k.a=bi;k.b=bj;k.step=0;
+¡¡¡¡	q.push(k);
+¡¡¡¡	while(!q.empty())
+¡¡¡¡	{
+¡¡¡¡		r=q.front();
+¡¡¡¡		q.pop();
+¡¡¡¡		if(r.a==ei&&r.b==ej)
+¡¡¡¡		{
+¡¡¡¡			return r.step;
+¡¡¡¡		}
+¡¡¡¡		for(int e=0;e<8;e++)
+¡¡¡¡		{
+¡¡¡¡			temp.a=r.a+dir[e][0];
+¡¡¡¡			temp.b=r.b+dir[e][1];
+¡¡¡¡			if(temp.a>=1&&temp.a<=8&&temp.b>=1&&temp.b<=8&&!vis[temp.a][temp.b])
+¡¡¡¡			{
+¡¡¡¡			    temp.step=r.step+1;
+¡¡¡¡		    	q.push(temp);
+¡¡¡¡			   vis[temp.a][temp.b]=1;
+¡¡¡¡			 } 
+¡¡¡¡		}
+¡¡¡¡	} 
+¡¡¡¡}
+¡¡¡¡
+¡¡¡¡int main()
+¡¡¡¡{
+¡¡¡¡	map<char,int> p;
+¡¡¡¡	p['a']=1;p['b']=2;p['c']=3;
+¡¡¡¡	p['d']=4;p['e']=5;p['f']=6;
+¡¡¡¡	p['g']=7;p['h']=8;
+¡¡¡¡	while(cin>>s1>>s2)
+¡¡¡¡	{
+¡¡¡¡		memset(vis,0,sizeof(vis));
+¡¡¡¡		bi=s1[1]-'0';
+¡¡¡¡		bj=p[s1[0]];
+¡¡¡¡		ei=s2[1]-'0';
+¡¡¡¡		ej=p[s2[0]];
+¡¡¡¡		vis[bi][bj]=1;
+¡¡¡¡	//	cout<<bi<<" "<<bj<<endl;
+¡¡¡¡		ans=bfs(bi,bj);
+¡¡¡¡		cout<<"To get from "<<s1<<" to "<<s2<<" takes "<<ans<<" knight moves."<<endl; 
+¡¡¡¡	}
+¡¡¡¡	return 0;
+¡¡¡¡}
+¡¡¡¡

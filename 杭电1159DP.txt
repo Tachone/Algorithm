@@ -1,0 +1,27 @@
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+int dp[1001][1001];
+int main()
+{
+	char stra[1001],strb[1001];
+	int i,j,k;
+    while(scanf("%s%s",stra,strb)!=EOF)
+    {
+    	int m=strlen(stra),n=strlen(strb);
+    	memset(dp,0,sizeof(dp));
+    	for(i=1;i<=m;i++)
+    	for(j=1;j<=n;j++)
+    	{
+	    	if(stra[i-1]==strb[j-1])
+	    	dp[i][j]=dp[i-1][j-1]+1;
+	    	else
+	    	{
+	    		dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+	    	}
+	    }
+	    cout<<dp[m][n]<<endl;
+    }
+    return 0;
+}                         

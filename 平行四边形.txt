@@ -1,0 +1,20 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	int a,b,m=0;
+	char c;
+	for(;cin>>a>>b>>c;)
+	{
+		cout<<(m++?"\n":"");
+		for(int i=1;i<=b;i++)
+		{
+	    cout<<string(i-1,' ')+string(a,c);
+		cout<<endl;
+		}
+			
+	
+	}
+	return 0;
+}

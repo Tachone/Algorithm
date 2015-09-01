@@ -1,0 +1,47 @@
+#include<iostream>
+#include<string>
+using namespace std;
+int main()
+{
+	char aa[]={'~','!','@','#','$','%','^'};
+	int n;
+	cin>>n; 
+	string s;
+	for(int i=1;i<=n&&cin>>s;i++)
+	{
+		int t=s.length();
+		int a=0,b=0,c=0,d=0;
+	  for(int j=0;j<s.length();j++)
+	  {
+	  	if(s[j]>='a'&&s[j]<='z')
+	  	a++;
+	  	else if(s[j]>='A'&&s[j]<='Z')
+	  	b++;
+	  	else if(s[j]>='0'&&s[j]<='9')
+	  	c++;
+	  	else 
+	  	{
+	  		for(int k=0;k<=6;k++)
+	  		{
+		  		if(aa[k]==s[j])
+		  		d++;
+		  	}
+	  	}
+  	 	
+  	  }
+  	 int sum=0;
+     int ss[4]={a,b,c,d}; 
+     for(int p=0;p<=3;p++)
+     {
+     	if(ss[p]!=0)
+     	sum++;
+     }
+     if(sum>=3&&t>=8&&t<=16)
+  	  cout<<"YES"<<endl;
+  	  else
+  	  cout<<"NO"<<endl;
+	}
+	return 0;
+} 
+
+

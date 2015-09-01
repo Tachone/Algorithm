@@ -1,0 +1,81 @@
+#include<iostream>
+#include<cstdio>
+using namespace std;
+const int lmax=40007;
+int c1[lmax],c2[lmax];
+//G(x)=(1+x+x^2+x^3+...)*(1+x^2+x^4+...)*(1+x^3+x^6+...)+..
+int main()
+{
+    int n;
+    while(cin>>n)
+    {
+        for(int i=0;i<=n;i++)
+        {
+            c1[i]=1;//用来保存当前得到的多项式的各项系数
+            c2[i]=0;//用来保存每次计算时的临时结果
+        }
+        for(int i=2;i<=n;i++)//记录c1正在与第几个多项式进行运算
+        {
+            for(int j=0;j<=n;j++)//c1中的每一项前的系数
+            {
+                for(int k=0;k+j<=n;k+=i)//表示被乘多项式的每一项的系数
+                {
+                    c2[k+j]+=c1[j];//每计算一次并把它赋给用于临时保存数据的c2
+                }
+            }
+            for(int j=0;j<=n;j++)
+            {
+                c1[j]=c2[j];//每次计算完毕后，就把它赋给c1
+                c2[j]=0;//然后c2清零
+            }
+        }
+        cout<<c1[n]<<endl;
+    }
+}
+
+
+
+
+题意：将1个整数划分，有多少种划分方法。
+状态：dp[i][j] 表示i划分中最大的元素是j的方案数。
+状态转移：
+
+[cpp] view plaincopy
+
+1if(i!=j)  
+2dp[i][j]=dp[i-j][j]+dp[i-1][j-1];  
+因为含有j的方案数只与之前有j的方案数dp[i-j][j]，和之前没有j的方案数有关。那么没有j的怎么转换为有j的呢？只要前面的j-1加1就能转化过来那么久是从dp[i-1][j-1]转移过来即可。
+Run ID	Submit Time	Judge Status	Pro.ID	Exe.Time	Exe.Memory	Code Len.	Language	Author
+4529106	2011-09-01 22:31:42	Accepted	1028	0MS	292K	479 B	C++	xym2010
+[cpp] view plaincopy
+
+3#include<cstdio>  
+4#include<cstring>  
+5#include<string>  
+6#include<iostream>  
+7#include<cmath>  
+8#include<algorithm>  
+9using namespace std;  
+10int dp[125][125],ans[125];  
+11int main()  
+12{  
+13    int n;  
+14    for(int i=0;i<121;i++)  
+15    {  
+16        dp[i][i]=1;  
+17    }  
+18    for(int i=1;i<121;i++)  
+19    {  
+20        for(int j=1;j<=i;j++)  
+21        {  
+22            if(i!=j)  
+23            dp[i][j]=dp[i-j][j]+dp[i-1][j-1];  
+24            ans[i]+=dp[i][j];  
+25        }  
+26    }  
+27    while(scanf("%d",&n)!=EOF)  
+28    {  
+29        printf("%d\n",ans[n]);  
+30    }  
+31    return 0;  
+32}  

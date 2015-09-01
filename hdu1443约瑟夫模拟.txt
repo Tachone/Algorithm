@@ -1,0 +1,58 @@
+
+#include<iostream>
+#include<stdio.h>
+#include<string.h>
+#include<cmath>
+using namespace std;
+int mark[20];
+int solve(int n)
+{
+	int flag,sum,ans;
+	
+	if(mark[n])
+		return mark[n];
+	else
+	{
+		for(ans = n + 1;;ans++)
+		{
+			flag = 0;
+			sum = 2 * n;
+			for(int j = ans;;j += ans - 1)
+			{
+				if(j > sum)
+				 {
+					if(j%sum==0)
+					j=sum;
+					else
+					j=j%sum;
+				}
+				if(j <= n)//²»Âú×ã 
+					break;
+				else	
+					sum--;
+				if(sum == n)
+				{
+					flag = 1;
+					break;
+				}
+			}
+			
+			
+			if(flag)
+			{
+				mark[n] = ans;
+				return mark[n];
+			}
+		}
+	}
+}
+int main()
+{
+	int n;
+	while(scanf("%d", &n) && n)
+	{
+		printf("%d\n", solve(n));
+	}
+	return 0;
+}  
+

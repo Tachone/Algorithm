@@ -1,0 +1,98 @@
+///线段树模板不错，关键是坑啊，用scanf和printf还要用c++提交
+#include<stdio.h>
+int a[50003];
+int sum[50000*8];
+int n,i,j,k,m,aa,bb;
+int ans;
+int main()
+{
+	int build(int l,int r,int o);
+	void add(int l,int r,int o);
+	void down(int l,int r,int o);
+	void query(int l,int r,int o);
+	char s[20];
+	scanf("%d",&n);
+	int cs=1; 
+	for(i=1;i<=n;i++)
+	{
+		scanf("%d",&m);
+		printf("Case %d:\n",cs++);
+		for(j=1;j<=m;j++)
+		scanf("%d",&a[j]);
+		build(1,m,1);
+		while(scanf("%s",s))
+		{
+			if(s[0]=='E')
+			break;
+			scanf("%d%d",&aa,&bb);
+			if(s[0]=='A')
+			add(1,m,1);
+			else if(s[0]=='S')
+			down(1,m,1);
+			else if(s[0]=='Q')
+			{
+			ans=0;
+			query(1,m,1);
+			printf("%d\n",ans);
+			}		
+		}		
+	}
+	return 0;
+}
+int build(int l,int r,int o)//建树的部分 
+{
+  if(l==r)
+  return sum[o]=a[l];
+  else
+  {
+  	int mid=l+(r-l)/2;
+  	return sum[o]=build(l,mid,2*o)+build(mid+1,r,2*o+1);
+  }
+}
+
+void add(int l,int r,int o)
+{
+	sum[o]+=bb;//bb为要增加的数值 
+	if(l==r)
+	return;
+	else
+	{
+		int mid=l+(r-l)/2;
+		if(aa<=mid)//k为要修改的位置 
+		add(l,mid,2*o);
+		else
+		add(mid+1,r,2*o+1);		
+	}
+}
+void down(int l,int r,int o)
+{
+	sum[o]-=bb;//bb为要减少的数值 
+	if(l==r)
+	return;
+	else
+	{
+		int mid=l+(r-l)/2;
+		if(aa<=mid)//k为要修改的位置 
+		down(l,mid,2*o);
+		else
+		down(mid+1,r,2*o+1);		
+	}
+}
+
+void query(int l,int r,int o)
+{
+	if(aa<=l&&bb>=r)//aa,bb是要计算的区间 
+	ans+=sum[o];
+	else
+	{
+		int mid=l+(r-l)/2;
+		if(aa<=mid)
+		query(l,mid,2*o);
+		if(bb>mid)
+		query(mid+1,r,2*o+1);
+	} 
+} 
+
+        
+		
+                              

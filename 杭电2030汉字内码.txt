@@ -1,0 +1,21 @@
+#include<iostream>
+#include<string>
+using namespace std;//汉字ASCII码为负，两个字节代表一个汉字 
+int main()
+{
+	//freopen("in.txt","r",stdin);
+   int n,count;
+   cin>>n;
+   string  s;
+   getchar();///清除回车，很重要的，在getline之前必加的
+   while(n--)
+   {
+   	 count=0;
+   	 getline(cin,s);
+   	 for(int i=0;i<s.length();i++)
+   	 {
+ 	   if(s[i]<0)count++;	
+     }
+     cout<<count/2<<endl;
+   } 
+} 

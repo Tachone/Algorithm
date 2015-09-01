@@ -1,0 +1,29 @@
+主要是错排的应用
+计算由1到一半的错排的和，并且再加上组合数（乘积）
+因为是从n个数中选出的那几个数
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+__int64 ans[15]={0,0,1}; //初始化
+__int64 combine(__int64 a,__int64 b)//组合数的地推公式
+{
+	if(b==0)
+	return 1;
+	return combine(a-1,b-1)*a/b;
+}
+int main()
+{
+	__int64 n,m,sum;
+	for(__int64 i=3;i<=15;i++)
+	ans[i]=(i-1)*(ans[i-1]+ans[i-2]);
+	while(cin>>n&&n)
+	{
+		sum=1;
+		m=n/2;
+		for(__int64 i=2;i<=m;i++)//错排的递推公式
+		sum=sum+combine(n,i)*ans[i];
+		cout<<sum<<endl;
+	}
+	return 0;
+} 

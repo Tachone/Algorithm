@@ -1,0 +1,61 @@
+#include<iostream>
+#include<string>
+#include<string.h>
+using namespace std;
+char s[1000005];
+int next1[1000005];
+int len;
+void getnext()
+{
+	int i=0,j=-1;
+	next1[0]=-1;
+	while(i<len)
+	{
+		if(j==-1||s[i]==s[j])
+		{
+			i++;
+			j++;
+			next1[i]=j;
+		}
+		else
+		j=next1[j];
+	}	
+}
+
+int main()
+{
+	int n;
+	int case1=1;
+	while(cin>>n&&n)
+	{
+		cin>>s;
+		cout<<"Test case #"<<case1++<<endl;
+		len=n;
+		getnext();
+		for(int i=2;i<=n;i++)
+		{
+			if(i%(i-next1[i])==0)
+			{
+				if((i/(i-next1[i]))!=1)
+				cout<<i<<" "<<i/(i-next1[i])<<endl;
+			}
+			else
+			continue;
+		}
+		cout<<endl;
+	}
+	return 0;
+} 
+
+
+这题可以加深对KMP的懂得！
+题意：给出一个字符串，对于它的每个（each）前缀（prefix）长度 i （2<=i），求能由一个子串构成这个前缀的最大字串数量。看例子可以清楚些吧。我是看别人的才知道的。具体看以参考：
+http://jovesky.info/blog/2011/08/25/poj-1961-period-c-language-version/
+例子：
+字符串为aabaabaabaab
+前2位也就是aa是a反复2次
+前6位也就是aabaab是aab反复2次
+前9位也就是aabaabaab是aab反复3次
+前12位也就是aabaabaabaab是aab反复4次
+解题思路：经由过程KMP的get_next.获得next[]的值。从2开端遍历每个next[i]值，然后用 i-next[j]即获得了反复字串的长度。。。（额，我当初没发明这个啊）。则i/（i-next[j]）即为最大的个数。但同时必须是能整除的。
+ 

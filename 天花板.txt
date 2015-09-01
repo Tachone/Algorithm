@@ -1,0 +1,16 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int n;
+	cin>>n;
+	double x;
+	for(int i=1;i<=n&&cin>>x;i++)
+	{
+		if(x!=(int)x)
+			cout<<(int)x+1<<endl;
+		else
+			cout<<(int)x<<endl;
+	}
+	return 0;
+}

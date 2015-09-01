@@ -1,0 +1,34 @@
+#include<iostream>
+#include<stdio.h>
+using namespace std;
+int x,y,q;
+void extendedgcd(int a,int b)
+{
+	if(b==0)
+	{
+		x=1;
+		y=0;
+		q=a;
+	}
+	else {
+		extendedgcd(b,a%b);
+		int temp;
+		temp=x;
+		x=y;
+		y=temp-a/b*y;
+	}
+}
+int main()
+{
+	int t,n,b,ans;
+	cin>>t;
+	while(t--)
+	{
+		cin>>n>>b;
+		extendedgcd(b,9973);
+		x=x*n;
+		ans=(x%9973+9973)%9973;
+		cout<<ans<<endl;
+	}
+	return 0;
+}

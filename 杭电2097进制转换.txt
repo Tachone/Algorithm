@@ -1,0 +1,28 @@
+#include<iostream>
+using namespace std;
+int change(int m,int n)
+{
+	int sum=0;
+	while(m)
+	{	
+		sum+=m%n;
+		m=m/n;
+	}
+	return sum;
+}
+int main()
+{
+	int m;
+	while(cin>>m&&m)
+	{
+		//cout<<change(m,10)<<endl<<change(m,12)<<endl<<change(m,16)<<endl;
+		int a=change(m,10);
+		int b=change(m,12);
+		int c=change(m,16);
+	   if(a==b&&a==c&&b==c)//千万不能写成a==b==c
+	   cout<<m<<" is a Sky Number."<<endl;
+	   else
+	   cout<<m<<" is not a Sky Number."<<endl;	
+	}
+	return 0;
+}

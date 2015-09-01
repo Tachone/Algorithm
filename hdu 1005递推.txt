@@ -1,0 +1,33 @@
+//也可以用矩阵快速幂过掉
+Fn      a b     Fn-1
+Fn-1    1 0     Fn-2
+
+
+#include<iostream>
+#include<string.h>
+#include<string>
+using namespace std;
+int f[10000];
+int main() 
+{
+	f[1]=1;
+	f[2]=1;
+	int a,b,n,T,k;
+	while(cin>>a>>b>>n&&(a||b||n))
+	{
+		for(int i=3;i<10000;i++)
+		{
+			f[i]=(a*f[i-1]+b*f[i-2])%7;
+		   	if(f[i]==1&&f[i-1]==1)
+		   	{
+             
+	   			break;
+	   		}
+		}
+	    n=n%(i-1);
+		//cout<<T<<endl; 
+		f[0]=f[i-1];
+		cout<<f[n]<<endl;
+	}
+	return 0;
+}

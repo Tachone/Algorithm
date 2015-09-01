@@ -1,0 +1,46 @@
+#include <iostream>  //走的时候记得把匣子拔掉 
+#include <vector>  
+#include <set>  
+#include <cmath>  
+using namespace std;  
+//定义全局向量，用来保存素数  
+vector<int> v;  
+//集合是平衡检索二叉树，搜索速度最快  
+set<int> s;  
+//建立[a,b]范围内的素数表  
+void pt(int a,int b)  
+{  
+    for(int i=a;i<=b;i++)  
+    {  
+        if(i!=2&&i%2==0) continue;  
+        for(int j=3;j*j<=i;j++)  
+            if(i%j==0) goto RL;  
+        v.push_back(i);  
+RL:   continue;  
+    }  
+}  
+int main()  
+{  
+    //建立[2,500000]范围内的素数表  
+    pt(2,500000);  
+    //建立2~1000000范围内的半素数表,两个素数相乘  
+    for(int i=0;i<v.size();i++)  
+        for(int j=0;j<v.size();j++)  
+        {  
+            int p=v[i]*v[j];  
+            if(p<1000000)  
+                s.insert(p);  
+            else break;  
+        }  
+    int n;  
+    set<int>::iterator it;  
+    while(cin>>n)  
+    {  
+        it=s.find(n);  
+        if(it!=s.end())  
+            cout<<"Yes"<<endl;  
+        else  
+            cout<<"No"<<endl;  
+    }  
+    return 0;  
+} 

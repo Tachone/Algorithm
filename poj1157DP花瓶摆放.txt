@@ -1,0 +1,119 @@
+#include <iostream>
+#include <cstring>
+using namespace std;
+
+int max(int a, int b)
+{
+    return a>b?a:b;
+}
+int main()
+{
+    int f,v;
+    int a[105][105];
+    int ans[105][105];
+    memset(ans,0,sizeof(ans));
+    cin>>f>>v;
+    for(int i=1;i<=f;i++)
+    {
+        for(int j=1;j<=v;j++)
+        {
+            cin>>a[i][j];
+        }
+        ans[i][i]=ans[i-1][i-1]+a[i][i];//初始化
+    }
+    for(int i=1;i<=f;i++)
+    {
+        for(int j=i+1;j<=v;j++)//注意这里是j=i+1，j不可以从i开始
+        {
+            ans[i][j]=max(ans[i][j-1],ans[i-1][j-1]+a[i][j]);
+        }
+    }
+    cout<<ans[f][v]<<endl;
+    return 0;
+}
+每种花有一个编号，有几个花瓶，花瓶也是有编号的，每种花放在不同的花瓶的艺术价值不一样，要你把这些花按某种策略放在这些花瓶里，得到艺术价值总值最大，并且，编号小的花所在的花瓶的编号要比编号大的花所在花瓶的编号小。  
+ans[i][j]表示前i朵花放进前j个瓶子中的艺术值
+a[i][j]表示第i多花放在第j个瓶子里面的艺术值
+动态转移方程：
+ans[i][j]=max(ans[i][j-1],ans[i-1][j-1]+a[i][j]
+
+
+
+
+
+记录dp回溯寻找路径
+动态规划题
+用dp[i][j]表示把前i束花放在前j个花瓶里所得到的最大的美观值(i<=j)。
+递推式为：dp[i][j] = max(dp[i][j-1], dp[i-1][j-1] + A[i][j])，dp[F][V]即为所求。
+题目还要求输出每束花的摆放位置，可以用pre[i][j]=0或1表示dp[i][j]是由dp[i][j-1]或dp[i-1][j-1] + A[i][j]得来的，然后递归输出结果，具体看代码中的print(int, int)函数。
+F
+#include <iostream>
+#include <cstring>
+#include <cstdio>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+
+const int maxn = 110;
+int f, v;
+int a[maxn][maxn], dp[maxn][maxn];
+int pre[maxn][maxn];
+
+int DP()
+{
+    dp[0][0] = 0;
+    for (int i = 1; i <= f; ++i)
+    {
+        dp[i][i-1] = -100000;
+    }
+    for (int i = 1; i <= f; ++i)
+    {
+        for (int j = i; j <= v; ++j)
+        {
+            if (dp[i][j-1] > dp[i-1][j-1] + a[i][j])
+            {
+                dp[i][j] = dp[i][j-1];
+                pre[i][j] = 0;
+            }
+            else
+            {
+                dp[i][j] = dp[i-1][j-1] + a[i][j];
+                pre[i][j] = 1;
+            }
+        }
+    }
+    return dp[f][v]; 
+}
+
+void print(int i, int j)//dp打印路径
+{
+    if (j == 0) return ;
+    if (pre[i][j] == 1)
+    {
+        print(i - 1, j - 1);
+        if (i == f)
+            cout<<j<<endl;
+        else
+            cout<<j<<" ";
+    }
+    else print(i, j - 1);
+} 
+
+int main()
+{
+	//freopen("in.txt","r",stdin);
+    while (cin>>f>>v)
+    {
+        for (int i = 1; i <= f; ++i)
+        {
+            for (int j = 1; j <= v; ++j)
+            {
+                cin>>a[i][j];
+            }
+        }
+        cout<<DP()<<endl;
+        print(f, v);
+    }
+    return 0;
+}
+

@@ -1,0 +1,85 @@
+#include<iostream>
+#include<cmath>
+#include<iomanip>
+using namespace std;
+double H,D,h;//放到上面，这样调用函数形参只剩一个 
+int main() 
+{
+	double f(double x);
+	double g(double x);
+	int n;
+	cin>>n;
+	for(int i=1;i<=n;i++)
+	{
+		cin>>H>>h>>D;
+		if(D*(D+h-H)<=0)
+		cout<<setiosflags(ios::fixed)<<setprecision(3)<<f(0)<<endl;
+		else
+		{
+		    double st=0,ed=D*h/H,mid=(st+ed)/2;//注意如果墙上没有影子后，那么在 
+			while (ed-st>1e-9)//转弯处是最大值，所以注意二分的取值范围 
+			{
+			
+			    if(g(mid)<0)
+				ed=mid;
+				else
+				st=mid;
+				mid=(ed+st)/2;
+			}
+			cout<<setiosflags(ios::fixed)<<setprecision(3)<<f(mid)<<endl;
+		}
+	}
+	return 0;
+}
+double f(double x)
+{
+	return (D*x-x*x+D*h-x*H)/(D-x);
+}
+double g(double x)
+{
+	return (x*x-2*D*x+D*D+D*h-H*D)/(D-x)*(D-x);
+}
+
+
+
+#include<iostream>
+#include<iomanip>
+using namespace std;
+double h,H,D;
+int main()
+{
+	double f(double x);
+	int n;
+	cin>>n;
+	for(int i=1;i<=n;i++)
+	{
+		cin>>H>>h>>D;
+		if(D*(D+h-H)<=0)
+		cout<<setiosflags(ios::fixed)<<setprecision(3)<<f(0)<<endl;
+		else
+		{
+			double st=0,ed=D*h/H;
+			double mid=(st+ed)/2;
+			double midmid = (mid+ed)/2;
+			while(midmid-mid>1e-8)
+			{
+				if(f(midmid)>f(mid))
+				st=mid;
+				else
+				ed=midmid;
+				mid=(st+ed)/2;
+				midmid = (mid+ed)/2;
+			}
+			cout<<setiosflags(ios::fixed)<<setprecision(3)<<f(mid)<<endl;
+			
+		}
+	}
+	
+	return 0;
+}
+double f(double x)
+{
+	return (D*x-x*x+D*h-x*H)/(D-x);
+}
+
+ 

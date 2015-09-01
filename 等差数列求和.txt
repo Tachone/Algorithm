@@ -1,0 +1,15 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	for(int a,b,c;cin>>a>>b>>c;)
+	{
+		
+		int s;
+		s=((b-a)/c)+1;
+		if(a==0&&b==0&&c==0)//if(a=b=c=0)是不对的，容易按布尔型处理，注意赋值和相等的区别
+			break;
+		cout<<s*(a+b)/2<<endl;
+	}
+	return 0;
+}

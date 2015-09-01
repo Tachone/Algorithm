@@ -1,0 +1,21 @@
+题目：一只顽猴在一座有30个台阶的小山上爬山跳跃。上山一步可以上跳一级或者三级，求上山时共有多少种跳法？
+
+
+//整数有序可重复拆分问题，应用数组递推来求解
+#include<iostream>
+using namespace std;
+int main()
+{
+	int a[1000];
+    int n;
+	cin>>n;
+	a[1]=1;
+	a[2]=1;
+	a[3]=2;
+	for(int i=4;i<=n;i++)
+		a[i]=a[i-1]+a[i-3];
+		cout<<n<<"阶台阶共有走法："<<a[n]<<"种"<<endl;
+	return 0;
+
+  
+}

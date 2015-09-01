@@ -1,0 +1,81 @@
+#include<iostream>
+#include<sstream>
+#include<string>
+#include<string.h>
+using namespace std;
+int su[27]={2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103}; 
+int main()
+{
+	string s1,s2;
+	while(cin>>s1>>s2)
+	{
+		if(s1=="0"||s2=="0")
+		break;
+		int a[30],b[30],c[30];
+		int aa[30],bb[30];
+			memset(c,0,sizeof(c));
+			memset(a,0,sizeof(a));
+			memset(b,0,sizeof(b));
+			memset(aa,0,sizeof(aa));
+			memset(bb,0,sizeof(bb));
+		for(int i=s1.length()-1;i>=0;i--)
+		{
+			if(s1[i]==',')
+			s1[i]=' ';
+		}
+		for(int i=s2.length()-1;i>=0;i--)
+		{	
+		   if(s2[i]==',')
+			s2[i]=' ';
+		}
+		string ss;
+		if(s1.length()<s2.length())
+		{
+		ss=s1;
+		s1=s2;
+		s2=ss;
+		}
+	//	cout<<s1<<"    "<<s2<<endl;
+		int cur1=0;
+		int k;
+		istringstream sin(s1);
+		while(sin>>k){a[cur1++]=k;} 
+        int cur2=0;
+		istringstream sin1(s2);
+		while(sin1>>k){b[cur2++]=k;} 
+	    int te1=0;
+	    int te2=0;
+	    for(int i=cur1-1;i>=0;i--)
+		aa[te1++]=a[i]; 
+		for(int i=cur2-1;i>=0;i--)
+		bb[te2++]=b[i];
+
+		int temp=0;
+		for(int i=0;i<=26;i++)
+		{
+		    
+			c[i]=(aa[i]+bb[i]+temp)%su[i];
+			temp=(aa[i]+bb[i]+temp)/su[i];
+	        
+		}
+		int begin=0;
+      for(int i=26;i>=0;i--)
+      {
+      	if(c[i]!=0)
+      	{
+	      	begin=i;
+	      	break;
+         }
+      }
+      cout<<c[begin];
+      for(int i=begin-1;i>=0;i--)
+      cout<<","<<c[i];
+      cout<<endl;
+	
+	}
+	return 0;
+}
+
+
+模拟各个进制之间的转换，主要是大数加的部分出现了一些问题
+考验对代码能力的把握

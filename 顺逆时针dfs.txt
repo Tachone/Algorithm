@@ -1,0 +1,58 @@
+有一个连通图 包含 n 个点 n 条无向边 其中每个点都与其他的两个点直接相连 (即这是一个环)
+现在这个环的边变成了有向边 变成了有向边后得到的有向图不一定是强连通的?
+(强连通图是指一个有向图中任意两点v1、v2间存在v1到v2的路径及v2到v1的路径的图)
+
+所以现在给出 n 条有向边和把某条有向边转换方向后的代价, 问要使输入的有向图变成一个强连通图
+
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+
+const int N = 110;  
+int n, cur, ans;  
+int g[N][N];  
+void dfs(int x, int sum, int fa)  //记录cur和他的父亲来防止重复，替代不方便的vis数组
+{  
+ 
+    if (x == 1)  
+    {  
+        ++cur;  
+        if (cur > 1)   
+        {  
+            ans = min(ans, sum);  
+            return;  
+        }  
+    }  
+    for (int i = 1; i <= n; ++i)  
+    {  
+        if (i == fa) 
+		continue;  //防止走了已经走过的点
+        if (g[x][i])  
+        {  
+            dfs(i, sum, x);  
+        }  
+        else if (g[i][x])  
+        {  
+            dfs(i, sum + g[i][x], x);  
+        }  
+    }  
+}  
+int main()  
+{   
+    while (cin >> n)  
+    {  
+        memset(g, 0, sizeof(g));  
+        for (int i = 1; i <= n; ++i)  
+        {  
+            int a, b, c;  
+            cin >> a >> b >> c;  
+            g[a][b] = c;  
+        }  
+        ans = 1e9;  
+        cur = 0;  
+        dfs(1, 0, -1);  
+        cout << ans << endl;  
+    }  
+    return 0;  
+}  

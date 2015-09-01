@@ -1,0 +1,30 @@
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+int s[2000];
+int main()
+{
+	int r,n,i;
+	while(cin>>r>>n)
+	{
+		if(r==-1&&n==-1)
+		break;
+		for( i=0;i<n;i++)
+		cin>>s[i];
+		sort(s,s+n);
+		int ans=0,i=0;
+	   while(i<n)
+	   {
+   		int k=s[i++];
+   		while(i<n&&s[i]<=k+r)
+   		i++;
+   		int p=s[i-1];
+   		while(i<n&&s[i]<=p+r)
+   		i++;
+   		ans++;
+   	   }
+		cout<<ans<<endl; 
+	}
+	return 0;
+}

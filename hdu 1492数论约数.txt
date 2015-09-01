@@ -1,0 +1,37 @@
+mark：基础数论。因为只有2、3、5、7四种素因子，因此只要求出幂次，加1后乘起来就好了。注意要用long long。
+#include<iostream>
+using namespace std;
+int main()
+{
+	__int64 n;
+	while(cin>>n&&n)
+	{
+		int a=0,b=0,c=0,d=0;
+		while(n>1)
+		{
+			if(n%2==0)
+			{
+				n/=2;
+				a++;
+			}
+			if(n%3==0)
+			{
+				n/=3;
+				b++;
+			}
+			if(n%5==0)
+			{
+				n/=5;
+				c++;
+			}
+			if(n%7==0)
+			{
+				n/=7;
+				d++;
+			}
+			
+		}
+		cout<<(a+1)*(b+1)*(c+1)*(d+1)<<endl;
+	}
+	return 0;
+}
