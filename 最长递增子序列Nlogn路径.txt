@@ -1,0 +1,54 @@
+#include <cstdio>
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+const int N = 100005;
+int dp[N]; //dp[i]表示最长上升子序列长度为i时子序列末尾的最小B值
+int mark[N]; //mark[i]表示以第i个people结尾的最长上升子序列的长度
+struct Member {
+    int s, b;
+    int ida;
+    bool operator < (const Member &x) const {
+        if(s == x.s) return x.b < b;
+        return s < x.s;
+    }
+} a[N];
+
+int main() {
+    int n,T;
+	cin>>T; 
+    while(T--) {
+    	cin>>n;
+        for(int i = 1; i <= n; i++) {
+            scanf("%d%d", &a[i].s, &a[i].b);
+            a[i].ida = i;
+        }
+        sort(a+1, a+n+1);
+        int max_len = 0;
+        dp[++max_len] = a[1].b;
+        mark[1] = max_len;
+        for(int i = 2; i <= n; i++) {
+            if(dp[max_len] < a[i].b) {
+                dp[++max_len] = a[i].b;
+                mark[i] = max_len;
+            }
+            else {
+                int k = lower_bound(dp+1, dp+1+max_len, a[i].b) - dp;
+                dp[k] = a[i].b;
+                mark[i] = k;
+            }
+        }
+        printf("%d\n", max_len);//输出LIS 
+        for(int i = n; i >= 1; i--) {//输出路径 
+            if(mark[i] == max_len) {
+                printf("%d", a[i].ida);
+                if(max_len > 1) printf(" ");
+                max_len--;
+            }
+        }
+        printf("\n");
+    }
+    return 0;
+}

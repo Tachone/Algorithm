@@ -1,0 +1,78 @@
+//判断大数能不能被a（整数）整除 (num[1000010])可用string 
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	char num[1000010];
+	int a;
+	while(scanf("%s", num)!=EOF)
+	{
+		scanf("%d", &a);
+		int cur = 0;
+		for(int i=0; i<strlen(num); i++)
+		{
+			cur *= 10;
+			cur += num[i]-'0';
+			cur %= a;
+		} 
+		if(!cur)cout<<"YES"<<endl;
+		else cout<<"NO"<<endl;
+	}
+	return 0;
+}
+ //就是去算出前一段能否整除a的同时能否使得后一段能整除b 
+#include<iostream>
+#include<string>
+#include<cstring>
+using namespace std;
+int judge[1000005];
+int main()
+{
+	string s;
+	int a,b;
+	cin>>s>>a>>b;
+	memset(judge,0,sizeof(judge));
+	int cur=0;
+	int len=s.length();
+	for(int i=0;i<len;i++)
+	{
+	   cur=cur*10;
+	   cur+=s[i]-'0';
+	   cur=cur%a;
+	   if(cur==0&&i<len-1&&s[i+1]!='0')
+	   judge[i]=1;
+	}
+	
+	bool flag=false;
+	cur=0;
+	int pos,k=1;
+	for(int i=len-1;i>0;i--)
+	{
+		cur+=(s[i]-'0')*k;
+		cur=cur%b;
+		if(cur==0&&judge[i-1])
+		{
+			flag=true;
+			pos=i;
+			break;
+		}
+		k*=10;
+		k%=b;	
+	}
+	if(flag)
+	{
+		cout<<"YES"<<endl;
+		for(int i=0;i<=pos-1;i++)
+		cout<<s[i];
+		cout<<endl;
+		for(int i=pos;i<len;i++)
+		cout<<s[i];
+		cout<<endl;
+	}
+	else
+	cout<<"NO"<<endl;
+	return 0;
+}

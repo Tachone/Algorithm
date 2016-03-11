@@ -1,0 +1,111 @@
+
+二分图（匈牙利匹配）
+//二分图匹配（匈牙利算法的DFS 实现）(邻接矩阵形式)
+//初始化：g[][]两边顶点的划分情况
+//建立g[i][j]表示i->j 的有向边就可以了，是左边向右边的匹配
+//g 没有边相连则初始化为0
+//uN 是匹配左边的顶点数，vN 是匹配右边的顶点数
+//调用：res=hungary();输出最大匹配数
+//优点：适用于稠密图，DFS 找增广路，实现简洁易于理解
+//时间复杂度:O(VE)
+//*************************************************************/
+//顶点编号从0 开始的
+const int MAXN = 510;
+int uN,vN;//u,v 的数目，使用前面必须赋值(un 左边，vn 右边)
+int g[MAXN][MAXN];//邻接矩阵
+int linker[MAXN];//记录左边与右边谁相连
+bool used[MAXN];//dfs 防止重复搜
+bool dfs(int u)
+{
+   for(int v = 0; v < vN;v++)
+   if(g[u][v] && !used[v])
+   {
+      used[v] = true;
+      if(linker[v] == -1 || dfs(linker[v]))
+      {
+         linker[v] = u;
+         return true;
+      }
+}
+    return false;
+}
+int hungary()
+{
+    int res = 0;
+    memset(linker,-1,sizeof(linker));
+    for(int u = 0;u < uN;u++)
+    {
+       memset(used,false,sizeof(used));
+       if(dfs(u))res++;
+    }
+    return res;
+}
+
+
+
+//g[][]爆内存的时候 ，就要使用如下方法 
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+
+const int MAXN = 10000+9;
+int uN,vN;//u,v 的数目，使用前面必须赋值(un 左边，vn 右边)
+
+int g[MAXN][2];//  记录每个点可以与哪些点相连 
+
+int linker[MAXN];//记录左边与右边谁相连
+bool used[MAXN];//dfs 防止重复搜
+int T,m,n,a,b;
+bool flag;
+bool dfs(int u)
+{
+   for(int i = 0; i < 2;i++)//2是需要改的 
+   { 
+   int j=g[u][i];
+   if(!used[j])
+   {
+      used[j] = true;
+      if(linker[j] == -1 || dfs(linker[j]))
+      {
+         linker[j] = u;
+         return true;
+      }
+}
+} 
+    return false;
+}
+void  hungary()
+{
+    memset(linker,-1,sizeof(linker));
+    for(int u = 0;u < m;u++)
+    {
+       memset(used,false,sizeof(used));
+       if(!dfs(u))//如果有一个不能继续匹配就要退出，题意决定 
+       {
+       	 flag=1;
+       	 return ;
+       }
+     
+    }
+}
+int main()
+{
+ 
+	cin>>T;
+	while(T--)
+	{
+		cin>>m>>n;
+		flag=0;
+		for(int i=0;i<m;i++)
+		{
+		   cin>>g[i][0]>>g[i][1];
+		}
+		hungary();
+		if(!flag)
+		cout<<"successful hashing"<<endl;
+		else
+		 cout<<"rehash necessary"<<endl; 
+	}
+}

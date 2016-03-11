@@ -1,0 +1,69 @@
+#include<iostream>
+#include<string>
+#include<string.h>
+#include<queue>
+#include<algorithm>
+using namespace std;
+const int MAX_N=300;
+const int INF=900000000;
+int g[MAX_N][MAX_N];
+int vis[MAX_N];
+int pre[MAX_N]; //记录前驱
+int n,m,a,b,c;//n 是路径数，m 是节点个数
+bool bfs(int s,int t)
+{
+   memset(vis,0,sizeof(vis));
+   memset(pre,-1,sizeof(pre));
+   queue<int> q;
+   pre[s]=s;
+   vis[s]=1;
+   q.push(s);
+   while(!q.empty())
+   {
+     int k=q.front();
+     q.pop();
+    for(int i=1;i<=m;i++)
+    {
+       if(g[k][i]&&!vis[i])
+       {
+          pre[i]=k;
+          vis[i]=1;
+          if(i==t)//存在增广路径
+          return true;
+          q.push(i);
+       }
+    }
+   }
+     return false;
+}
+int EK(int s,int t)
+{
+   int maxflow=0,d;
+   while(bfs(s,t))
+   {
+      d=INF;
+      for(int i=t;i!=s;i=pre[i])
+      d=min(d,g[pre[i]][i]);
+      for(int i=t;i!=s;i=pre[i])
+      {
+         g[pre[i]][i]-=d;
+         g[i][pre[i]]+=d;//反向边
+      }
+      maxflow+=d;
+   }
+    return maxflow;
+}
+int main()
+{
+   while(cin>>n>>m)
+   {
+       memset(g,0,sizeof(g));
+       for(int i=1;i<=n;i++)
+       {
+         cin>>a>>b>>c;
+         g[a][b]+=c;//有多个边
+   }
+      cout<<EK(1,m)<<endl;
+   }
+return 0;
+}

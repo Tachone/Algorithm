@@ -1,0 +1,138 @@
+#include<stdio.h>
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+#define VM 100010//点数 
+#define EM 400010//边数 
+using namespace std;
+const int inf = 0x3f3f3f3f;
+
+struct E
+{
+    int to, frm, nxt, cap;
+}edge[EM];
+int head[VM], e;//建图时初始化
+int dep[VM], gap[VM];//ISAP函数内初始化
+
+void init()//不要忘记 
+{
+ e = 0;
+ memset(head, -1, sizeof(head));
+}
+
+void addEdge(int cu, int cv, int cw)//起点，终点，容量 
+{
+    edge[e].frm = cu;
+    edge[e].to = cv;
+    edge[e].cap = cw;
+    edge[e].nxt = head[cu];
+    head[cu] = e++;
+    edge[e].frm = cv;
+    edge[e].to = cu;
+    edge[e].cap = 0;
+    edge[e].nxt = head[cv];
+    head[cv] = e++;
+}
+int que[VM];
+void BFS(int des)
+{
+    memset(dep, -1, sizeof(dep));
+    memset(gap, 0, sizeof(gap));
+    gap[0] = 1;
+    int front = 0, rear = 0;
+    dep[des] = 0;
+    que[rear++] = des;
+    int u, v;
+    while (front != rear)
+    {
+        u = que[front++];
+        front = front%VM;
+        for (int i=head[u]; i!=-1; i=edge[i].nxt)
+        {
+            v = edge[i].to;
+            if (edge[i].cap != 0 || dep[v] != -1)
+                continue;
+            que[rear++] = v;
+            rear = rear % VM;
+            ++gap[dep[v] = dep[u] + 1];
+        }
+    }
+}
+int cur[VM], stack[VM];
+//sap模板
+int ISAP(int src, int des, int n)//源点、汇点、图中点的总数(n*m+2)     
+{
+    int res = 0;
+    BFS(des);
+    int top = 0;
+    memcpy(cur, head, sizeof(head));
+    int u = src, i;
+    while (dep[src] < n)
+    {
+        if (u == des)
+        {
+            int temp = inf, inser = n;
+            for (i=0; i!=top; ++i)
+                if (temp > edge[stack[i]].cap)
+                {
+                    temp = edge[stack[i]].cap;
+                    inser = i;
+                }
+            for (i=0; i!=top; ++i)
+            {
+                edge[stack[i]].cap -= temp;
+                edge[stack[i]^1].cap += temp;
+            }
+            res += temp;
+            top = inser;
+            u = edge[stack[top]].frm;
+        }
+        if (u != des && gap[dep[u] -1] == 0)
+            break;
+        for (i = cur[u]; i != -1; i = edge[i].nxt)
+            if (edge[i].cap != 0 && dep[u] == dep[edge[i].to] + 1)
+                break;
+        if (i != -1)
+        {
+            cur[u] = i;
+            stack[top++] = i;
+            u = edge[i].to;
+        }
+        else
+        {
+            int min = n;
+            for (i = head[u]; i != -1; i = edge[i].nxt)
+            {
+                if (edge[i].cap == 0)
+                    continue;
+                if (min > dep[edge[i].to])
+                {
+                    min = dep[edge[i].to];
+                    cur[u] = i;
+                }
+            }
+            --gap[dep[u]];
+            ++gap[dep[u] = min + 1];
+            if (u != src)
+                u = edge[stack[--top]].frm;
+        }
+    }
+    return res;
+}
+
+
+int main()
+{
+	int n,m;
+
+	while(cin>>n>>m)
+	{
+		init();
+	
+		int source=n*m+1,sink=n*m+2;//超级源点，汇点 
+	    //addEdge(); 
+		cout<<ISAP(source,sink,n*m+2)<<endl;
+	}
+	return 0;
+}

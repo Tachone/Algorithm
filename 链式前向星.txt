@@ -1,0 +1,109 @@
+#include<iostream>
+#include<string>
+#include<cstdio>
+#include<queue>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+const int M= 1007;
+int val[M], dp[M][M], head[M];
+int num,cap,s,e;
+struct node
+{
+	int u, cost, res;//u代表结点，cost代表到当前结点花费，res代表油箱剩余的油
+	friend bool operator < (node aa, node bb)
+	{
+		return aa.cost>bb.cost;
+	}
+};
+int m, n;
+struct adj//邻接表使用
+{
+	int v, to, dist;
+} edg[M * 20];
+
+void init()//初始化
+{
+	memset(head, -1, sizeof(head));
+	num = 0;
+}
+
+void addage(int u, int v, int dist)//表示u->v的道路
+{
+	edg[num].v = v;//先确定去向
+	edg[num].dist = dist;
+	edg[num].to = head[u];
+	head[u] = num++;
+}
+
+void bfs()
+{
+	for (int i = 0; i < n;i++)
+	for (int j = 0; j <= cap; j++)
+		dp[i][j] = 0;
+	priority_queue<node> q;
+	node temp;
+	temp.u = s, temp.cost = 0, temp.res = 0;
+	q.push(temp);
+	while (!q.empty())
+	{
+		node x = q.top();
+		q.pop();
+		int u = x.u, cost = x.cost, res = x.res;
+		if (u == e)
+		{
+			cout << cost << endl;
+			return;
+		}
+		if (res<cap && (dp[u][res + 1] == 0 || dp[u][res + 1]>cost + val[u]))
+		{
+			dp[u][res + 1] = cost + val[u];
+			temp.u = u, temp.cost = dp[u][res + 1], temp.res = res + 1;
+			q.push(temp);
+		}
+		for (int i = head[u]; i != -1; i = edg[i].to)
+		{
+			int v = edg[i].v;
+			int dist = edg[i].dist;
+			if (res < dist)continue;
+			if (dp[v][res - dist] == 0 || dp[v][res - dist]>cost)
+			{
+				dp[v][res - dist] = cost;
+				temp.u = v;
+				temp.cost = cost;
+				temp.res = res - dist;
+				q.push(temp);
+			}
+		}
+	}
+	cout << "impossible\n";
+	return;
+
+}
+int main()
+{
+	while (cin>>n>>m)
+	{
+		init();
+		for (int i = 0; i < n; i++)
+			cin>>val[i];
+		int a, b, c;
+		for (int i = 1; i <= m; i++)
+		{
+			cin >> a >> b >> c;
+			addage(a, b, c);
+			addage(b, a, c);
+		}
+		int p;
+		cin >> p;
+		while (p--)
+		{
+			cin>>cap>>s>>e;
+			bfs();
+		}
+	}
+	return 0;
+}
+
+
+

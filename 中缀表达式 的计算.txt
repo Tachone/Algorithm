@@ -1,0 +1,109 @@
+读入一个只包含 +, -, *, / 的非负整数计算表达式，计算该表达式的值。
+
+测试输入包含若干测试用例，每个测试用例占一行，每行不超过200个字符，整数和运算符之间用一个空格分隔。没有非法表达式。当一行中只有0时输入结束，相应的结果不要输出。
+
+对每个测试用例输出1行，即该表达式的值，精确到小数点后2位。
+思路：一开始想的是中缀表达式转后缀，但是这样既要double又要存char，不好实现。
+所以，边转边算。符号优先级》栈顶的时候，就压入，不行的话就开始弹出直接进行计算。
+最后把字符栈一直算到没为止。
+#include<iostream>
+#include<string>
+#include<stack>
+#include<cstring>
+#include<iomanip>
+#include<algorithm>
+#include<ctype.h>
+using namespace std;
+double trans(char c)//定义优先级
+{
+	if(c=='+')
+	return 1; 
+	if(c=='-')
+	return 2;
+	if(c=='*')
+	return 4;
+	if(c=='/')
+	return 5;
+}
+double cals(double a,double b,char c)
+{
+	if(c=='+')
+	return a+b;
+	if(c=='-')
+	return a-b;
+	if(c=='*')
+	return a*b;
+	if(c=='/')
+	return a/b;
+}
+int main()
+{
+	string s;
+	while(getline(cin,s))//getchar的疑问 
+	{
+		if(s=="0")
+		break;
+		stack<char> chf;
+		stack<double> num;
+		int len=s.length();
+		double tt,aa,bb,temp=0;
+		char cc;
+		for(int i=0;i<len;i++)
+		{
+			if(s[i]==' ')
+			continue;
+			if(s[i]=='+'||s[i]=='-'||s[i]=='*'||s[i]=='/')
+			{
+				if(chf.empty())
+			    chf.push(s[i]);
+			    else if(trans(s[i])-trans(chf.top())>=2)
+			    {
+    				chf.push(s[i]);
+    			}
+    			else
+    			{
+    				while(!chf.empty()&&trans(s[i])-trans(chf.top())<2)//边转边处理
+    				{ 
+    	               cc=chf.top();
+    	               chf.pop();
+ 	                   aa=num.top();
+ 	                   num.pop();
+ 	                    bb=num.top();
+ 	                   num.pop();
+ 	                   tt=cals(bb,aa,cc);
+ 	                   num.push(tt);
+			    	}
+					chf.push(s[i]); //别忘记
+			    }
+			}
+			else
+			{ 
+			
+			if(isdigit(s[i]))//处理数字有多位
+			{
+				temp=temp*10+s[i]-'0';
+				if(i==len-1||!isdigit(s[i+1]))
+				{
+					num.push(temp);
+					temp=0;
+				}
+			}
+			} 
+		}
+		while(!chf.empty())
+		{
+			 cc=chf.top();
+    	     chf.pop();
+              aa=num.top();
+ 	           num.pop();
+ 	            bb=num.top();
+ 	         num.pop();
+ 	                   tt=cals(bb,aa,cc);//要注意先后顺序，要bb在前
+ 	                   num.push(tt);
+		} 
+	    double ans=num.top();
+	    num.pop();
+       cout<<setiosflags(ios::fixed)<<setprecision(2)<<ans<<endl;
+	}
+	return 0;
+}

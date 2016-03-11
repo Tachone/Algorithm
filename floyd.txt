@@ -1,0 +1,29 @@
+//floyd算法传递闭包，f数组不能另开，就一定维持这一个 
+void Floyd()
+{
+	for(int k = 1; k <= N; k++)	// 最外层必须是k
+	{
+		for(int i = 1; i <= N; i++)	
+		{
+			for(int j = 1; j <= N; j++)
+			{
+				f[i][j] = f[i][j] || (f[i][k] && f[k][j]);	// 判断连通性 
+			}
+		}
+	}
+}
+//floyd算法求最短路
+void Floyd()
+{
+	for(int k = 1; k <= N; k++)	// 最外层必须是k
+	{
+		for(int i = 1; i <= N; i++)	
+		{
+			for(int j = 1; j <= N; j++)
+			{
+				if(f[i][j]>f[i][k]+f[k][j])
+				f[i][j]=f[i][k]+f[k][j];
+			}
+		}
+	}
+}

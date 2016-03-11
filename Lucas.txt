@@ -1,0 +1,47 @@
+#include<iostream>
+#include<string>
+using namespace std;
+#define lld long long
+lld Ext_gcd(lld a,lld b,lld &x,lld &y){
+    if(b==0) { x=1, y=0; return a; }
+    lld ret= Ext_gcd(b,a%b,y,x);
+    y-= a/b*x;
+    return ret;
+ }
+ lld Inv(lld a,int m){   ///求逆元
+    lld d,x,y,t= (lld)m;
+    d= Ext_gcd(a,t,x,y);
+    if(d==1) return (x%t+t)%t;
+    return -1;
+ }
+ 
+ lld Cm(lld n, lld m, lld p)  ///组合数学
+  {
+     lld a=1, b=1;
+     if(m>n) return 0;
+     while(m)
+     {
+         a=(a*n)%p;
+         b=(b*m)%p;
+         m--;
+         n--;
+     }
+     return a*Inv(b,p)%p;  ///（a/b）%p 等价于 a*（b，p）的逆元
+ }
+ 
+ lld Lucas(lld n, lld m, lld p)  ///把n分段递归求解相乘
+ {
+     if(m==0) return 1;
+     return Cm(n%p,m%p,p)*(lld)Lucas(n/p,m/p,p)%p;
+ }
+int main()
+{
+	lld T,n,m,p;
+	cin>>T;
+	while(T--)
+	{
+		cin>>n>>m>>p;
+		cout<<Lucas(n+m,m,p)<<endl;
+	}
+	return 0;
+}

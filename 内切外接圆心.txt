@@ -1,0 +1,72 @@
+//内切圆圆心 
+#include<cstdio>
+#include<iostream>
+#include<algorithm>
+using namespace std;
+#define eps 1e-8
+struct point
+{
+    double x,y;
+};
+struct line
+{
+    point a,b;
+};
+point intersection(line u,line v)
+{
+    point ret = u.a;
+    double t = ((u.a.x-v.a.x)*(v.a.y-v.b.y)-(u.a.y-v.a.y)*(v.a.x-v.b.x))
+    /((u.a.x-u.b.x)*(v.a.y-v.b.y)-(u.a.y-u.b.y)*(v.a.x-v.b.x));
+    ret.x += (u.b.x-u.a.x)*t;
+    ret.y += (u.b.y-u.a.y)*t;
+    return ret;
+}
+point perpencenter(point a,point b,point c)
+{
+    line u,v;
+    u.a = c;
+    u.b.x = u.a.x - a.y + b.y;
+    u.b.y = u.a.y + a.x - b.x;
+    v.a = b;
+    v.b.x = v.a.x - a.y + c.y;
+    v.b.y = v.a.y + a.x - c.x;
+    return intersection(u,v);
+}
+int main()
+{
+    int t;
+    point a,b,c;
+    scanf("%d",&t);
+    while(t--)
+    {
+        scanf("%lf%lf%lf%lf%lf%lf",&a.x,&a.y,&b.x,&b.y,&c.x,&c.y);
+        a = perpencenter(a,b,c);
+        printf("%.4f %.4f\n",a.x+eps,a.y+eps);
+    }
+    return 0;
+}
+
+//外接圆圆心
+point intersection(line u, line v){
+	point ret = u.a;
+	double t = ((u.a.x - v.a.x)*(v.a.y - v.b.y) - (u.a.y - v.a.y)*(v.a.x - v.b.x))
+		/ ((u.a.x - u.b.x)*(v.a.y - v.b.y) - (u.a.y - u.b.y)*(v.a.x - v.b.x));
+	ret.x += (u.b.x - u.a.x)*t;
+	ret.y += (u.b.y - u.a.y)*t;
+	return ret;
+}
+
+point circumcenter(point a, point b, point c){
+	line u, v;
+	u.a.x = (a.x + b.x) / 2;
+	u.a.y = (a.y + b.y) / 2;
+	u.b.x = u.a.x - a.y + b.y;
+	u.b.y = u.a.y + a.x - b.x;
+	v.a.x = (a.x + c.x) / 2;
+	v.a.y = (a.y + c.y) / 2;
+	v.b.x = v.a.x - a.y + c.y;
+	v.b.y = v.a.y + a.x - c.x;
+	return intersection(u, v);
+}
+调用
+point center = circumcenter(a, b, c);

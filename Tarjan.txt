@@ -1,0 +1,97 @@
+
+/*
+* Tarjan算法
+* 复杂度O(N+M)
+dfn[v]:节点v的深度优先数，就是DFS遍历的深度，从1开始
+low[v]:v和v的子孙的最小值
+*/
+#include<iostream>
+#include<cstdio>  
+#include<cstring>  
+#include<algorithm>  
+#include<stack>  
+#include<cstdlib>  
+using namespace std;  
+#define M 50002  
+#define N 10002  
+  
+stack<int>st;  
+int head[N],id[N],low[N],dfn[N],in[N],out[N];  
+int scnt,cnt,n,m,n2;  
+//cnt记录访问的次序,n2记录  
+  
+struct node{  
+  int to,next;  
+  int id;  
+}edge[M];  
+  
+void addEdge(int u,int v,int k)  
+{  
+    edge[k].to=v;  
+    edge[k].next=head[u];  
+    head[u]=k;  
+}  
+  
+void Tarjan(int u)  
+{  
+    int k,v,t;  
+    int min1=dfn[u]=low[u]=cnt++;  
+    st.push(u);  
+    for(k=head[u];k!=-1;k=edge[k].next)  
+    {  
+        v=edge[k].to;  
+        if(dfn[v]==-1)Tarjan(v);  
+        min1=min(min1,low[v]);  
+     }  
+    if(min1<low[u]){low[u]=min1;return;}
+    do  
+    {  
+        id[t=st.top()]=scnt;//缩点操作一  
+        low[t]=n;  
+        out[scnt]++;  
+        st.pop();  
+    }while(t!=u);  
+    scnt++;  
+}  
+  
+int main()  
+{  
+    int i,j,u,v,ans,flag;  
+  
+    while(scanf("%d%d",&n,&m)!=EOF)  
+    {  
+        //初始化 
+        memset(head,-1,sizeof(head));  
+        memset(dfn,-1,sizeof(dfn));  
+        memset(in,0,sizeof(in));  
+        memset(out,0,sizeof(out));  
+  
+        scnt=cnt=ans=0;  
+  
+        for(i=0;i<m;i++)  
+        {  
+            scanf("%d%d",&u,&v);  
+            addEdge(u-1,v-1,i);//注意下标是从0开始的 
+        }  
+  
+        for(i=0;i<n;i++)  
+            if(dfn[i]==-1)Tarjan(i);  
+  
+        for(i=0;i<n;i++)  
+            for(j=head[i];j!=-1;j=edge[j].next)  
+            {  
+                int a=id[i],b=id[edge[j].to];  
+                 if(a!=b)in[id[i]]++;  
+            }  
+        for(i=0;i<scnt;i++)  //scnt是  缩完点之后的顶点个数 
+            if(!in[i])  
+            {  
+                ans++;  
+                flag=i;  
+            }  
+        if(ans==1)printf("%d\n",out[flag]);  
+        else printf("0\n");  
+    }  
+  
+    return 0;  
+}  

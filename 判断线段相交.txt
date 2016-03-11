@@ -1,0 +1,48 @@
+
+struct node
+{
+	double x;//元素类型自己定，下面也要改
+	double y;
+}s[2004];
+struct edge
+{
+	node a,b;
+	int num;
+}E[2005];
+double direction (node p0, node p1, node p2) 
+{  
+    return ((p2.x - p0.x)*(p1.y - p0.y) - (p1.x - p0.x)*(p2.y - p0.y));  
+}  
+  
+bool on_segment (node p0, node p1, node p2)
+{  
+    double minx, maxx, miny, maxy;  
+    minx = min(p0.x, p1.x);  
+    maxx = max(p0.x, p1.x);  
+    miny = min(p0.y, p1.y);  
+    maxy = max(p0.y, p1.y);  
+    if (p2.x >= minx && p2.x <= maxx && p2.y >= miny && p2.y <= maxy)  
+        return true;  
+    else  
+        return false;  
+}  
+bool segments_intersect (node p1, node p2, node p3, node p4) 
+{  
+    double d1, d2, d3, d4;  
+    d1 = direction(p3, p4, p1);  
+    d2 = direction(p3, p4, p2);  
+    d3 = direction(p1, p2, p3);  
+    d4 = direction(p1, p2, p4);  
+    if (((d1 < 0 && d2 > 0) || (d1 > 0 && d2 < 0)) && ((d3 < 0 && d4 > 0) || (d3 > 0 && d4 < 0)))  
+        return true;  
+    else if (d1 == 0 && on_segment(p3, p4, p1))  
+        return true;  
+    else if (d2 == 0 && on_segment(p3, p4, p2))  
+        return true;  
+    else if (d3 == 0 && on_segment(p1, p2, p3))  
+        return true;  
+    else if (d4 == 0 && on_segment(p1, p2, p4))  
+        return true;  
+    else  
+        return false;  
+}  

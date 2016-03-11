@@ -1,0 +1,81 @@
+const int MAX_N=12;
+struct matrix
+{
+	long long map[MAX_N][MAX_N];
+};
+matrix A,res,ans;
+int T,n,k;
+void init(int n)
+{
+	memset(res.map,0,sizeof(res.map));
+	for(int i=1;i<=n;i++)
+     res.map[i][i]=1;
+}
+matrix  mul(matrix a,matrix b)//n为中间连乘矩阵的阶数 
+{
+	matrix c;
+	memset(c.map,0,sizeof(c.map));
+	for(int i=1;i<=n;i++)
+	for(int j=1;j<=n;j++)
+	{
+		if(a.map[i][j])
+		for(int k=1;k<=n;k++)
+		c.map[i][k]+=a.map[i][j]*b.map[j][k];	
+	}//取模的话 ，还是用没有优化的吧 
+	/*
+for(int i=1;i<=n;i++)
+	for(int j=1;j<=n;j++)
+	{
+		for(int k=1;k<=n;k++)
+		c.map[i][j]+=a.map[i][k]*b.map[k][j];
+		c.map[i][j]%=9973;
+	}*/
+
+	return c;
+}
+matrix quick_pow(matrix A,int k)
+{
+	while(k)
+	{
+		if(k&1)
+	    res=mul(res,A);
+    	k=k>>1;
+    	A=mul(A,A);
+	}
+	return res;
+}
+
+
+///////////////////////////////
+int quick(int A,int k)//整数快速幂 
+{
+	while(k)
+	{
+		if(k&1)
+		res=res*A;
+		k=k>>1;
+		A=A*A; 
+	} 
+}
+//////主函数
+int main() 
+{
+   cin>>T;
+   while(T--)
+   {
+   	long long total=0;
+    cin>>n>>k;
+    init(n);
+  /*for(int i=1;i<=n;i++)
+	for(int j=1;j<=n;j++)
+	cin>>A.map[i][j];*/A是要连乘的矩阵
+
+	ans=quick_pow(A,k);//k是连乘的次数
+	/*for(int i=1;i<=n;i++)
+	total+=ans.map[i][i];*/
+	
+	cout<<total%9973<<endl;
+   }
+   return 0;
+}
+

@@ -1,0 +1,51 @@
+有n堆石子，每次可以从第1堆石子里取1颗、2颗或3颗，可以从第2堆石子里取奇数颗，可以从第3堆及以后石子里取任意颗……我们可以把它看作3个子游戏，第1个子游戏只有一堆石子，每次可以取1、2、3颗，很容易看出x颗石子的局面的SG值是x%4。第2个子游戏也是只有一堆石子，每次可以取奇数颗，经过简单的画图可以知道这个游戏有x颗石子时的SG值是x%2。第3个游戏有n-2堆石子，就是一个Nim游戏。对于原游戏的每个局面，把三个子游戏的SG值异或一下就得到了整个游戏的SG值，然后就可以根据这个SG值判断是否有必胜策略以及做出决策了
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+
+ #define N 1001
+ //f[]：可以取走的石子个数，由小到大排序 
+ //sg[]:0~n的SG函数值
+ //hash[]:mex{}
+ int f[N],sg[N],hash[N];     
+ void getSG(int n)//预处理,n为每堆的（最大）个数 
+  {
+    int i,j;
+    memset(sg,0,sizeof(sg));
+    for(i=1;i<=n;i++)
+    {
+        memset(hash,0,sizeof(hash));
+        for(j=1;f[j]<=i;j++)
+        hash[sg[i-f[j]]]=1;
+        for(j=0;j<=n;j++)    //求mes{}中未出现的最小的非负整数
+        {
+           if(hash[j]==0)
+             {
+                 sg[i]=j;
+                 break;
+             }
+        }
+     }
+ }
+int main()
+{
+	int m,n,p;
+	f[0]=f[1]=1;
+	for(int i=2;i<=16;i++)
+	f[i]=f[i-1]+f[i-2];
+	getSG(1000);
+	while(cin>>m>>n>>p)
+	{
+	  if(m==0&&n==0&&p==0)
+	  break;
+	  if((sg[m]^sg[n]^sg[p])==0)
+	  cout<<"Nacci\n";
+	  else
+	  cout<<"Fibo\n";	
+	}
+	return 0;
+	
+}

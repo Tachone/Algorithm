@@ -1,0 +1,58 @@
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+int n,k,ans;
+int s[108][108];
+int dp[108][108];
+int dir[4][2]={{1,0},{-1,0},{0,1},{0,-1}}; 
+
+int dfs(int x,int y)
+{
+	if(dp[x][y])
+    return dp[x][y];
+    int sum=0,temp;
+    int i,j,a,b;
+	for(i=1;i<=k;i++)//注意这一行一般是去掉的 
+	for(j=0;j<4;j++)
+	{
+		a=x+dir[j][0]*i;//*i也不是很需要 
+		b=y+dir[j][1]*i;
+		if(a>=1&&a<=n&&b>=1&&b<=n)
+		{ 
+	    	
+		    if(s[a][b]>s[x][y])//从情况中倒着选取最大值（每个节点） 
+		    { 
+		     temp=dfs(a,b);
+             sum=max(temp,sum);
+            } 
+		} 
+	}
+	return dp[x][y]=sum+s[x][y];
+}
+
+int main()
+{
+	while(cin>>n>>k)
+	{
+		if(n==-1&&k==-1)
+		{
+			break;
+		}
+	   
+		for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+		cin>>s[i][j];
+		memset(dp,0,sizeof(dp));
+	    dfs(1,1);
+	    ans=0;
+		for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+		{
+			ans=max(ans,dp[i][j]);//取最大值 
+		}
+		cout<<ans<<endl;
+	}
+	return 0;
+}

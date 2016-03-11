@@ -1,0 +1,75 @@
+#include<stdio.h>  
+#include<string.h>  
+int main()  
+{  
+    int a[25],p[25][10005],i,j,n,m,s[10005];  
+    while(scanf("%d%d",&m,&n)!=EOF){  
+        for(i=1;i<=n;i++)  
+            scanf("%d",&a[i]);  
+        memset(s,0,sizeof(s));  
+        memset(p,0,sizeof(p));  
+        for(i=1;i<=n;i++)  
+            for(j=m;j>=a[i];j--)  
+                if(s[j-a[i]]+a[i]>s[j]){  
+                    s[j]=s[j-a[i]]+a[i];  
+                    p[i][j]=1;  //利用p[][]记录是否被选中
+                }  
+        j=m;  //一定要记得
+        for(i=n;i>=1;i--)  
+            if(p[i][j]){  
+                printf("%d ",a[i]);//正序输出要再开一个数组记录 ，这是反
+                j-=a[i];  
+            }  
+        printf("sum:%d\n",s[m]);  
+    }  
+    return 0;  
+}  
+递归版本
+#include<iostream>
+#include<stdio.h>
+#include<string.h>
+using namespace std;
+#define max(x,y) (x>y? x:y)
+int dp[13000],a[1000][1000],w[13000],f[10000],count=0;
+void print(int n,int m)
+{
+    if(n==0)
+        return;
+    if(a[n][m]==0)
+        print(n-1,m);
+    else
+    {
+        print(n-1,m-w[n]);
+        f[count++]=w[n];
+    }
+}
+int main()
+{
+    int n,m;
+    while(scanf("%d%d",&m,&n)>0)
+    {
+        int i;
+        for(i=1;i<=n;i++)
+            scanf("%d",&w[i]);
+        memset(dp,0,sizeof(dp));
+        memset(a,0,sizeof(a));
+        a[0][0]=1;//要不然函数不会终止
+        for(i=1;i<=n;i++)
+        {
+            for(int j=m;j>=w[i];j--)
+            {
+                dp[j]=max(dp[j],dp[j-w[i]]+w[i]);
+                if(dp[j]==dp[j-w[i]]+w[i])
+                    a[i][j]=1;
+            }
+        }
+        count=0;
+        print(n,m); 
+        for(i=0;i<count;i++)
+        {
+            printf("%d ",f[i]);
+        }
+        printf("sum:%d\n",dp[m]);
+    }
+    return 0;
+}

@@ -1,0 +1,23 @@
+int lowbit(int x)
+{
+	return x&(-x);
+}
+int Sum(int n)
+{
+	int sum=0;
+	while(n>0)
+	{
+		sum+=c[n];
+		n-=lowbit(n);
+	}
+	return sum;
+}
+void update(int x)
+{
+	
+	while(x<=n)
+	{
+		c[x]+=1;
+		x+=lowbit(x);
+	}
+}

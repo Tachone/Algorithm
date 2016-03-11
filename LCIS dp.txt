@@ -1,0 +1,128 @@
+//复杂度O（n2）
+#include<cstring>
+#include<iostream>
+#include<algorithm>
+using namespace std;
+#define N 510  //字符串长度 
+int t,m,n,a[N],b[N],f[N][N],prei[N][N],prej[N][N],pi,pj,tag,ans;
+void Print(int x,int y)//输出路径 
+{
+    if(f[x][y]==0)
+    return;
+    if(prei[x][y]!=-1&&prej[x][y]!=-1)
+    {
+        int px=prei[x][y];
+        int py=prej[x][y];
+        Print(px,py);
+        if(f[x][y]!=f[px][py]&&y!=0)
+        {
+            cout<<b[y];
+            tag++;
+            if(tag<ans) 
+			cout<<" ";
+            else
+			 cout<<endl;
+        }
+    }
+}
+int main()
+{
+    cin>>t;
+    while(t--)
+    {
+        int i,j;
+        cin>>n;
+        for(i=1;i<=n;i++)
+		cin>>a[i];//a串 
+        cin>>m;
+        for(i=1;i<=m;i++)
+	    cin>>b[i];//b串
+		 
+        memset(f,0,sizeof(f));
+        memset(prei,-1,sizeof(prei));
+        memset(prej,-1,sizeof(prej));
+
+        for(i=1;i<=n;i++)
+        {
+            pi=pj=0;
+            int maxn=0;
+           for(j=1;j<=m;j++)
+            {
+                f[i][j]=f[i-1][j];
+                prei[i][j]=i-1;
+                prej[i][j]=j;
+                
+                if(a[i]>b[j]&&maxn<f[i-1][j])
+				{
+					 maxn=f[i-1][j];
+					 pi=i-1;
+					 pj=j;
+				}
+                if(a[i]==b[j])
+				 {
+				    f[i][j]=maxn+1;
+					prei[i][j]=pi;
+					prej[i][j]=pj;
+				 }
+            }
+        }
+        ans=0;
+        int flag=-1;
+        for(i=1;i<=m;i++)
+        {
+            if(ans<f[n][i])
+            {
+                flag=i;
+                ans=f[n][i];
+            }
+        }
+        cout<<ans<<endl;
+        pi=n,pj=flag;
+        tag=0;
+        if(pj>0)
+           Print(pi,pj);
+        if(t!=0)
+        cout<<endl;
+    }
+}
+
+
+
+
+//其实还有一个很风骚的一维的算法。在此基础上压掉了一维空间（时间还是平方）
+//。i循环到x的时候，F[i]表示原来F[x][j]。之所以可以这样，
+//是因为如果a[i]!=b[j]，因为F[x][j]=F[x-1][j]值不变，F[x]不用改变，
+//沿用过去的就好了，和这个比较维护更新得到的max值依然是我们要的。
+//而a[i]==b[j]的时候，就改变F[x]的值好了。具体结合代码理解。
+#include<cstdio>
+#include<cstring>?
+int f[1005],a[1005],b[1005],i,j,t,n1,n2,max;
+int main()
+{
+   scanf("%d",&t);
+   while(t--)
+   {
+       scanf("%d%d",&n1,&n2);
+       for(i=1;i<=n1;i++)
+   		scanf("%d",&a[i]);
+       for(i=1;i<=n2;i++)
+        scanf("%d",&b[i]);
+       memset(f,0,sizeof(f));
+        for(i=1;i<=n1;i++)
+        {
+            max=0;
+            for(j=1;j<=n2;j++)
+            {
+                 if(a[i]>b[j]&&max<f[j])
+                   max=f[j];
+                  if(a[i]==b[j])
+				  f[j]=max+1;
+            } 
+       }
+       max=0;
+       for(i=1;i<=n2;i++)
+        if(max<f[i])
+        max=f[i];
+        printf("%d\n",max);
+}
+}

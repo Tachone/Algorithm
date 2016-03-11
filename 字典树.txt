@@ -1,0 +1,91 @@
+//判断有多少个单词的前缀是给定的单词
+#include<iostream>
+#include<string>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+struct node
+{
+	node *child[26]; 
+	int n;//记录当前单词出现的次数 
+};
+node *root;//字典树的根节点 
+
+void _insert(char* str)
+{
+	int index;
+	int len=strlen(str);
+	node* cur=root;
+	if(len==0)
+	return ;
+	for(int i=0;i<len;i++)
+	{
+		index=str[i]-'a';
+		if(cur->child[index]!=NULL)
+		{
+			cur=cur->child[index];
+			(cur->n)++;//计算出现次数 
+		}
+		else
+		{
+			node *newnode=new node;
+			memset(newnode->child,NULL,sizeof(newnode->child));
+		    newnode->n=0;
+			cur->child[index]=newnode;
+			cur=newnode;
+			cur->n=1;
+		}
+	} 
+} 
+
+int find_word(char* str)
+{
+	int len=strlen(str);
+	int index;
+	if(len==0)
+	return 0;
+	node *cur=root;
+	for(int i=0;i<len;i++)
+	{
+		index=str[i]-'a';
+		if(cur->child[index]!=NULL)
+		{
+			cur=cur->child[index];
+		}
+		else
+		return 0;
+	}
+	return cur->n;
+}
+
+void release(node *root)
+{
+	if(root==NULL)
+	return ;
+	for(int i=0;i<26;i++)
+	{
+		if(root->child[i]!=NULL)
+		delete root->child[i];
+	}
+	delete root;
+	root=NULL;
+}
+int main()
+{
+	char s[200];
+	root=new node;
+	memset(root->child,NULL,sizeof(root->child));
+	while(gets(s)&&s[0]!='\0')
+	{
+		_insert(s);
+	}
+    memset(s,0,sizeof(s));
+	while(~scanf("%s",s))
+	{
+		int re=find_word(s);
+		cout<<re<<endl; 
+	}
+	release(root);
+	return 0;
+}
+

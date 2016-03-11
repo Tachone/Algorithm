@@ -1,0 +1,110 @@
+ 
+//半平面交，求多边形内核
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <stdio.h>
+using namespace std;
+#define exp 1e-10
+
+struct node
+{
+    double x;
+    double y;
+};
+
+node point[105];//记录最开始的多边形
+node q[105]; //临时保存新切割的多边形
+node p[105]; //保存新切割出的多边形
+int n,m;//n的原先的点数,m是新切割出的多边形的点数
+double a,b,c;
+
+void getline(node x,node y)  //获取直线ax+by+c==0
+{
+    a=y.y-x.y;
+    b=x.x-y.x;
+    c=y.x*x.y-x.x*y.y;
+}
+
+node intersect(node x,node y) //获取直线ax+by+c==0  和点x和y所连直线的交点
+{
+    double u=fabs(a*x.x+b*x.y+c);
+    double v=fabs(a*y.x+b*y.y+c);
+    node ans;
+    ans.x=(x.x*v+y.x*u)/(u+v);
+    ans.y=(x.y*v+y.y*u)/(u+v);
+    return ans;
+}
+
+void cut()  //用直线ax+by+c==0切割多边形
+{
+    int cutm=0,i;
+    for(i=1;i<=m;i++)
+    {
+        if(a*p[i].x+b*p[i].y+c>=0)  //题目是顺时钟给出点的
+        {                           //所以一个点在直线右边的话，那么带入值就会大于等于0
+            q[++cutm]=p[i];         //说明这个点还在切割后的多边形内，将其保留
+        }
+        else
+        {
+            if(a*p[i-1].x+b*p[i-1].y+c>0) //该点不在多边形内，但是它和它相邻的点构成直线与
+            {                             //ax+by+c==0所构成的交点可能在新切割出的多边形内，
+                q[++cutm]=intersect(p[i-1],p[i]); //所以保留交点
+            }
+            if(a*p[i+1].x+b*p[i+1].y+c>0)
+            {
+                q[++cutm]=intersect(p[i+1],p[i]);
+            }
+        }
+    }
+    for(i=1;i<=cutm;i++)
+    {
+        p[i]=q[i];
+    }
+    p[cutm+1]=q[1];
+    p[0]=q[cutm];
+    m=cutm;
+}
+
+void solve()
+{
+    int i;
+    for(i=1;i<=n;i++)
+    {
+        p[i]=point[i];
+    }
+    point[n+1]=point[1];
+    p[n+1]=p[1];
+    p[0]=p[n];
+    m=n;
+    for(i=1;i<=n;i++)
+    {
+        getline(point[i],point[i+1]); //根据point[i]和point[i+1]确定直线ax+by+c==0
+        cut();  //用直线ax+by+c==0切割多边形
+    }
+}
+
+int main()
+{
+    int cas,i;
+    scanf("%d",&cas);
+    while(cas--)
+    {
+        scanf("%d",&n);
+        for(i=1;i<=n;i++)
+        {
+            scanf("%lf%lf",&point[i].x,&point[i].y);
+        }
+        solve();
+        if(m==0)
+        {
+            printf("NO\n");
+        }
+        else
+        {
+            for(int i=0;i<m;i++)
+	     printf("YES\n");
+        }
+    }
+    return 0;
+}

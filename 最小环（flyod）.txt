@@ -1,0 +1,55 @@
+
+#include<iostream>
+#include<cstring>
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+#define INF 99999999  
+int map[200][200];
+int dis[200][200];//开两个数组 
+int n,m,a,b,v,ans;
+void floyd()//求最小环的算法 
+{
+	for(int k=1;k<=n;k++)
+	{
+		for(int i=1;i<k;i++)
+		for(int j=1;j<i;j++)
+		ans=min(ans,dis[i][j]+map[i][k]+map[k][j]);
+		for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+		{
+			if(dis[i][j]>dis[i][k]+dis[k][j])
+			dis[i][j]=dis[i][k]+dis[k][j];
+		}
+	}
+	
+}
+int main()
+{ 
+	while(cin>>n>>m)
+	{
+		for(int i=1;i<=n;i++)
+		for(int j=1;j<=n;j++)
+		{
+			if(i==j)
+			map[i][j]=dis[i][j]=0;
+			else
+			map[i][j]=dis[i][j]=INF;
+		}
+		for(int i=1;i<=m;i++)
+		{
+			cin>>a>>b>>v;
+			if(map[a][b]>v)//边权输入一定注意这样写 
+			map[a][b]=map[b][a]=dis[a][b]=dis[b][a]=v;
+		}
+		ans=INF;
+		floyd();
+		if(ans>=INF)
+		cout<<"It's impossible.\n";
+		else
+		cout<<ans<<endl;
+
+	}
+	return 0;
+}
+

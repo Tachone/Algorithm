@@ -1,0 +1,134 @@
+
+/*
+POJ 2195
+求最小权值匹配
+
+G++  744K  0MS
+
+*/
+
+
+
+#include<stdio.h>
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+#include<math.h>
+using namespace std;
+
+
+//*************************************
+//最大权匹配模板（KM算法） O(m*m*n)
+//邻接矩阵形式，返回最佳匹配值，传入二分图大小m,n
+//邻接矩阵g，表示权值
+//match1,match2返回一个最佳匹配，未匹配顶点match值为-1
+//一定注意 m<=n 否则循环无法终止
+//最小权匹配可将权值取相反数
+//初始化
+//     for(i=0;i<MAXN;i++)
+//        for(j=0;j<MAXN;j++)  g[i][j]=-INF;
+//对于存在的边  g[i][j]=val;
+
+const int MAXN=120;
+const int INF=0x3fffffff;
+int g[MAXN][MAXN],match1[MAXN],match2[MAXN];
+int KM(int m,int n)
+{
+    int i,j,k,p,q;
+    int l1[MAXN],l2[MAXN];
+    int s[MAXN],t[MAXN];
+    int ret=0;
+    for(i=0;i<m;i++)
+    {
+        l1[i]=-INF;
+        for(j=0;j<n;j++)
+          if(g[i][j]>l1[i])
+             l1[i]=g[i][j];
+        if(l1[i]==-INF) return -1;//无法匹配
+    }
+    for(i=0;i<n;i++)l2[i]=0;
+
+    memset(match1,-1,sizeof(match1));
+    memset(match2,-1,sizeof(match2));
+    for(i=0;i<m;i++)
+    {
+        memset(t,-1,sizeof(t));
+        for(s[p=q=0]=i;p<=q&&match1[i]<0;p++)
+            for(k=s[p],j=0;j<n&&match1[i]<0;j++)
+                if(l1[k]+l2[j]==g[k][j]&&t[j]<0)
+                {
+                    s[++q]=match2[j],t[j]=k;
+                    if(s[q]<0)
+                      for(p=j;p>=0;j=p)
+                         match2[j]=k=t[j],p=match1[k],match1[k]=j;
+                }
+
+        if(match1[i]<0)
+        {
+            for(i--,p=INF,k=0;k<=q;k++)
+               for(j=0;j<n;j++)
+                 if(t[j]<0&&l1[s[k]]+l2[j]-g[s[k]][j]<p)
+                     p=l1[s[k]]+l2[j]-g[s[k]][j];
+
+
+            for(j=0;j<n;j++)if(t[j]>=0)l2[j]+=p;
+            for(k=0;k<=q;k++)l1[s[k]]-=p;
+        }
+    }
+    for(i=0;i<m;i++)
+    {
+        if(match1[i]<0)return -1;//无法匹配
+        if(g[i][match1[i]]<=-INF)return -1;
+        ret+=g[i][match1[i]];
+    }
+    return ret;
+}
+//***********************************************
+struct Node
+{
+    int x,y;
+};
+Node node1[MAXN],node2[MAXN];
+
+char str[MAXN];
+
+int main()
+{
+    int n,m;
+    int nx,ny;
+    while(scanf("%d%d",&n,&m)!=EOF)
+    {
+        if(n==0&&m==0)break;
+        nx=0;
+        ny=0;
+        for(int i=0;i<n;i++)
+        {
+            scanf("%s",&str);
+            for(int j=0;j<m;j++)
+            {
+                if(str[j]=='m')
+                {
+                    node1[nx].x=i;
+                    node1[nx].y=j;
+                    nx++;
+                }
+                else if(str[j]=='H')
+                {
+                    node2[ny].x=i;
+                    node2[ny].y=j;
+                    ny++;
+                }
+            }
+        }
+        //g[i][j] i到j的距离 
+        for(int i=0;i<nx;i++)
+        for(int j=0;j<ny;j++)
+        {
+            g[i][j]=-abs(node1[i].x-node2[j].x)-abs(node1[i].y-node2[j].y);
+        }
+        printf("%d\n",-KM(nx,ny));
+    }
+    return 0;
+}
+
+
