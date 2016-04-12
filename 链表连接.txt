@@ -1,0 +1,101 @@
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+typedef int ElemType;
+
+typedef struct Node
+{
+	ElemType data;
+	struct Node *next;
+}Lnode,*LinkList;
+
+
+//打印 
+void print(LinkList &head)
+{
+	LinkList plist=head->next;
+	while(plist!=NULL)
+	{
+		cout<<plist->data<<" ";
+		plist=plist->next;
+	}
+	cout<<endl;
+}
+
+//逆序输入链表 
+void CreateList(LinkList &L,int m)
+{
+	LinkList p;
+	L=(LinkList)malloc(sizeof(Node));
+	L->next=NULL;
+	cout<<"逆序输入元素，空格分隔:"<<endl;
+	for(int i=m;i>0;--i)
+	{
+		p=(LinkList)malloc(sizeof(Node));
+		cin>>p->data;
+		p->next=L->next;
+		L->next=p;
+	}
+	print(L);
+}
+
+//连接链表 
+void Combine(LinkList &ha,int m,LinkList &hb,int n,LinkList &hc)
+{
+	LinkList selectMin;
+    hc=(LinkList)malloc(sizeof(Node));
+	int flag=0;
+	if(m>n)
+	{
+	    selectMin=hb;
+	    flag=1; //ha在后面 
+	}
+	else
+	selectMin=ha;
+	
+	while(selectMin->next!=NULL)
+	selectMin=selectMin->next;
+	
+	if(flag)
+	{
+	   selectMin->next=ha->next;
+	   hc=hb;
+	   free(ha);//notice
+	}
+	else
+    {
+       selectMin->next=hb->next;
+       hc=ha;
+       free(hb);
+    }
+	cout<<"合并后的链表为："<<endl;
+	print(hc);	
+}
+
+void Destory(LinkList &hc) //仅释放hc即可 
+{
+	LinkList temp;
+	while(hc!=NULL)
+	{
+		temp=hc;
+		hc=hc->next;
+		free(temp);
+	}
+}
+int main()
+{
+	int m,n;
+	cout<<"请输入以ha为head节点链表的元素个数："<<endl;
+	cin>>m;
+	LinkList ha,hb,hc;
+	CreateList(ha,m);
+	cout<<"请输入以hb为head节点链表的元素个数："<<endl;
+	cin>>n;
+	CreateList(hb,n);
+	Combine(ha,m,hb,n,hc);
+	
+    Destory(hc);
+	return 0;	 
+}
