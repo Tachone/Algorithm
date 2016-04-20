@@ -10,27 +10,27 @@ int val[M], dp[M][M], head[M];
 int num,cap,s,e;
 struct node
 {
-	int u, cost, res;//u´ú±í½áµã£¬cost´ú±íµ½µ±Ç°½áµã»¨·Ñ£¬res´ú±íÓÍÏäÊ£ÓàµÄÓÍ
+	int u, cost, res;//uä»£è¡¨ç»“ç‚¹ï¼Œcostä»£è¡¨åˆ°å½“å‰ç»“ç‚¹èŠ±è´¹ï¼Œresä»£è¡¨æ²¹ç®±å‰©ä½™çš„æ²¹
 	friend bool operator < (node aa, node bb)
 	{
 		return aa.cost>bb.cost;
 	}
 };
 int m, n;
-struct adj//ÁÚ½Ó±íÊ¹ÓÃ
+struct adj//é‚»æ¥è¡¨ä½¿ç”¨
 {
 	int v, to, dist;
 } edg[M * 20];
 
-void init()//³õÊ¼»¯
+void init()//åˆå§‹åŒ–
 {
 	memset(head, -1, sizeof(head));
 	num = 0;
 }
 
-void addage(int u, int v, int dist)//±íÊ¾u->vµÄµÀÂ·
+void addage(int u, int v, int dist)//è¡¨ç¤ºu->vçš„é“è·¯
 {
-	edg[num].v = v;//ÏÈÈ·¶¨È¥Ïò
+	edg[num].v = v;//å…ˆç¡®å®šå»å‘
 	edg[num].dist = dist;
 	edg[num].to = head[u];
 	head[u] = num++;
@@ -102,7 +102,7 @@ int main()
 			bfs();
 		}
 	}
-	return 0;
+	return 0 ;
 }
 
 
