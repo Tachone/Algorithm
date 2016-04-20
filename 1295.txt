@@ -1,6 +1,6 @@
 #include<iostream>
 #include<string>
-#include<stdio.h>//zojÖĞÊ¹ÓÃgetcharº¯ÊıÒªÕâ¸öÍ·ÎÄ¼ş 
+#include<stdio.h>//zojä¸­ä½¿ç”¨getcharå‡½æ•°è¦è¿™ä¸ªå¤´æ–‡ä»¶ 
 #include<algorithm>
 using namespace std;
 int main()
@@ -8,13 +8,14 @@ int main()
 	string s;
 	int n;
 	cin>>n;
-	//getchar();//ÉÙÁËËû¾Í²»¶Ô£¬²»ÖªµÀÎªÊ²Ã´ 
+	//getchar();//å°‘äº†ä»–å°±ä¸å¯¹ï¼Œä¸çŸ¥é“ä¸ºä»€ä¹ˆ 
 	for(int i=1;i<=n;i++)
 	{
-	getline(cin,s);//Ó¦¸ÃÊÇÕâ¸ögetline´æÔÚµÄÔ­Òò»¹ÓĞÌâÄ¿ÖĞµÄÒªÇó
+	getline(cin,s);//åº”è¯¥æ˜¯è¿™ä¸ªgetlineå­˜åœ¨çš„åŸå› è¿˜æœ‰é¢˜ç›®ä¸­çš„è¦æ±‚
 	reverse(s.begin(),s.end());
 	cout<<s<<endl;
 	}
 	
 	return 0;
+	
 } 
