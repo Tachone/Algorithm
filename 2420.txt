@@ -40,8 +40,8 @@ int main()
 	for(int n;cin>>n&&n!=-1;)
 	{
 		cout<<v[n].year<<"-"<<setfill('0')<<setw(2)<<v[n].month<<"-"<<setfill('0')<<setw(2)<<v[n].day<<" ";
-		switch(n%7)//setfill()ÖĞµÄÊÇ×Ö·û»òÕß×Ö·û³£Á¿ 
-		{
+		switch(n%7)//setfill()ä¸­çš„æ˜¯å­—ç¬¦æˆ–è€…å­—ç¬¦å¸¸é‡ 
+		{  
 			case 0:cout<<"Saturday"<<endl;break;
 			case 1:cout<<"Sunday"<<endl;break;
 			case 2:cout<<"Monday"<<endl;break;
@@ -63,4 +63,4 @@ bool f(int n)
 	else
 	return false;
 }
-Õâ¸ö¾¹È»ÊÇ³¬³öÄÚ´æÏŞÖÆ¡£¡£
+è¿™ä¸ªç«Ÿç„¶æ˜¯è¶…å‡ºå†…å­˜é™åˆ¶ã€‚ã€‚
