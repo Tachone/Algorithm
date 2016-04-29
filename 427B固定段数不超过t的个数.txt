@@ -43,7 +43,7 @@ int main()
 
 
 
-��̣�����ţ�ơ������Լ���Ҫ��ʱ�ˣ��˼Ҿ�Ȼ������ô����
+标程，果真牛逼。。。自己都要超时了，人家竟然可以这么简略，思维的差距
 #include <iostream>
 #include <vector>
 #include <algorithm>
