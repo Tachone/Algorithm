@@ -53,6 +53,7 @@ int main()
             scanf("%d",&w[i]);
         memset(dp,0,sizeof(dp));
         memset(a,0,sizeof(a));
+        //memset(dp,-1,sizeof(dp));
         a[0][0]=1;//要不然函数不会终止
         for(i=1;i<=n;i++)
         {
