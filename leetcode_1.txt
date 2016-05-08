@@ -1,0 +1,45 @@
+struct node
+{
+   int value;
+   int indexx;
+}N[100005];
+bool comp(node a,node b)
+{
+    return a.value<b.value;
+}
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+	    int tot=nums.size();
+	    vector<int> ans;
+	    for(int i=1;i<=tot;i++)
+	    {
+    		N[i].value=nums[i-1];
+    		N[i].indexx=i;
+    	}
+        sort(N+1,N+tot+1,comp);
+        int left=1,right=tot;
+		while(left<right)
+		{
+            if(N[left].value+N[right].value==target)
+            {
+            	if(N[left].indexx<=N[right].indexx)
+            	{ 
+				  ans.push_back(N[left].indexx);
+            	  ans.push_back(N[right].indexx);
+            	  return ans;
+            	}
+            	else
+            	{
+            	  ans.push_back(N[right].indexx);
+            	  ans.push_back(N[left].indexx);
+            	  return ans;
+	            }
+            }
+            else if(N[left].value+N[right].value<target)
+            	left++;
+            else if(N[left].value+N[right].value>target)
+            right--;
+		} 
+    }
+};
