@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 int main()
-{
+{ 
 	bool run(int n);
 	int a,b;
 	int s[13]={0,31,28,31,30,31,30,31,31,30,31,30,31};
