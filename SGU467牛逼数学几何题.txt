@@ -1,5 +1,5 @@
 /*
-´¿ÊıÑ§,ÕÒµ½½â¾ÍÊÇË®Ìâ
+çº¯æ•°å­¦,æ‰¾åˆ°è§£å°±æ˜¯æ°´é¢˜
 */
 #include<iostream>
 #include<cstdio>
@@ -8,6 +8,7 @@
 #include<algorithm>
 #include<string>
 #include<cstring>
+#include <map>
 using namespace std;
 typedef long long ll;
 const int MAXN = 200000;
@@ -26,8 +27,8 @@ int main(){
     return 0;  
 } 
 
-ÎÒ²Á£¬ÊıÑ§Ìâ£¬ÊıÑ§ÔüÉË²»Æğ
+æˆ‘æ“¦ï¼Œæ•°å­¦é¢˜ï¼Œæ•°å­¦æ¸£ä¼¤ä¸èµ·
 
-³ä·ÖÀûÓÃ¶Ô³ÆĞÔÇó½â
+å……åˆ†åˆ©ç”¨å¯¹ç§°æ€§æ±‚è§£
 
 
