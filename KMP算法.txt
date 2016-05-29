@@ -1,8 +1,8 @@
-µ±Ò»¸ö×Ö·û´®ÒÔ0ÎªÆðÊ¼ÏÂ±êÊ±£¬next[i]¿ÉÒÔÃèÊöÎª"²»Îª×ÔÉíµÄ×î´óÊ×Î²ÖØ¸´×Ó´®³¤¶È"¡£
-µ±·¢ÉúÊ§ÅäµÄÇé¿öÏÂ£¬jµÄÐÂÖµnext[j]È¡¾öÓÚÄ£Ê½´®ÖÐT[0 ~ j-1]ÖÐÇ°×ººÍºó×ºÏàµÈ²¿·ÖµÄ³¤¶È£¬ ²¢ÇÒnext[j]Ç¡ºÃµÈÓÚÕâ¸ö×î´ó³¤¶È¡£
-·ÀÖ¹³¬Ê±£¬×¢ÒâÒ»Ð©Ï¸½Ú¡£¡£
-¾¡Á¿ÉÙÓÃstrlen£¬ÓÃ×Ö·ûÊý×é¶ø²»ÓÃstring
-//KMPËã·¨Ä£°åÌâ£¬¹þ¹þ¹þ¹þ
+å½“ä¸€ä¸ªå­—ç¬¦ä¸²ä»¥0ä¸ºèµ·å§‹ä¸‹æ ‡æ—¶ï¼Œnext[i]å¯ä»¥æè¿°ä¸º"ä¸ä¸ºè‡ªèº«çš„æœ€å¤§é¦–å°¾é‡å¤å­ä¸²é•¿åº¦"ã€‚
+å½“å‘ç”Ÿå¤±é…çš„æƒ…å†µä¸‹ï¼Œjçš„æ–°å€¼next[j]å–å†³äºŽæ¨¡å¼ä¸²ä¸­T[0 ~ j-1]ä¸­å‰ç¼€å’ŒåŽç¼€ç›¸ç­‰éƒ¨åˆ†çš„é•¿åº¦ï¼Œ å¹¶ä¸”next[j]æ°å¥½ç­‰äºŽè¿™ä¸ªæœ€å¤§é•¿åº¦ã€‚
+é˜²æ­¢è¶…æ—¶ï¼Œæ³¨æ„ä¸€äº›ç»†èŠ‚ã€‚ã€‚
+å°½é‡å°‘ç”¨strlenï¼Œç”¨å­—ç¬¦æ•°ç»„è€Œä¸ç”¨string
+//KMPç®—æ³•æ¨¡æ¿é¢˜ï¼Œå“ˆå“ˆå“ˆå“ˆ
 //hdu 1711 
 #include<iostream>
 #include<string.h>
@@ -11,11 +11,11 @@ int a[1000010];
 int b[10010];
 int next1[10010];
 
-void getnext(int len)//²ÎÊýÊÇ×Ó´®µÄ³¤¶È 
+void getnext(int len)//å‚æ•°æ˜¯å­ä¸²çš„é•¿åº¦ 
 {
 	int i=0,j=-1;
 	next1[0]=-1;
-	while(i<len)
+	while(i<len) 
 	{
 		if(j==-1||b[i]==b[j])
 		{
@@ -28,9 +28,9 @@ void getnext(int len)//²ÎÊýÊÇ×Ó´®µÄ³¤¶È
 	}
 }
 
-int KMP(int n,int m)//²ÎÊýÊÇÔ­Ê¼´®ºÍ×Ó´®µÄ³¤¶È 
+int KMP(int n,int m)//å‚æ•°æ˜¯åŽŸå§‹ä¸²å’Œå­ä¸²çš„é•¿åº¦ 
 {
-	int i=0,j=0;//×¢ÒâÊÇ0 
+	int i=0,j=0;//æ³¨æ„æ˜¯0 
 	while(i<n&&j<m)
 	{
 		if(j==-1||a[i]==b[j])
@@ -41,7 +41,7 @@ int KMP(int n,int m)//²ÎÊýÊÇÔ­Ê¼´®ºÍ×Ó´®µÄ³¤¶È
 		else
 		j=next1[j];
 	}
-	if(j==m)//ÒÑ¾­ÕÒµ½£¬×¢ÒâÈç¹ûÏÂ±íÎª1£¬¸ÄÎªi-j+1£» 
+	if(j==m)//å·²ç»æ‰¾åˆ°ï¼Œæ³¨æ„å¦‚æžœä¸‹è¡¨ä¸º1ï¼Œæ”¹ä¸ºi-j+1ï¼› 
 	return i-j;
 	else
 	return -1;
