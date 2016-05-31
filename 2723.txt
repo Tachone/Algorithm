@@ -2,7 +2,7 @@
 #include <vector>  
 #include <set>  
 #include <cmath>  
-using namespace std;  
+using namespace std;   
 //定义全局向量，用来保存素数  
 vector<int> v;  
 //集合是平衡检索二叉树，搜索速度最快，内部采用红黑树实现
