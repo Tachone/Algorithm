@@ -1,7 +1,7 @@
 /*
 纯数学,找到解就是水题
 */
-#include<iostream>
+#include<iostream> 
 #include<cstdio>
 #include<cstdlib>
 #include<cmath>
@@ -29,6 +29,6 @@ int main(){
 
 我擦，数学题，数学渣伤不起
 
-充分利用对称性求解 
+充分利用对称性求解  
 
 
