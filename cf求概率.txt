@@ -48,7 +48,7 @@ You can read about expectation using the following link: http://en.wikipedia.org
 #include<cmath>
 #include<iomanip>
 using namespace std;
-int main()
+int main() 
 {
 	int m,n;
 	cin>>m>>n;
