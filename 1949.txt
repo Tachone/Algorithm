@@ -20,7 +20,7 @@ int main()
 		   for(j=1;j<=n;j++)
 		   {
 			   cin>>a[i][j];
-			   b[i]+=a[i][j];
+			   b[i]+=a[i][j]; 
 			   c[j]+=a[i][j];
 		   }
 		   for(i=1;i<=n;i++)
@@ -41,7 +41,7 @@ int main()
 		   }
 			if(k==0&&p==0)
 				cout<<"OK"<<endl;
-			else if(p==1&&k==1)//ֻ��һ�к�һ����������ʱ�򣬸ı�һ���ų���
+			else if(p==1&&k==1)//只有一行和一列是奇数的时候，改变一个才成立
 				cout<<"Change bit ("<<m<<","<<s<<")"<<endl;
 			else
 				cout<<"Corrupt"<<endl;
