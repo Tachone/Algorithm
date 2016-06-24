@@ -34,7 +34,7 @@ void BFS(Node start){
         }
     }
 }
-void init(){
+void init(){ 
         scanf("%d%d%d%d",&A,&B,&C,&T);
         sx = 0; sy = 0; sz = 0;
         s.x = sx; s.y = sy; s.z = sz; s.t = 0;      
