@@ -1,4 +1,4 @@
-#include<iostream>
+#include<iostream> 
 #include<string>
 #include<queue>
 #include<vector>
@@ -92,8 +92,8 @@ int main()
 	}
 	return 0;
 }
-�����ƣ����ض�Ϊ1,ö��ÿһ��ֵΪ1�ĵ㣬������Χ�ĵ�-1
+倒着推，起点必定为1,枚举每一个值为1的点，对其周围的点-1
 
-ÿһ����ʼ���������ض�Ϊ1
-����ֱ��������1���ڻ�������Ƴ��ľ�����000����Ļ����ó�ì��
-�ڼ�����һ��stack��ջ��¼��·��
+每一个开始遍历的起点必定为1
+这样直到有两个1相邻或者最后推出的矩阵不是000矩阵的话，得出矛盾
+期间用了一个stack的栈记录了路径
